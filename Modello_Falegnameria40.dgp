@@ -1,0 +1,1209 @@
+object AppMetaData: TAppMetaData
+  VersionControlPath = '%projectdir%\versions'
+  VersionControl = <
+    item
+      VersionID = 1
+      DateTime = 45961.427439108800000000
+    end>
+  DataDictionary.DatabaseTypeID = 'mysql57'
+  DataDictionary.NextTableID = 10
+  DataDictionary.NextFieldID = 40
+  DataDictionary.NextConstraintID = 1
+  DataDictionary.NextIndexID = 1
+  DataDictionary.NextRelationshipID = 12
+  DataDictionary.Domains = <>
+  DataDictionary.Tables = <
+    item
+      TableName = 'Clienti'
+      TID = 1
+      OidIndex = 0
+      Fields = <
+        item
+          FieldName = 'ID'
+          DataTypeName = 'Int (autoincrement)'
+          Size = 0
+          Size2 = 0
+          Required = True
+          FID = 1
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'Nome'
+          DataTypeName = 'VarChar'
+          Size = 50
+          Size2 = 0
+          Required = True
+          FID = 2
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end>
+      Indexes = <>
+      Constraints = <>
+      Triggers = <>
+      PrimaryKeyIndex.IndexName = 'PRIMARY'
+      PrimaryKeyIndex.IndexType = itNone
+      PrimaryKeyIndex.IndexOrder = ioAscending
+      PrimaryKeyIndex.IID = 0
+      PrimaryKeyIndex.IFields = <
+        item
+          FieldIndex = 0
+          FieldOrder = ioAsc
+          KeyByRelationship = False
+        end>
+    end
+    item
+      TableName = 'Ordini'
+      TID = 2
+      OidIndex = 0
+      Fields = <
+        item
+          FieldName = 'ID'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = True
+          FID = 3
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'Data'
+          DataTypeName = 'Date'
+          Size = 0
+          Size2 = 0
+          Required = False
+          FID = 4
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'Scadenza'
+          DataTypeName = 'Date'
+          Size = 0
+          Size2 = 0
+          Required = False
+          FID = 5
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'ID_Cliente'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = True
+          FID = 6
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = True
+          FieldCaption = '_Cliente'
+        end>
+      Indexes = <>
+      Constraints = <>
+      Triggers = <>
+      PrimaryKeyIndex.IndexName = 'PrimaryKey1'
+      PrimaryKeyIndex.IndexType = itNone
+      PrimaryKeyIndex.IndexOrder = ioAscending
+      PrimaryKeyIndex.IID = 0
+      PrimaryKeyIndex.IFields = <
+        item
+          FieldIndex = 0
+          FieldOrder = ioAsc
+          KeyByRelationship = False
+        end>
+    end
+    item
+      TableName = 'Articoli'
+      TID = 3
+      OidIndex = 0
+      Fields = <
+        item
+          FieldName = 'ID'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = True
+          FID = 7
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'ID_Ordine'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = True
+          FID = 10
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = True
+        end
+        item
+          FieldName = 'ID_Prodotto'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = False
+          FID = 8
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'Qta'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = False
+          FID = 9
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end>
+      Indexes = <>
+      Constraints = <>
+      Triggers = <>
+      PrimaryKeyIndex.IndexName = 'PrimaryKey2'
+      PrimaryKeyIndex.IndexType = itNone
+      PrimaryKeyIndex.IndexOrder = ioAscending
+      PrimaryKeyIndex.IID = 0
+      PrimaryKeyIndex.IFields = <
+        item
+          FieldIndex = 0
+          FieldOrder = ioAsc
+          KeyByRelationship = False
+        end>
+    end
+    item
+      TableName = 'Prodotti'
+      TID = 4
+      OidIndex = 0
+      Fields = <
+        item
+          FieldName = 'ID'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = True
+          FID = 11
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'Descrizione'
+          DataTypeName = 'VarChar'
+          Size = 50
+          Size2 = 0
+          Required = False
+          FID = 12
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end>
+      Indexes = <>
+      Constraints = <>
+      Triggers = <>
+      PrimaryKeyIndex.IndexName = 'PrimaryKey3'
+      PrimaryKeyIndex.IndexType = itNone
+      PrimaryKeyIndex.IndexOrder = ioAscending
+      PrimaryKeyIndex.IID = 0
+      PrimaryKeyIndex.IFields = <
+        item
+          FieldIndex = 0
+          FieldOrder = ioAsc
+          KeyByRelationship = False
+        end>
+    end
+    item
+      TableName = 'Parti'
+      TID = 5
+      OidIndex = 0
+      Fields = <
+        item
+          FieldName = 'ID'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = True
+          FID = 13
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'Descrizione'
+          DataTypeName = 'VarChar'
+          Size = 50
+          Size2 = 0
+          Required = False
+          FID = 14
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'MachineFile'
+          DataTypeName = 'VarChar'
+          Size = 50
+          Size2 = 0
+          Required = False
+          FID = 19
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end>
+      Indexes = <>
+      Constraints = <>
+      Triggers = <>
+      PrimaryKeyIndex.IndexName = 'PrimaryKey4'
+      PrimaryKeyIndex.IndexType = itNone
+      PrimaryKeyIndex.IndexOrder = ioAscending
+      PrimaryKeyIndex.IID = 0
+      PrimaryKeyIndex.IFields = <
+        item
+          FieldIndex = 0
+          FieldOrder = ioAsc
+          KeyByRelationship = False
+        end>
+    end
+    item
+      TableName = 'Componenti'
+      TID = 6
+      OidIndex = 0
+      Fields = <
+        item
+          FieldName = 'ID'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = True
+          FID = 15
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'ID_Prodotto'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = False
+          FID = 16
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'ID_Parte'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = False
+          FID = 17
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'Qta'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = False
+          FID = 18
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end>
+      Indexes = <>
+      Constraints = <>
+      Triggers = <>
+      PrimaryKeyIndex.IndexName = 'PrimaryKey5'
+      PrimaryKeyIndex.IndexType = itNone
+      PrimaryKeyIndex.IndexOrder = ioAscending
+      PrimaryKeyIndex.IID = 0
+      PrimaryKeyIndex.IFields = <
+        item
+          FieldIndex = 0
+          FieldOrder = ioAsc
+          KeyByRelationship = False
+        end>
+      TableCaption = 'Componenti la distinta del prodotto'
+    end
+    item
+      TableName = 'ArticoliProduzione'
+      TID = 9
+      OidIndex = 0
+      Fields = <
+        item
+          FieldName = 'ID'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = True
+          FID = 29
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'ID_Articolo'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = False
+          FID = 34
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'QtaInOrdine'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = False
+          FID = 35
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'Id_parte'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = False
+          FID = 36
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'QtaParteRichiesta'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = False
+          FID = 37
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'QtaProdotta'
+          DataTypeName = 'Int'
+          Size = 0
+          Size2 = 0
+          Required = False
+          FID = 38
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end>
+      Indexes = <>
+      Constraints = <>
+      Triggers = <>
+      PrimaryKeyIndex.IndexName = 'PrimaryKey7'
+      PrimaryKeyIndex.IndexType = itNone
+      PrimaryKeyIndex.IndexOrder = ioAscending
+      PrimaryKeyIndex.IID = 0
+      PrimaryKeyIndex.IFields = <
+        item
+          FieldIndex = 0
+          FieldOrder = ioAsc
+          KeyByRelationship = False
+        end>
+    end>
+  DataDictionary.Relationships = <
+    item
+      RelationshipName = 'Clienti_Ordini'
+      ParentTableIndex = 0
+      ChildTableIndex = 1
+      UpdateMethod = umRestrict
+      DeleteMethod = dmCascade
+      RelID = 1
+      FieldLinks = <
+        item
+          ParentFieldName = 'ID'
+          ChildFieldName = 'ID_Cliente'
+        end>
+      ParentIndexID = 0
+      RelationshipType = ryIdentifying
+    end
+    item
+      RelationshipName = 'Ordini_Articoli'
+      ParentTableIndex = 1
+      ChildTableIndex = 2
+      UpdateMethod = umRestrict
+      DeleteMethod = dmCascade
+      RelID = 3
+      FieldLinks = <
+        item
+          ParentFieldName = 'ID'
+          ChildFieldName = 'ID_Ordine'
+        end>
+      ParentIndexID = 0
+      RelationshipType = ryIdentifying
+    end
+    item
+      RelationshipName = 'Prodotto_Articoli'
+      ParentTableIndex = 3
+      ChildTableIndex = 2
+      UpdateMethod = umRestrict
+      DeleteMethod = dmRestrict
+      RelID = 4
+      FieldLinks = <
+        item
+          ParentFieldName = 'ID'
+          ChildFieldName = 'ID_Prodotto'
+        end>
+      ParentIndexID = 0
+      RelationshipType = ryIdentifying
+    end
+    item
+      RelationshipName = 'Prodotto_Componenti'
+      ParentTableIndex = 3
+      ChildTableIndex = 5
+      UpdateMethod = umRestrict
+      DeleteMethod = dmCascade
+      RelID = 5
+      FieldLinks = <
+        item
+          ParentFieldName = 'ID'
+          ChildFieldName = 'ID_Prodotto'
+        end>
+      ParentIndexID = 0
+      RelationshipType = ryIdentifying
+    end
+    item
+      RelationshipName = 'Parti_Componenti'
+      ParentTableIndex = 4
+      ChildTableIndex = 5
+      UpdateMethod = umRestrict
+      DeleteMethod = dmRestrict
+      RelID = 6
+      FieldLinks = <
+        item
+          ParentFieldName = 'ID'
+          ChildFieldName = 'ID_Parte'
+        end>
+      ParentIndexID = 0
+      RelationshipType = ryIdentifying
+    end
+    item
+      RelationshipName = 'Articoli_PartiProduzione'
+      ParentTableIndex = 2
+      ChildTableIndex = 6
+      UpdateMethod = umRestrict
+      DeleteMethod = dmRestrict
+      RelID = 10
+      FieldLinks = <
+        item
+          ParentFieldName = 'ID'
+          ChildFieldName = 'ID_Articolo'
+        end>
+      ParentIndexID = 0
+      RelationshipType = ryIdentifying
+    end
+    item
+      RelationshipName = 'Parti_ArticoliProduzione'
+      ParentTableIndex = 4
+      ChildTableIndex = 6
+      UpdateMethod = umRestrict
+      DeleteMethod = dmRestrict
+      RelID = 11
+      FieldLinks = <
+        item
+          ParentFieldName = 'ID'
+          ChildFieldName = 'Id_parte'
+        end>
+      ParentIndexID = 0
+      RelationshipType = ryIdentifying
+    end>
+  DataDictionary.Categories = <
+    item
+      CategoryType = ctProcedure
+      Objects = <>
+    end
+    item
+      CategoryType = ctFunction
+      Objects = <>
+    end
+    item
+      CategoryType = ctView
+      Objects = <>
+    end>
+  DiagramObj.Diagrams = <
+    item
+      DiagramName = 'Main Diagram'
+      DiagramString = 
+        'object TDiagramClass'#13#10'  NettoExportOffset = 3'#13#10'  AutomaticNodes ' +
+        '= False'#13#10'  AutoScroll = True'#13#10'  Background.Scroll = True'#13#10'  Back' +
+        'ground.Style = biTile'#13#10'  Background.Visible = False'#13#10'  Backgroun' +
+        'd.Gradient.Direction = grTopBottom'#13#10'  Background.Gradient.StartC' +
+        'olor = clWhite'#13#10'  Background.Gradient.EndColor = clYellow'#13#10'  Bac' +
+        'kground.Gradient.Visible = False'#13#10'  Background.PrintGradient = F' +
+        'alse'#13#10'  SnapGrid.Active = False'#13#10'  SnapGrid.Force = False'#13#10'  Sna' +
+        'pGrid.Visible = False'#13#10'  SnapGrid.SizeX = 8.000000000000000000'#13#10 +
+        '  SnapGrid.SizeY = 8.000000000000000000'#13#10'  SnapGrid.Style = gsDo' +
+        'ts'#13#10'  SnapGrid.SnapToRuler = False'#13#10'  LeftRuler.Visible = False'#13 +
+        #10'  LeftRuler.Divisions = 5'#13#10'  LeftRuler.Font.Charset = DEFAULT_C' +
+        'HARSET'#13#10'  LeftRuler.Font.Color = clWindowText'#13#10'  LeftRuler.Font.' +
+        'Height = -9'#13#10'  LeftRuler.Font.Name = '#39'Arial'#39#13#10'  LeftRuler.Font.S' +
+        'tyle = []'#13#10'  LeftRuler.Units = unCenti'#13#10'  LeftRuler.MinorTickLen' +
+        'gth = 4'#13#10'  LeftRuler.MajorTickLength = 6'#13#10'  LeftRuler.Color = cl' +
+        'White'#13#10'  LeftRuler.TickColor = clBlack'#13#10'  LeftRuler.Size = 16'#13#10' ' +
+        ' LeftRuler.AutoFactor = True'#13#10'  LeftRuler.GridColor = clBlack'#13#10' ' +
+        ' TopRuler.Visible = False'#13#10'  TopRuler.Divisions = 5'#13#10'  TopRuler.' +
+        'Font.Charset = DEFAULT_CHARSET'#13#10'  TopRuler.Font.Color = clWindow' +
+        'Text'#13#10'  TopRuler.Font.Height = -9'#13#10'  TopRuler.Font.Name = '#39'Arial' +
+        #39#13#10'  TopRuler.Font.Style = []'#13#10'  TopRuler.Units = unCenti'#13#10'  Top' +
+        'Ruler.MinorTickLength = 4'#13#10'  TopRuler.MajorTickLength = 6'#13#10'  Top' +
+        'Ruler.Color = clWhite'#13#10'  TopRuler.TickColor = clBlack'#13#10'  TopRule' +
+        'r.Size = 16'#13#10'  TopRuler.AutoFactor = True'#13#10'  TopRuler.GridColor ' +
+        '= clBlack'#13#10'  Zoom = 100'#13#10'  BorderColor = clGray'#13#10'  VertScrollBar' +
+        '.Position = 56'#13#10'  MouseWheelMode = mwVertical'#13#10'  ActiveLayers = ' +
+        '0'#13#10'  Layers = <>'#13#10'  LinkCursor = crHandPoint'#13#10'  PanCursor = crHa' +
+        'ndPoint'#13#10'  ZoomCursor = crDefault'#13#10'  IgnoreScreenDPI = False'#13#10'  ' +
+        'ShowCrossIndicators = False'#13#10'  KeyActions = [kaEscape, kaMove, k' +
+        'aPage, kaResize, kaSelect]'#13#10'  SmoothMode = smAntiAlias'#13#10'  TextRe' +
+        'nderingMode = tmAntiAlias'#13#10'  SelectionMode = slmMultiple'#13#10'  CanM' +
+        'oveOutOfBounds = True'#13#10'  PageSettings.PaperName = '#39'A4'#39#13#10'  PageSe' +
+        'ttings.PaperId = 9'#13#10'  PageSettings.PaperWidth = 210.015666666666' +
+        '700000'#13#10'  PageSettings.PaperHeight = 297.010666666666700000'#13#10'  P' +
+        'ageSettings.Orientation = dpoPortrait'#13#10'  PageSettings.LeftMargin' +
+        'Str = '#39'25.4'#39#13#10'  PageSettings.TopMarginStr = '#39'25.4'#39#13#10'  PageSettin' +
+        'gs.RightMarginStr = '#39'25.4'#39#13#10'  PageSettings.BottomMarginStr = '#39'25' +
+        '.4'#39#13#10'  RulerAutoUnit = False'#13#10'  BorderStyle = bsNone'#13#10'  Color = ' +
+        'clWhite'#13#10'  ParentColor = False'#13#10'  DisplayRelationshipNames = Fal' +
+        'se'#13#10'  LinkRelationshipsToFields = False'#13#10'  ShowCaptions = False'#13 +
+        #10'  StraightRelationshipLines = True'#13#10'  ExplicitWidth = 692'#13#10'  Ex' +
+        'plicitHeight = 522'#13#10'  object TableDiagramBlock1: TTableDiagramBl' +
+        'ock'#13#10'    Left = 102.000000000000000000'#13#10'    Top = 143.0000000000' +
+        '00000000'#13#10'    Width = 56.000000000000000000'#13#10'    Height = 60.000' +
+        '000000000000000'#13#10'    CornerRadius = 25.000000000000000000'#13#10'    C' +
+        'ollapsed = False'#13#10'    TID = 1'#13#10'  end'#13#10'  object TableDiagramBlock' +
+        '2: TTableDiagramBlock'#13#10'    Left = 104.000000000000000000'#13#10'    To' +
+        'p = 290.000000000000000000'#13#10'    Width = 83.000000000000000000'#13#10' ' +
+        '   Height = 96.000000000000000000'#13#10'    CornerRadius = 25.0000000' +
+        '00000000000'#13#10'    Collapsed = False'#13#10'    TID = 2'#13#10'  end'#13#10'  object' +
+        ' RelationshipDiagramLine1: TRelationshipDiagramLine'#13#10'    Pen.Sty' +
+        'le = psDot'#13#10'    SourceArrow.Shape = asNone'#13#10'    SourceArrow.Widt' +
+        'h = 10'#13#10'    SourceArrow.Height = 10'#13#10'    SourceArrow.Brush.Color' +
+        ' = clBlack'#13#10'    TargetArrow.Shape = asNone'#13#10'    TargetArrow.Widt' +
+        'h = 10'#13#10'    TargetArrow.Height = 10'#13#10'    TargetArrow.Brush.Color' +
+        ' = clBlack'#13#10'    Cursor = crDefault'#13#10'    TextCells = <'#13#10'      ite' +
+        'm'#13#10'        DControlAngle = True'#13#10'        Left = -22.000000000000' +
+        '000000'#13#10'        Top = 239.000000000000000000'#13#10'        Width = 30' +
+        '0.000000000000000000'#13#10'        Height = 100.000000000000000000'#13#10' ' +
+        '       Clip = False'#13#10'        WordWrap = True'#13#10'        DControlFo' +
+        'nt = True'#13#10'        Alignment = taCenter'#13#10'        VertAlign = vaT' +
+        'op'#13#10'        RotateFont = True'#13#10'        CellFrame.Color = clWhite' +
+        #13#10'        CellFrame.Pen.Style = psClear'#13#10'        CellFrame.Trans' +
+        'parent = False'#13#10'        CellFrame.AutoFrame = True'#13#10'        Cell' +
+        'Frame.AutoFrameMargin = 0'#13#10'        CellFrame.Visible = True'#13#10'   ' +
+        '     Visible = True'#13#10'        ReadOnly = False'#13#10'        Transpare' +
+        'ncy = 0'#13#10'      end'#13#10'      item'#13#10'        DControlAngle = True'#13#10'  ' +
+        '      Left = -269.883640701467600000'#13#10'        Top = 155.77213511' +
+        '3695700000'#13#10'        Width = 400.000000000000000000'#13#10'        Heig' +
+        'ht = 100.000000000000000000'#13#10'        Clip = False'#13#10'        WordW' +
+        'rap = True'#13#10'        DControlFont = True'#13#10'        Alignment = taR' +
+        'ightJustify'#13#10'        VertAlign = vaBottom'#13#10'        RotateFont = ' +
+        'True'#13#10'        CellFrame.Color = clWhite'#13#10'        CellFrame.Trans' +
+        'parent = True'#13#10'        CellFrame.AutoFrame = False'#13#10'        Cell' +
+        'Frame.AutoFrameMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'  ' +
+        '      Visible = True'#13#10'        ReadOnly = False'#13#10'        Transpar' +
+        'ency = 0'#13#10'      end'#13#10'      item'#13#10'        DControlAngle = True'#13#10' ' +
+        '       Left = -273.752107488162800000'#13#10'        Top = 243.0436314' +
+        '92956700000'#13#10'        Width = 400.000000000000000000'#13#10'        Hei' +
+        'ght = 100.000000000000000000'#13#10'        Clip = False'#13#10'        Word' +
+        'Wrap = True'#13#10'        DControlFont = True'#13#10'        Alignment = ta' +
+        'RightJustify'#13#10'        VertAlign = vaTop'#13#10'        RotateFont = Tr' +
+        'ue'#13#10'        CellFrame.Color = clWhite'#13#10'        CellFrame.Transpa' +
+        'rent = True'#13#10'        CellFrame.AutoFrame = False'#13#10'        CellFr' +
+        'ame.AutoFrameMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'    ' +
+        '    Visible = True'#13#10'        ReadOnly = False'#13#10'        Transparen' +
+        'cy = 0'#13#10'      end'#13#10'      item'#13#10'        DControlAngle = True'#13#10'   ' +
+        '     Left = 149.252107488162800000'#13#10'        Top = 149.9563685070' +
+        '43300000'#13#10'        Width = 400.000000000000100000'#13#10'        Height' +
+        ' = 100.000000000000000000'#13#10'        Clip = False'#13#10'        WordWra' +
+        'p = True'#13#10'        DControlFont = True'#13#10'        Alignment = taLef' +
+        'tJustify'#13#10'        VertAlign = vaBottom'#13#10'        RotateFont = Tru' +
+        'e'#13#10'        CellFrame.Color = clWhite'#13#10'        CellFrame.Transpar' +
+        'ent = True'#13#10'        CellFrame.AutoFrame = False'#13#10'        CellFra' +
+        'me.AutoFrameMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'     ' +
+        '   Visible = True'#13#10'        ReadOnly = False'#13#10'        Transparenc' +
+        'y = 0'#13#10'      end'#13#10'      item'#13#10'        DControlAngle = True'#13#10'    ' +
+        '    Left = 145.383640701467600000'#13#10'        Top = 237.22786488630' +
+        '4300000'#13#10'        Width = 399.999999999999900000'#13#10'        Height ' +
+        '= 100.000000000000000000'#13#10'        Clip = False'#13#10'        WordWrap' +
+        ' = True'#13#10'        DControlFont = True'#13#10'        Alignment = taLeft' +
+        'Justify'#13#10'        VertAlign = vaTop'#13#10'        RotateFont = True'#13#10' ' +
+        '       CellFrame.Color = clWhite'#13#10'        CellFrame.Transparent ' +
+        '= True'#13#10'        CellFrame.AutoFrame = False'#13#10'        CellFrame.A' +
+        'utoFrameMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'        V' +
+        'isible = True'#13#10'        ReadOnly = False'#13#10'        Transparency = ' +
+        '0'#13#10'      end>'#13#10'    Visible = True'#13#10'    Layer = 0'#13#10'    Transparen' +
+        'cy = 0'#13#10'    LineStyle = lsLine'#13#10'    Color = clBlack'#13#10'    Collaps' +
+        'ed = False'#13#10'    Handles = <'#13#10'      item'#13#10'        OrX = 145.50000' +
+        '0000000000000'#13#10'        OrY = 272.000000000000000000'#13#10'        Sty' +
+        'le = hsSize'#13#10'      end'#13#10'      item'#13#10'        OrX = 130.0000000000' +
+        '00000000'#13#10'        OrY = 221.000000000000000000'#13#10'        Style = ' +
+        'hsSize'#13#10'      end>'#13#10'    LinkPoints = <'#13#10'      item'#13#10'        Anch' +
+        'or = TableDiagramBlock2'#13#10'        AnchorIndex = 1'#13#10'        Collap' +
+        'sable = False'#13#10'        Collapsed = False'#13#10'        LinkConstraint' +
+        ' = lcAll'#13#10'        Visible = True'#13#10'      end'#13#10'      item'#13#10'       ' +
+        ' Anchor = TableDiagramBlock1'#13#10'        AnchorIndex = 0'#13#10'        C' +
+        'ollapsable = False'#13#10'        Collapsed = False'#13#10'        LinkConst' +
+        'raint = lcAll'#13#10'        Visible = True'#13#10'      end>'#13#10'    RelID = 1' +
+        #13#10'  end'#13#10'  object TableDiagramBlock3: TTableDiagramBlock'#13#10'    Le' +
+        'ft = 117.000000000000000000'#13#10'    Top = 450.000000000000000000'#13#10' ' +
+        '   Width = 83.000000000000000000'#13#10'    Height = 96.00000000000000' +
+        '0000'#13#10'    CornerRadius = 25.000000000000000000'#13#10'    Collapsed = ' +
+        'False'#13#10'    TID = 3'#13#10'  end'#13#10'  object RelationshipDiagramLine2: TR' +
+        'elationshipDiagramLine'#13#10'    Pen.Style = psDot'#13#10'    SourceArrow.S' +
+        'hape = asNone'#13#10'    SourceArrow.Width = 10'#13#10'    SourceArrow.Heigh' +
+        't = 10'#13#10'    SourceArrow.Brush.Color = clBlack'#13#10'    TargetArrow.S' +
+        'hape = asNone'#13#10'    TargetArrow.Width = 10'#13#10'    TargetArrow.Heigh' +
+        't = 10'#13#10'    TargetArrow.Brush.Color = clBlack'#13#10'    Cursor = crDe' +
+        'fault'#13#10'    TextCells = <'#13#10'      item'#13#10'        DControlAngle = Tr' +
+        'ue'#13#10'        Left = -7.000000000000000000'#13#10'        Top = 412.0000' +
+        '00000000000000'#13#10'        Width = 300.000000000000000000'#13#10'        ' +
+        'Height = 100.000000000000000000'#13#10'        Clip = False'#13#10'        W' +
+        'ordWrap = True'#13#10'        DControlFont = True'#13#10'        Alignment =' +
+        ' taCenter'#13#10'        VertAlign = vaTop'#13#10'        RotateFont = True'#13 +
+        #10'        CellFrame.Color = clWhite'#13#10'        CellFrame.Pen.Style ' +
+        '= psClear'#13#10'        CellFrame.Transparent = False'#13#10'        CellFr' +
+        'ame.AutoFrame = True'#13#10'        CellFrame.AutoFrameMargin = 0'#13#10'   ' +
+        '     CellFrame.Visible = True'#13#10'        Visible = True'#13#10'        R' +
+        'eadOnly = False'#13#10'        Transparency = 0'#13#10'      end'#13#10'      item' +
+        #13#10'        DControlAngle = True'#13#10'        Left = -258.992315806576' +
+        '900000'#13#10'        Top = 318.070933709577700000'#13#10'        Width = 40' +
+        '0.000000000000000000'#13#10'        Height = 100.000000000000000000'#13#10' ' +
+        '       Clip = False'#13#10'        WordWrap = True'#13#10'        DControlFo' +
+        'nt = True'#13#10'        Alignment = taRightJustify'#13#10'        VertAlign' +
+        ' = vaBottom'#13#10'        RotateFont = True'#13#10'        CellFrame.Color ' +
+        '= clWhite'#13#10'        CellFrame.Transparent = True'#13#10'        CellFra' +
+        'me.AutoFrame = False'#13#10'        CellFrame.AutoFrameMargin = 0'#13#10'   ' +
+        '     CellFrame.Visible = False'#13#10'        Visible = True'#13#10'        ' +
+        'ReadOnly = False'#13#10'        Transparency = 0'#13#10'      end'#13#10'      ite' +
+        'm'#13#10'        DControlAngle = True'#13#10'        Left = -255.14786354839' +
+        '1700000'#13#10'        Top = 426.351292419514900000'#13#10'        Width = 4' +
+        '00.000000000000000000'#13#10'        Height = 100.000000000000000000'#13#10 +
+        '        Clip = False'#13#10'        WordWrap = True'#13#10'        DControlF' +
+        'ont = True'#13#10'        Alignment = taRightJustify'#13#10'        VertAlig' +
+        'n = vaTop'#13#10'        RotateFont = True'#13#10'        CellFrame.Color = ' +
+        'clWhite'#13#10'        CellFrame.Transparent = True'#13#10'        CellFrame' +
+        '.AutoFrame = False'#13#10'        CellFrame.AutoFrameMargin = 0'#13#10'     ' +
+        '   CellFrame.Visible = False'#13#10'        Visible = True'#13#10'        Re' +
+        'adOnly = False'#13#10'        Transparency = 0'#13#10'      end'#13#10'      item'#13 +
+        #10'        DControlAngle = True'#13#10'        Left = 159.14786354839170' +
+        '0000'#13#10'        Top = 309.648707580485100000'#13#10'        Width = 400.' +
+        '000000000000100000'#13#10'        Height = 100.000000000000000000'#13#10'   ' +
+        '     Clip = False'#13#10'        WordWrap = True'#13#10'        DControlFont' +
+        ' = True'#13#10'        Alignment = taLeftJustify'#13#10'        VertAlign = ' +
+        'vaBottom'#13#10'        RotateFont = True'#13#10'        CellFrame.Color = c' +
+        'lWhite'#13#10'        CellFrame.Transparent = True'#13#10'        CellFrame.' +
+        'AutoFrame = False'#13#10'        CellFrame.AutoFrameMargin = 0'#13#10'      ' +
+        '  CellFrame.Visible = False'#13#10'        Visible = True'#13#10'        Rea' +
+        'dOnly = False'#13#10'        Transparency = 0'#13#10'      end'#13#10'      item'#13#10 +
+        '        DControlAngle = True'#13#10'        Left = 162.992315806576900' +
+        '000'#13#10'        Top = 417.929066290422300000'#13#10'        Width = 400.0' +
+        '00000000000000000'#13#10'        Height = 99.999999999999940000'#13#10'     ' +
+        '   Clip = False'#13#10'        WordWrap = True'#13#10'        DControlFont =' +
+        ' True'#13#10'        Alignment = taLeftJustify'#13#10'        VertAlign = va' +
+        'Top'#13#10'        RotateFont = True'#13#10'        CellFrame.Color = clWhit' +
+        'e'#13#10'        CellFrame.Transparent = True'#13#10'        CellFrame.AutoF' +
+        'rame = False'#13#10'        CellFrame.AutoFrameMargin = 0'#13#10'        Cel' +
+        'lFrame.Visible = False'#13#10'        Visible = True'#13#10'        ReadOnly' +
+        ' = False'#13#10'        Transparency = 0'#13#10'      end>'#13#10'    Visible = Tr' +
+        'ue'#13#10'    Layer = 0'#13#10'    Transparency = 0'#13#10'    LineStyle = lsLine'#13 +
+        #10'    Color = clBlack'#13#10'    Collapsed = False'#13#10'    Handles = <'#13#10'  ' +
+        '    item'#13#10'        OrX = 158.500000000000000000'#13#10'        OrY = 43' +
+        '2.000000000000000000'#13#10'        Style = hsSize'#13#10'      end'#13#10'      i' +
+        'tem'#13#10'        OrX = 145.500000000000000000'#13#10'        OrY = 404.000' +
+        '000000000000000'#13#10'        Style = hsSize'#13#10'      end>'#13#10'    LinkPoi' +
+        'nts = <'#13#10'      item'#13#10'        Anchor = TableDiagramBlock3'#13#10'      ' +
+        '  AnchorIndex = 2'#13#10'        Collapsable = False'#13#10'        Collapse' +
+        'd = False'#13#10'        LinkConstraint = lcAll'#13#10'        Visible = Tru' +
+        'e'#13#10'      end'#13#10'      item'#13#10'        Anchor = TableDiagramBlock2'#13#10' ' +
+        '       AnchorIndex = 0'#13#10'        Collapsable = False'#13#10'        Col' +
+        'lapsed = False'#13#10'        LinkConstraint = lcAll'#13#10'        Visible ' +
+        '= True'#13#10'      end>'#13#10'    RelID = 3'#13#10'  end'#13#10'  object TableDiagramB' +
+        'lock4: TTableDiagramBlock'#13#10'    Left = 334.000000000000000000'#13#10'  ' +
+        '  Top = 463.000000000000000000'#13#10'    Width = 78.00000000000000000' +
+        '0'#13#10'    Height = 60.000000000000000000'#13#10'    CornerRadius = 25.000' +
+        '000000000000000'#13#10'    Collapsed = False'#13#10'    TID = 4'#13#10'  end'#13#10'  ob' +
+        'ject RelationshipDiagramLine3: TRelationshipDiagramLine'#13#10'    Pen' +
+        '.Style = psDot'#13#10'    SourceArrow.Shape = asNone'#13#10'    SourceArrow.' +
+        'Width = 10'#13#10'    SourceArrow.Height = 10'#13#10'    SourceArrow.Brush.C' +
+        'olor = clBlack'#13#10'    TargetArrow.Shape = asNone'#13#10'    TargetArrow.' +
+        'Width = 10'#13#10'    TargetArrow.Height = 10'#13#10'    TargetArrow.Brush.C' +
+        'olor = clBlack'#13#10'    Cursor = crDefault'#13#10'    TextCells = <'#13#10'     ' +
+        ' item'#13#10'        DControlAngle = True'#13#10'        Left = 116.00000000' +
+        '0000000000'#13#10'        Top = 475.000000000000000000'#13#10'        Width ' +
+        '= 300.000000000000000000'#13#10'        Height = 100.00000000000000000' +
+        '0'#13#10'        Clip = False'#13#10'        WordWrap = True'#13#10'        DContr' +
+        'olFont = True'#13#10'        Alignment = taCenter'#13#10'        VertAlign =' +
+        ' vaTop'#13#10'        RotateFont = True'#13#10'        CellFrame.Color = clW' +
+        'hite'#13#10'        CellFrame.Pen.Style = psClear'#13#10'        CellFrame.T' +
+        'ransparent = False'#13#10'        CellFrame.AutoFrame = True'#13#10'        ' +
+        'CellFrame.AutoFrameMargin = 0'#13#10'        CellFrame.Visible = True'#13 +
+        #10'        Visible = True'#13#10'        ReadOnly = False'#13#10'        Trans' +
+        'parency = 0'#13#10'      end'#13#10'      item'#13#10'        DControlAngle = True' +
+        #13#10'        Left = 237.464478566070000000'#13#10'        Top = 386.99390' +
+        '7407667200000'#13#10'        Width = 400.000000000000000000'#13#10'        H' +
+        'eight = 100.000000000000000000'#13#10'        Clip = False'#13#10'        Wo' +
+        'rdWrap = True'#13#10'        DControlFont = True'#13#10'        Alignment = ' +
+        'taLeftJustify'#13#10'        VertAlign = vaBottom'#13#10'        RotateFont ' +
+        '= True'#13#10'        CellFrame.Color = clWhite'#13#10'        CellFrame.Tra' +
+        'nsparent = True'#13#10'        CellFrame.AutoFrame = False'#13#10'        Ce' +
+        'llFrame.AutoFrameMargin = 0'#13#10'        CellFrame.Visible = False'#13#10 +
+        '        Visible = True'#13#10'        ReadOnly = False'#13#10'        Transp' +
+        'arency = 0'#13#10'      end'#13#10'      item'#13#10'        DControlAngle = True'#13 +
+        #10'        Left = -104.483561213508200000'#13#10'        Top = 384.03207' +
+        '2702543600000'#13#10'        Width = 400.000000000000000000'#13#10'        H' +
+        'eight = 100.000000000000000000'#13#10'        Clip = False'#13#10'        Wo' +
+        'rdWrap = True'#13#10'        DControlFont = True'#13#10'        Alignment = ' +
+        'taRightJustify'#13#10'        VertAlign = vaBottom'#13#10'        RotateFont' +
+        ' = True'#13#10'        CellFrame.Color = clWhite'#13#10'        CellFrame.Tr' +
+        'ansparent = True'#13#10'        CellFrame.AutoFrame = False'#13#10'        C' +
+        'ellFrame.AutoFrameMargin = 0'#13#10'        CellFrame.Visible = False'#13 +
+        #10'        Visible = True'#13#10'        ReadOnly = False'#13#10'        Trans' +
+        'parency = 0'#13#10'      end'#13#10'      item'#13#10'        DControlAngle = True' +
+        #13#10'        Left = 238.483561213508200000'#13#10'        Top = 506.96792' +
+        '7297456400000'#13#10'        Width = 400.000000000000000000'#13#10'        H' +
+        'eight = 99.999999999999940000'#13#10'        Clip = False'#13#10'        Wor' +
+        'dWrap = True'#13#10'        DControlFont = True'#13#10'        Alignment = t' +
+        'aLeftJustify'#13#10'        VertAlign = vaTop'#13#10'        RotateFont = Tr' +
+        'ue'#13#10'        CellFrame.Color = clWhite'#13#10'        CellFrame.Transpa' +
+        'rent = True'#13#10'        CellFrame.AutoFrame = False'#13#10'        CellFr' +
+        'ame.AutoFrameMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'    ' +
+        '    Visible = True'#13#10'        ReadOnly = False'#13#10'        Transparen' +
+        'cy = 0'#13#10'      end'#13#10'      item'#13#10'        DControlAngle = True'#13#10'   ' +
+        '     Left = -103.464478566070000000'#13#10'        Top = 504.006092592' +
+        '332800000'#13#10'        Width = 400.000000000000000000'#13#10'        Heigh' +
+        't = 100.000000000000100000'#13#10'        Clip = False'#13#10'        WordWr' +
+        'ap = True'#13#10'        DControlFont = True'#13#10'        Alignment = taRi' +
+        'ghtJustify'#13#10'        VertAlign = vaTop'#13#10'        RotateFont = True' +
+        #13#10'        CellFrame.Color = clWhite'#13#10'        CellFrame.Transpare' +
+        'nt = True'#13#10'        CellFrame.AutoFrame = False'#13#10'        CellFram' +
+        'e.AutoFrameMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'      ' +
+        '  Visible = True'#13#10'        ReadOnly = False'#13#10'        Transparency' +
+        ' = 0'#13#10'      end>'#13#10'    Visible = True'#13#10'    Layer = 0'#13#10'    Transpa' +
+        'rency = 0'#13#10'    LineStyle = lsLine'#13#10'    Color = clBlack'#13#10'    Coll' +
+        'apsed = False'#13#10'    Handles = <'#13#10'      item'#13#10'        OrX = 218.00' +
+        '0000000000000000'#13#10'        OrY = 498.000000000000000000'#13#10'        ' +
+        'Style = hsSize'#13#10'      end'#13#10'      item'#13#10'        OrX = 316.0000000' +
+        '00000000000'#13#10'        OrY = 493.000000000000000000'#13#10'        Style' +
+        ' = hsSize'#13#10'      end>'#13#10'    LinkPoints = <'#13#10'      item'#13#10'        A' +
+        'nchor = TableDiagramBlock3'#13#10'        AnchorIndex = 1'#13#10'        Col' +
+        'lapsable = False'#13#10'        Collapsed = False'#13#10'        LinkConstra' +
+        'int = lcAll'#13#10'        Visible = True'#13#10'      end'#13#10'      item'#13#10'    ' +
+        '    Anchor = TableDiagramBlock4'#13#10'        AnchorIndex = 1'#13#10'      ' +
+        '  Collapsable = False'#13#10'        Collapsed = False'#13#10'        LinkCo' +
+        'nstraint = lcAll'#13#10'        Visible = True'#13#10'      end>'#13#10'    RelID ' +
+        '= 4'#13#10'  end'#13#10'  object TableDiagramBlock5: TTableDiagramBlock'#13#10'   ' +
+        ' Left = 378.000000000000000000'#13#10'    Top = 707.000000000000000000' +
+        #13#10'    Width = 79.000000000000000000'#13#10'    Height = 78.00000000000' +
+        '0000000'#13#10'    CornerRadius = 25.000000000000000000'#13#10'    Collapsed' +
+        ' = False'#13#10'    TID = 5'#13#10'  end'#13#10'  object TableDiagramBlock6: TTabl' +
+        'eDiagramBlock'#13#10'    Left = 378.000000000000000000'#13#10'    Top = 566.' +
+        '000000000000000000'#13#10'    Width = 83.000000000000000000'#13#10'    Heigh' +
+        't = 96.000000000000000000'#13#10'    CornerRadius = 25.000000000000000' +
+        '000'#13#10'    Collapsed = False'#13#10'    TID = 6'#13#10'  end'#13#10'  object Relatio' +
+        'nshipDiagramLine4: TRelationshipDiagramLine'#13#10'    Pen.Style = psD' +
+        'ot'#13#10'    SourceArrow.Shape = asNone'#13#10'    SourceArrow.Width = 10'#13#10 +
+        '    SourceArrow.Height = 10'#13#10'    SourceArrow.Brush.Color = clBla' +
+        'ck'#13#10'    TargetArrow.Shape = asNone'#13#10'    TargetArrow.Width = 10'#13#10 +
+        '    TargetArrow.Height = 10'#13#10'    TargetArrow.Brush.Color = clBla' +
+        'ck'#13#10'    Cursor = crDefault'#13#10'    TextCells = <'#13#10'      item'#13#10'     ' +
+        '   DControlAngle = True'#13#10'        Left = 245.000000000000000000'#13#10 +
+        '        Top = 545.000000000000000000'#13#10'        Width = 300.000000' +
+        '000000000000'#13#10'        Height = 100.000000000000000000'#13#10'        C' +
+        'lip = False'#13#10'        WordWrap = True'#13#10'        DControlFont = Tru' +
+        'e'#13#10'        Alignment = taCenter'#13#10'        VertAlign = vaTop'#13#10'    ' +
+        '    RotateFont = True'#13#10'        CellFrame.Color = clWhite'#13#10'      ' +
+        '  CellFrame.Pen.Style = psClear'#13#10'        CellFrame.Transparent =' +
+        ' False'#13#10'        CellFrame.AutoFrame = True'#13#10'        CellFrame.Au' +
+        'toFrameMargin = 0'#13#10'        CellFrame.Visible = True'#13#10'        Vis' +
+        'ible = True'#13#10'        ReadOnly = False'#13#10'        Transparency = 0'#13 +
+        #10'      end'#13#10'      item'#13#10'        DControlAngle = True'#13#10'        Le' +
+        'ft = -1.765768266006091000'#13#10'        Top = 554.911374686452000000' +
+        #13#10'        Width = 400.000000000000000000'#13#10'        Height = 100.0' +
+        '00000000000000000'#13#10'        Clip = False'#13#10'        WordWrap = True' +
+        #13#10'        DControlFont = True'#13#10'        Alignment = taRightJustif' +
+        'y'#13#10'        VertAlign = vaTop'#13#10'        RotateFont = True'#13#10'       ' +
+        ' CellFrame.Color = clWhite'#13#10'        CellFrame.Transparent = True' +
+        #13#10'        CellFrame.AutoFrame = False'#13#10'        CellFrame.AutoFra' +
+        'meMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'        Visible' +
+        ' = True'#13#10'        ReadOnly = False'#13#10'        Transparency = 0'#13#10'   ' +
+        '   end'#13#10'      item'#13#10'        DControlAngle = True'#13#10'        Left =' +
+        ' 391.288560708765200000'#13#10'        Top = 553.865789800933700000'#13#10' ' +
+        '       Width = 400.000000000000000000'#13#10'        Height = 100.0000' +
+        '00000000000000'#13#10'        Clip = False'#13#10'        WordWrap = True'#13#10' ' +
+        '       DControlFont = True'#13#10'        Alignment = taLeftJustify'#13#10' ' +
+        '       VertAlign = vaTop'#13#10'        RotateFont = True'#13#10'        Cel' +
+        'lFrame.Color = clWhite'#13#10'        CellFrame.Transparent = True'#13#10'  ' +
+        '      CellFrame.AutoFrame = False'#13#10'        CellFrame.AutoFrameMa' +
+        'rgin = 0'#13#10'        CellFrame.Visible = False'#13#10'        Visible = T' +
+        'rue'#13#10'        ReadOnly = False'#13#10'        Transparency = 0'#13#10'      e' +
+        'nd'#13#10'      item'#13#10'        DControlAngle = True'#13#10'        Left = 1.2' +
+        '11439291234797000'#13#10'        Top = 435.134210199066300000'#13#10'       ' +
+        ' Width = 400.000000000000000000'#13#10'        Height = 100.0000000000' +
+        '00000000'#13#10'        Clip = False'#13#10'        WordWrap = True'#13#10'       ' +
+        ' DControlFont = True'#13#10'        Alignment = taRightJustify'#13#10'      ' +
+        '  VertAlign = vaBottom'#13#10'        RotateFont = True'#13#10'        CellF' +
+        'rame.Color = clWhite'#13#10'        CellFrame.Transparent = True'#13#10'    ' +
+        '    CellFrame.AutoFrame = False'#13#10'        CellFrame.AutoFrameMarg' +
+        'in = 0'#13#10'        CellFrame.Visible = False'#13#10'        Visible = Tru' +
+        'e'#13#10'        ReadOnly = False'#13#10'        Transparency = 0'#13#10'      end' +
+        #13#10'      item'#13#10'        DControlAngle = True'#13#10'        Left = 394.2' +
+        '65768266006100000'#13#10'        Top = 434.088625313548100000'#13#10'       ' +
+        ' Width = 399.999999999999900000'#13#10'        Height = 100.0000000000' +
+        '00000000'#13#10'        Clip = False'#13#10'        WordWrap = True'#13#10'       ' +
+        ' DControlFont = True'#13#10'        Alignment = taLeftJustify'#13#10'       ' +
+        ' VertAlign = vaBottom'#13#10'        RotateFont = True'#13#10'        CellFr' +
+        'ame.Color = clWhite'#13#10'        CellFrame.Transparent = True'#13#10'     ' +
+        '   CellFrame.AutoFrame = False'#13#10'        CellFrame.AutoFrameMargi' +
+        'n = 0'#13#10'        CellFrame.Visible = False'#13#10'        Visible = True' +
+        #13#10'        ReadOnly = False'#13#10'        Transparency = 0'#13#10'      end>' +
+        #13#10'    Visible = True'#13#10'    Layer = 0'#13#10'    Transparency = 0'#13#10'    L' +
+        'ineStyle = lsLine'#13#10'    Color = clBlack'#13#10'    Collapsed = False'#13#10' ' +
+        '   Handles = <'#13#10'      item'#13#10'        OrX = 419.500000000000000000' +
+        #13#10'        OrY = 548.000000000000000000'#13#10'        Style = hsSize'#13#10 +
+        '      end'#13#10'      item'#13#10'        OrX = 373.000000000000000000'#13#10'   ' +
+        '     OrY = 541.000000000000000000'#13#10'        Style = hsSize'#13#10'     ' +
+        ' end>'#13#10'    LinkPoints = <'#13#10'      item'#13#10'        Anchor = TableDia' +
+        'gramBlock6'#13#10'        AnchorIndex = 1'#13#10'        Collapsable = False' +
+        #13#10'        Collapsed = False'#13#10'        LinkConstraint = lcAll'#13#10'   ' +
+        '     Visible = True'#13#10'      end'#13#10'      item'#13#10'        Anchor = Tab' +
+        'leDiagramBlock4'#13#10'        AnchorIndex = 0'#13#10'        Collapsable = ' +
+        'False'#13#10'        Collapsed = False'#13#10'        LinkConstraint = lcAll' +
+        #13#10'        Visible = True'#13#10'      end>'#13#10'    RelID = 5'#13#10'  end'#13#10'  ob' +
+        'ject RelationshipDiagramLine5: TRelationshipDiagramLine'#13#10'    Pen' +
+        '.Style = psDot'#13#10'    SourceArrow.Shape = asNone'#13#10'    SourceArrow.' +
+        'Width = 10'#13#10'    SourceArrow.Height = 10'#13#10'    SourceArrow.Brush.C' +
+        'olor = clBlack'#13#10'    TargetArrow.Shape = asNone'#13#10'    TargetArrow.' +
+        'Width = 10'#13#10'    TargetArrow.Height = 10'#13#10'    TargetArrow.Brush.C' +
+        'olor = clBlack'#13#10'    Cursor = crDefault'#13#10'    TextCells = <'#13#10'     ' +
+        ' item'#13#10'        DControlAngle = True'#13#10'        Left = 278.00000000' +
+        '0000000000'#13#10'        Top = 676.000000000000000000'#13#10'        Width ' +
+        '= 300.000000000000000000'#13#10'        Height = 100.00000000000000000' +
+        '0'#13#10'        Clip = False'#13#10'        WordWrap = True'#13#10'        DContr' +
+        'olFont = True'#13#10'        Alignment = taCenter'#13#10'        VertAlign =' +
+        ' vaTop'#13#10'        RotateFont = True'#13#10'        CellFrame.Color = clW' +
+        'hite'#13#10'        CellFrame.Pen.Style = psClear'#13#10'        CellFrame.T' +
+        'ransparent = False'#13#10'        CellFrame.AutoFrame = True'#13#10'        ' +
+        'CellFrame.AutoFrameMargin = 0'#13#10'        CellFrame.Visible = True'#13 +
+        #10'        Visible = True'#13#10'        ReadOnly = False'#13#10'        Trans' +
+        'parency = 0'#13#10'      end'#13#10'      item'#13#10'        DControlAngle = True' +
+        #13#10'        Left = 424.923261445466400000'#13#10'        Top = 701.69304' +
+        '5781865600000'#13#10'        Width = 399.999999999999900000'#13#10'        H' +
+        'eight = 100.000000000000000000'#13#10'        Clip = False'#13#10'        Wo' +
+        'rdWrap = True'#13#10'        DControlFont = True'#13#10'        Alignment = ' +
+        'taLeftJustify'#13#10'        VertAlign = vaTop'#13#10'        RotateFont = T' +
+        'rue'#13#10'        CellFrame.Color = clWhite'#13#10'        CellFrame.Transp' +
+        'arent = True'#13#10'        CellFrame.AutoFrame = False'#13#10'        CellF' +
+        'rame.AutoFrameMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'   ' +
+        '     Visible = True'#13#10'        ReadOnly = False'#13#10'        Transpare' +
+        'ncy = 0'#13#10'      end'#13#10'      item'#13#10'        DControlAngle = True'#13#10'  ' +
+        '      Left = 431.600479758212700000'#13#10'        Top = 571.645563374' +
+        '507600000'#13#10'        Width = 400.000000000000100000'#13#10'        Heigh' +
+        't = 100.000000000000000000'#13#10'        Clip = False'#13#10'        WordWr' +
+        'ap = True'#13#10'        DControlFont = True'#13#10'        Alignment = taLe' +
+        'ftJustify'#13#10'        VertAlign = vaBottom'#13#10'        RotateFont = Tr' +
+        'ue'#13#10'        CellFrame.Color = clWhite'#13#10'        CellFrame.Transpa' +
+        'rent = True'#13#10'        CellFrame.AutoFrame = False'#13#10'        CellFr' +
+        'ame.AutoFrameMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'    ' +
+        '    Visible = True'#13#10'        ReadOnly = False'#13#10'        Transparen' +
+        'cy = 0'#13#10'      end'#13#10'      item'#13#10'        DControlAngle = True'#13#10'   ' +
+        '     Left = 5.399520241787343000'#13#10'        Top = 697.354436625492' +
+        '400000'#13#10'        Width = 400.000000000000000000'#13#10'        Height =' +
+        ' 100.000000000000000000'#13#10'        Clip = False'#13#10'        WordWrap ' +
+        '= True'#13#10'        DControlFont = True'#13#10'        Alignment = taRight' +
+        'Justify'#13#10'        VertAlign = vaTop'#13#10'        RotateFont = True'#13#10' ' +
+        '       CellFrame.Color = clWhite'#13#10'        CellFrame.Transparent ' +
+        '= True'#13#10'        CellFrame.AutoFrame = False'#13#10'        CellFrame.A' +
+        'utoFrameMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'        V' +
+        'isible = True'#13#10'        ReadOnly = False'#13#10'        Transparency = ' +
+        '0'#13#10'      end'#13#10'      item'#13#10'        DControlAngle = True'#13#10'        ' +
+        'Left = 12.076738554533620000'#13#10'        Top = 567.3069542181344000' +
+        '00'#13#10'        Width = 400.000000000000000000'#13#10'        Height = 100' +
+        '.000000000000000000'#13#10'        Clip = False'#13#10'        WordWrap = Tr' +
+        'ue'#13#10'        DControlFont = True'#13#10'        Alignment = taRightJust' +
+        'ify'#13#10'        VertAlign = vaBottom'#13#10'        RotateFont = True'#13#10'  ' +
+        '      CellFrame.Color = clWhite'#13#10'        CellFrame.Transparent =' +
+        ' True'#13#10'        CellFrame.AutoFrame = False'#13#10'        CellFrame.Au' +
+        'toFrameMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'        Vi' +
+        'sible = True'#13#10'        ReadOnly = False'#13#10'        Transparency = 0' +
+        #13#10'      end>'#13#10'    Visible = True'#13#10'    Layer = 0'#13#10'    Transparenc' +
+        'y = 0'#13#10'    LineStyle = lsLine'#13#10'    Color = clBlack'#13#10'    Collapse' +
+        'd = False'#13#10'    Handles = <'#13#10'      item'#13#10'        OrX = 419.500000' +
+        '000000000000'#13#10'        OrY = 680.000000000000000000'#13#10'        Styl' +
+        'e = hsSize'#13#10'      end'#13#10'      item'#13#10'        OrX = 417.50000000000' +
+        '0000000'#13#10'        OrY = 689.000000000000000000'#13#10'        Style = h' +
+        'sSize'#13#10'      end>'#13#10'    LinkPoints = <'#13#10'      item'#13#10'        Ancho' +
+        'r = TableDiagramBlock6'#13#10'        AnchorIndex = 0'#13#10'        Collaps' +
+        'able = False'#13#10'        Collapsed = False'#13#10'        LinkConstraint ' +
+        '= lcAll'#13#10'        Visible = True'#13#10'      end'#13#10'      item'#13#10'        ' +
+        'Anchor = TableDiagramBlock5'#13#10'        AnchorIndex = 1'#13#10'        Co' +
+        'llapsable = False'#13#10'        Collapsed = False'#13#10'        LinkConstr' +
+        'aint = lcAll'#13#10'        Visible = True'#13#10'      end>'#13#10'    RelID = 6'#13 +
+        #10'  end'#13#10'  object TableDiagramBlock7: TTableDiagramBlock'#13#10'    Lef' +
+        't = 122.000000000000000000'#13#10'    Top = 644.000000000000000000'#13#10'  ' +
+        '  Width = 111.000000000000000000'#13#10'    Height = 132.0000000000000' +
+        '00000'#13#10'    CornerRadius = 25.000000000000000000'#13#10'    Collapsed =' +
+        ' False'#13#10'    TID = 9'#13#10'  end'#13#10'  object RelationshipDiagramLine6: T' +
+        'RelationshipDiagramLine'#13#10'    Pen.Style = psDot'#13#10'    SourceArrow.' +
+        'Shape = asNone'#13#10'    SourceArrow.Width = 10'#13#10'    SourceArrow.Heig' +
+        'ht = 10'#13#10'    SourceArrow.Brush.Color = clBlack'#13#10'    TargetArrow.' +
+        'Shape = asNone'#13#10'    TargetArrow.Width = 10'#13#10'    TargetArrow.Heig' +
+        'ht = 10'#13#10'    TargetArrow.Brush.Color = clBlack'#13#10'    Cursor = crD' +
+        'efault'#13#10'    TextCells = <'#13#10'      item'#13#10'        DControlAngle = T' +
+        'rue'#13#10'        Left = 8.000000000000000000'#13#10'        Top = 588.0000' +
+        '00000000000000'#13#10'        Width = 300.000000000000000000'#13#10'        ' +
+        'Height = 100.000000000000000000'#13#10'        Clip = False'#13#10'        W' +
+        'ordWrap = True'#13#10'        DControlFont = True'#13#10'        Alignment =' +
+        ' taCenter'#13#10'        VertAlign = vaTop'#13#10'        RotateFont = True'#13 +
+        #10'        CellFrame.Color = clWhite'#13#10'        CellFrame.Pen.Style ' +
+        '= psClear'#13#10'        CellFrame.Transparent = False'#13#10'        CellFr' +
+        'ame.AutoFrame = True'#13#10'        CellFrame.AutoFrameMargin = 0'#13#10'   ' +
+        '     CellFrame.Visible = True'#13#10'        Visible = True'#13#10'        R' +
+        'eadOnly = False'#13#10'        Transparency = 0'#13#10'      end'#13#10'      item' +
+        #13#10'        DControlAngle = True'#13#10'        Left = -237.921158465515' +
+        '800000'#13#10'        Top = 509.807783611208400000'#13#10'        Width = 40' +
+        '0.000000000000000000'#13#10'        Height = 100.000000000000000000'#13#10' ' +
+        '       Clip = False'#13#10'        WordWrap = True'#13#10'        DControlFo' +
+        'nt = True'#13#10'        Alignment = taRightJustify'#13#10'        VertAlign' +
+        ' = vaBottom'#13#10'        RotateFont = True'#13#10'        CellFrame.Color ' +
+        '= clWhite'#13#10'        CellFrame.Transparent = True'#13#10'        CellFra' +
+        'me.AutoFrame = False'#13#10'        CellFrame.AutoFrameMargin = 0'#13#10'   ' +
+        '     CellFrame.Visible = False'#13#10'        Visible = True'#13#10'        ' +
+        'ReadOnly = False'#13#10'        Transparency = 0'#13#10'      end'#13#10'      ite' +
+        'm'#13#10'        DControlAngle = True'#13#10'        Left = -245.20107803172' +
+        '3800000'#13#10'        Top = 586.052256605687600000'#13#10'        Width = 4' +
+        '00.000000000000000000'#13#10'        Height = 100.000000000000000000'#13#10 +
+        '        Clip = False'#13#10'        WordWrap = True'#13#10'        DControlF' +
+        'ont = True'#13#10'        Alignment = taRightJustify'#13#10'        VertAlig' +
+        'n = vaTop'#13#10'        RotateFont = True'#13#10'        CellFrame.Color = ' +
+        'clWhite'#13#10'        CellFrame.Transparent = True'#13#10'        CellFrame' +
+        '.AutoFrame = False'#13#10'        CellFrame.AutoFrameMargin = 0'#13#10'     ' +
+        '   CellFrame.Visible = False'#13#10'        Visible = True'#13#10'        Re' +
+        'adOnly = False'#13#10'        Transparency = 0'#13#10'      end'#13#10'      item'#13 +
+        #10'        DControlAngle = True'#13#10'        Left = 181.20107803172380' +
+        '0000'#13#10'        Top = 503.947743394312400000'#13#10'        Width = 400.' +
+        '000000000000000000'#13#10'        Height = 100.000000000000000000'#13#10'   ' +
+        '     Clip = False'#13#10'        WordWrap = True'#13#10'        DControlFont' +
+        ' = True'#13#10'        Alignment = taLeftJustify'#13#10'        VertAlign = ' +
+        'vaBottom'#13#10'        RotateFont = True'#13#10'        CellFrame.Color = c' +
+        'lWhite'#13#10'        CellFrame.Transparent = True'#13#10'        CellFrame.' +
+        'AutoFrame = False'#13#10'        CellFrame.AutoFrameMargin = 0'#13#10'      ' +
+        '  CellFrame.Visible = False'#13#10'        Visible = True'#13#10'        Rea' +
+        'dOnly = False'#13#10'        Transparency = 0'#13#10'      end'#13#10'      item'#13#10 +
+        '        DControlAngle = True'#13#10'        Left = 173.921158465515800' +
+        '000'#13#10'        Top = 580.192216388791600000'#13#10'        Width = 400.0' +
+        '00000000000000000'#13#10'        Height = 100.000000000000000000'#13#10'    ' +
+        '    Clip = False'#13#10'        WordWrap = True'#13#10'        DControlFont ' +
+        '= True'#13#10'        Alignment = taLeftJustify'#13#10'        VertAlign = v' +
+        'aTop'#13#10'        RotateFont = True'#13#10'        CellFrame.Color = clWhi' +
+        'te'#13#10'        CellFrame.Transparent = True'#13#10'        CellFrame.Auto' +
+        'Frame = False'#13#10'        CellFrame.AutoFrameMargin = 0'#13#10'        Ce' +
+        'llFrame.Visible = False'#13#10'        Visible = True'#13#10'        ReadOnl' +
+        'y = False'#13#10'        Transparency = 0'#13#10'      end>'#13#10'    Visible = T' +
+        'rue'#13#10'    Layer = 0'#13#10'    Transparency = 0'#13#10'    LineStyle = lsLine' +
+        #13#10'    Color = clBlack'#13#10'    Collapsed = False'#13#10'    Handles = <'#13#10' ' +
+        '     item'#13#10'        OrX = 177.500000000000000000'#13#10'        OrY = 6' +
+        '26.000000000000000000'#13#10'        Style = hsSize'#13#10'      end'#13#10'      ' +
+        'item'#13#10'        OrX = 158.500000000000000000'#13#10'        OrY = 564.00' +
+        '0000000000000000'#13#10'        Style = hsSize'#13#10'      end>'#13#10'    LinkPo' +
+        'ints = <'#13#10'      item'#13#10'        Anchor = TableDiagramBlock7'#13#10'     ' +
+        '   AnchorIndex = 1'#13#10'        Collapsable = False'#13#10'        Collaps' +
+        'ed = False'#13#10'        LinkConstraint = lcAll'#13#10'        Visible = Tr' +
+        'ue'#13#10'      end'#13#10'      item'#13#10'        Anchor = TableDiagramBlock3'#13#10 +
+        '        AnchorIndex = 0'#13#10'        Collapsable = False'#13#10'        Co' +
+        'llapsed = False'#13#10'        LinkConstraint = lcAll'#13#10'        Visible' +
+        ' = True'#13#10'      end>'#13#10'    RelID = 10'#13#10'  end'#13#10'  object Relationshi' +
+        'pDiagramLine7: TRelationshipDiagramLine'#13#10'    Pen.Style = psDot'#13#10 +
+        '    SourceArrow.Shape = asNone'#13#10'    SourceArrow.Width = 10'#13#10'    ' +
+        'SourceArrow.Height = 10'#13#10'    SourceArrow.Brush.Color = clBlack'#13#10 +
+        '    TargetArrow.Shape = asNone'#13#10'    TargetArrow.Width = 10'#13#10'    ' +
+        'TargetArrow.Height = 10'#13#10'    TargetArrow.Brush.Color = clBlack'#13#10 +
+        '    Cursor = crDefault'#13#10'    TextCells = <'#13#10'      item'#13#10'        D' +
+        'ControlAngle = True'#13#10'        Left = 159.000000000000000000'#13#10'    ' +
+        '    Top = 709.000000000000000000'#13#10'        Width = 300.0000000000' +
+        '00000000'#13#10'        Height = 100.000000000000000000'#13#10'        Clip ' +
+        '= False'#13#10'        WordWrap = True'#13#10'        DControlFont = True'#13#10' ' +
+        '       Alignment = taCenter'#13#10'        VertAlign = vaTop'#13#10'        ' +
+        'RotateFont = True'#13#10'        CellFrame.Color = clWhite'#13#10'        Ce' +
+        'llFrame.Pen.Style = psClear'#13#10'        CellFrame.Transparent = Fal' +
+        'se'#13#10'        CellFrame.AutoFrame = True'#13#10'        CellFrame.AutoFr' +
+        'ameMargin = 0'#13#10'        CellFrame.Visible = True'#13#10'        Visible' +
+        ' = True'#13#10'        ReadOnly = False'#13#10'        Transparency = 0'#13#10'   ' +
+        '   end'#13#10'      item'#13#10'        DControlAngle = True'#13#10'        Left =' +
+        ' 273.127148150743800000'#13#10'        Top = 606.776754009537300000'#13#10' ' +
+        '       Width = 399.999999999999900000'#13#10'        Height = 100.0000' +
+        '00000000000000'#13#10'        Clip = False'#13#10'        WordWrap = True'#13#10' ' +
+        '       DControlFont = True'#13#10'        Alignment = taLeftJustify'#13#10' ' +
+        '       VertAlign = vaBottom'#13#10'        RotateFont = True'#13#10'        ' +
+        'CellFrame.Color = clWhite'#13#10'        CellFrame.Transparent = True'#13 +
+        #10'        CellFrame.AutoFrame = False'#13#10'        CellFrame.AutoFram' +
+        'eMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'        Visible ' +
+        '= True'#13#10'        ReadOnly = False'#13#10'        Transparency = 0'#13#10'    ' +
+        '  end'#13#10'      item'#13#10'        DControlAngle = True'#13#10'        Left = ' +
+        '-55.854885682816470000'#13#10'        Top = 630.232229073682600000'#13#10'  ' +
+        '      Width = 400.000000000000000000'#13#10'        Height = 100.00000' +
+        '0000000000000'#13#10'        Clip = False'#13#10'        WordWrap = True'#13#10'  ' +
+        '      DControlFont = True'#13#10'        Alignment = taRightJustify'#13#10' ' +
+        '       VertAlign = vaBottom'#13#10'        RotateFont = True'#13#10'        ' +
+        'CellFrame.Color = clWhite'#13#10'        CellFrame.Transparent = True'#13 +
+        #10'        CellFrame.AutoFrame = False'#13#10'        CellFrame.AutoFram' +
+        'eMargin = 0'#13#10'        CellFrame.Visible = False'#13#10'        Visible ' +
+        '= True'#13#10'        ReadOnly = False'#13#10'        Transparency = 0'#13#10'    ' +
+        '  end'#13#10'      item'#13#10'        DControlAngle = True'#13#10'        Left = ' +
+        '266.854885682816500000'#13#10'        Top = 725.767770926317400000'#13#10'  ' +
+        '      Width = 400.000000000000100000'#13#10'        Height = 100.00000' +
+        '0000000000000'#13#10'        Clip = False'#13#10'        WordWrap = True'#13#10'  ' +
+        '      DControlFont = True'#13#10'        Alignment = taLeftJustify'#13#10'  ' +
+        '      VertAlign = vaTop'#13#10'        RotateFont = True'#13#10'        Cell' +
+        'Frame.Color = clWhite'#13#10'        CellFrame.Transparent = True'#13#10'   ' +
+        '     CellFrame.AutoFrame = False'#13#10'        CellFrame.AutoFrameMar' +
+        'gin = 0'#13#10'        CellFrame.Visible = False'#13#10'        Visible = Tr' +
+        'ue'#13#10'        ReadOnly = False'#13#10'        Transparency = 0'#13#10'      en' +
+        'd'#13#10'      item'#13#10'        DControlAngle = True'#13#10'        Left = -62.' +
+        '127148150743840000'#13#10'        Top = 749.223245990462700000'#13#10'      ' +
+        '  Width = 400.000000000000000000'#13#10'        Height = 100.000000000' +
+        '000000000'#13#10'        Clip = False'#13#10'        WordWrap = True'#13#10'      ' +
+        '  DControlFont = True'#13#10'        Alignment = taRightJustify'#13#10'     ' +
+        '   VertAlign = vaTop'#13#10'        RotateFont = True'#13#10'        CellFra' +
+        'me.Color = clWhite'#13#10'        CellFrame.Transparent = True'#13#10'      ' +
+        '  CellFrame.AutoFrame = False'#13#10'        CellFrame.AutoFrameMargin' +
+        ' = 0'#13#10'        CellFrame.Visible = False'#13#10'        Visible = True'#13 +
+        #10'        ReadOnly = False'#13#10'        Transparency = 0'#13#10'      end>'#13 +
+        #10'    Visible = True'#13#10'    Layer = 0'#13#10'    Transparency = 0'#13#10'    Li' +
+        'neStyle = lsLine'#13#10'    Color = clBlack'#13#10'    Collapsed = False'#13#10'  ' +
+        '  Handles = <'#13#10'      item'#13#10'        OrX = 251.000000000000000000'#13 +
+        #10'        OrY = 710.000000000000000000'#13#10'        Style = hsSize'#13#10' ' +
+        '     end'#13#10'      item'#13#10'        OrX = 360.000000000000000000'#13#10'    ' +
+        '    OrY = 746.000000000000000000'#13#10'        Style = hsSize'#13#10'      ' +
+        'end>'#13#10'    LinkPoints = <'#13#10'      item'#13#10'        Anchor = TableDiag' +
+        'ramBlock7'#13#10'        AnchorIndex = 0'#13#10'        Collapsable = False'#13 +
+        #10'        Collapsed = False'#13#10'        LinkConstraint = lcAll'#13#10'    ' +
+        '    Visible = True'#13#10'      end'#13#10'      item'#13#10'        Anchor = Tabl' +
+        'eDiagramBlock5'#13#10'        AnchorIndex = 0'#13#10'        Collapsable = F' +
+        'alse'#13#10'        Collapsed = False'#13#10'        LinkConstraint = lcAll'#13 +
+        #10'        Visible = True'#13#10'      end>'#13#10'    RelID = 11'#13#10'  end'#13#10'end'#13 +
+        #10
+    end>
+  AureliusExportOptions = 
+    '<Mappings NewDictionary="true" RegisterEntities="true" DefaultAs' +
+    'sociationCascadeDefinition="allbutremove">'#13#10'  <ProjectFile/>'#13#10'  ' +
+    '<OutputDir>C:\Users\Bartolo\Documents\Embarcadero\Studio\Project' +
+    's\Studio\aurelius\TestClassiMapping2</OutputDir>'#13#10'  <MainUnitNam' +
+    'e>UEntitiesModel</MainUnitName>'#13#10'  <DictionaryName>Dic</Dictiona' +
+    'ryName>'#13#10'  <DictionaryUnitName/>'#13#10'  <Script/>'#13#10'  <TableNaming So' +
+    'urce="caption" Format="T%s"/>'#13#10'  <FieldNaming Source="caption" F' +
+    'ormat="%s"/>'#13#10'  <AssociationNaming Source="ChildFieldCaption" Fo' +
+    'rmat="%s"/>'#13#10'  <ManyValuedNaming Source="ChildTableCaption" Form' +
+    'at="%sList"/>'#13#10'  <Tables>'#13#10'    <Table TableId="3" ClassName="TAr' +
+    'ticolo"/>'#13#10'    <Table TableId="4" ClassName="TProdotto"/>'#13#10'    <' +
+    'Table TableId="5" ClassName="TParte"/>'#13#10'    <Table TableId="2" C' +
+    'lassName="TOrdine"/>'#13#10'    <Table TableId="1" ClassName="TCliente' +
+    '"/>'#13#10'    <Table TableId="9" ClassName="TArticoloProduzione"/>'#13#10' ' +
+    '   <Table TableId="6" ClassName="TComponente"/>'#13#10'  </Tables>'#13#10'  ' +
+    '<Associations>'#13#10'    <Association AssociationId="3" ManyValuedPro' +
+    'pertyName="Articoli" ManyValuedInclude="true"/>'#13#10'    <Associatio' +
+    'n AssociationId="10" ManyValuedPropertyName="ArticoliProduzione"' +
+    ' ManyValuedInclude="true"/>'#13#10'    <Association AssociationId="5" ' +
+    'ManyValuedPropertyName="Componenti" ManyValuedInclude="true"/>'#13#10 +
+    '    <Association AssociationId="1" PropertyName="Cliente" ManyVa' +
+    'luedPropertyName="Ordini" ManyValuedInclude="true" ManyValuedFet' +
+    'chMode="lazy"/>'#13#10'    <Association AssociationId="11" ManyValuedP' +
+    'ropertyName="ArticoliProduzione"/>'#13#10'    <Association Association' +
+    'Id="6" ManyValuedPropertyName="Componenti"/>'#13#10'  </Associations>'#13 +
+    #10'</Mappings>'#13#10
+end
