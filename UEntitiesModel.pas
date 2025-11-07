@@ -10,39 +10,38 @@ uses
   Aurelius.Types.DynamicProperties, 
   Aurelius.Types.Nullable, 
   Aurelius.Types.Proxy, 
-  Aurelius.Dictionary.Classes, 
-  Aurelius.Linq;
+  Aurelius.Criteria.Dictionary;
 
 type
-  TArticolo = class;
-  TArticoloProduzione = class;
-  TCliente = class;
-  TComponente = class;
-  TFase = class;
-  TFaseProduzione = class;
-  TMacchina = class;
-  TOrdine = class;
-  TParte = class;
-  TParteProduzione = class;
-  TProdotto = class;
-  TArticoloDictionary = class;
-  TArticoloProduzioneDictionary = class;
-  TClienteDictionary = class;
-  TComponenteDictionary = class;
-  TFaseDictionary = class;
-  TFaseProduzioneDictionary = class;
-  TMacchinaDictionary = class;
-  TOrdineDictionary = class;
-  TParteDictionary = class;
-  TParteProduzioneDictionary = class;
-  TProdottoDictionary = class;
+  Tarticolo = class;
+  Tarticoloproduzione = class;
+  Tcliente = class;
+  Tcomponente = class;
+  Tfase = class;
+  Tfaseproduzione = class;
+  Tmacchina = class;
+  Tordine = class;
+  Tparte = class;
+  Tparteproduzione = class;
+  Tprodotto = class;
+  TarticoloTableDictionary = class;
+  TarticoloproduzioneTableDictionary = class;
+  TclienteTableDictionary = class;
+  TcomponenteTableDictionary = class;
+  TfaseTableDictionary = class;
+  TfaseproduzioneTableDictionary = class;
+  TmacchinaTableDictionary = class;
+  TordineTableDictionary = class;
+  TparteTableDictionary = class;
+  TparteproduzioneTableDictionary = class;
+  TprodottoTableDictionary = class;
   
   [Entity]
-  [Table('Articoli')]
+  [Table('articoli')]
   [Id('FID', TIdGenerator.IdentityOrSequence)]
-  TArticolo = class
+  Tarticolo = class
   private
-    [Column('ID', [TColumnProp.Required])]
+    [Column('ID', [TColumnProp.Required, TColumnProp.NoInsert, TColumnProp.NoUpdate])]
     FID: Integer;
     
     [Column('Qta', [])]
@@ -50,60 +49,61 @@ type
     
     [Association([TAssociationProp.Lazy, TAssociationProp.Required], CascadeTypeAll - [TCascadeType.Remove])]
     [JoinColumn('ID_Ordine', [TColumnProp.Required], 'ID')]
-    FID_Ordine: Proxy<TOrdine>;
+    FID_Ordine: Proxy<Tordine>;
     
     [Association([TAssociationProp.Lazy], CascadeTypeAll - [TCascadeType.Remove])]
     [JoinColumn('ID_Prodotto', [], 'ID')]
-    FID_Prodotto: Proxy<TProdotto>;
+    FID_Prodotto: Proxy<Tprodotto>;
     
     [ManyValuedAssociation([TAssociationProp.Lazy], [TCascadeType.SaveUpdate, TCascadeType.Merge], 'FID_Articolo')]
-    FArticoliProduzione: Proxy<TList<TArticoloProduzione>>;
-    function GetID_Ordine: TOrdine;
-    procedure SetID_Ordine(const Value: TOrdine);
-    function GetID_Prodotto: TProdotto;
-    procedure SetID_Prodotto(const Value: TProdotto);
-    function GetArticoliProduzione: TList<TArticoloProduzione>;
+    Farticoliproduzione: Proxy<TList<Tarticoloproduzione>>;
+    function GetID_Ordine: Tordine;
+    procedure SetID_Ordine(const Value: Tordine);
+    function GetID_Prodotto: Tprodotto;
+    procedure SetID_Prodotto(const Value: Tprodotto);
+    function Getarticoliproduzione: TList<Tarticoloproduzione>;
   public
     constructor Create;
     destructor Destroy; override;
     property ID: Integer read FID write FID;
     property Qta: Nullable<Integer> read FQta write FQta;
-    property ID_Ordine: TOrdine read GetID_Ordine write SetID_Ordine;
-    property ID_Prodotto: TProdotto read GetID_Prodotto write SetID_Prodotto;
-    property ArticoliProduzione: TList<TArticoloProduzione> read GetArticoliProduzione;
+    property ID_Ordine: Tordine read GetID_Ordine write SetID_Ordine;
+    property ID_Prodotto: Tprodotto read GetID_Prodotto write SetID_Prodotto;
+    property articoliproduzione: TList<Tarticoloproduzione> read Getarticoliproduzione;
   end;
   
   [Entity]
-  [Table('ArticoliProduzione')]
+  [Table('articoliproduzione')]
   [Id('FID', TIdGenerator.IdentityOrSequence)]
-  TArticoloProduzione = class
+  Tarticoloproduzione = class
   private
-    [Column('ID', [TColumnProp.Required])]
+    [Column('ID', [TColumnProp.Required, TColumnProp.NoInsert, TColumnProp.NoUpdate])]
     FID: Integer;
     
     [Association([TAssociationProp.Lazy], CascadeTypeAll - [TCascadeType.Remove])]
     [JoinColumn('ID_Articolo', [], 'ID')]
-    FID_Articolo: Proxy<TArticolo>;
+    FID_Articolo: Proxy<Tarticolo>;
     
-    [ManyValuedAssociation([TAssociationProp.Lazy, TAssociationProp.Required], [TCascadeType.SaveUpdate, TCascadeType.Merge, TCascadeType.Remove], 'FID_Articolo')]
-    FPartiProduzione: Proxy<TList<TParteProduzione>>;
-    function GetID_Articolo: TArticolo;
-    procedure SetID_Articolo(const Value: TArticolo);
-    function GetPartiProduzione: TList<TParteProduzione>;
-    function GetStato : double;
+    [ManyValuedAssociation([TAssociationProp.Lazy, TAssociationProp.Required], [TCascadeType.SaveUpdate, TCascadeType.Merge], 'FID_Articolo')]
+    Fpartiproduzione: Proxy<TList<Tparteproduzione>>;
+    FStato: double;
+    function GetID_Articolo: Tarticolo;
+    procedure SetID_Articolo(const Value: Tarticolo);
+    function Getpartiproduzione: TList<Tparteproduzione>;
+    function GetStato : integer;
   public
     constructor Create;
     destructor Destroy; override;
     property ID: Integer read FID write FID;
-    property ID_Articolo: TArticolo read GetID_Articolo write SetID_Articolo;
-    property PartiProduzione: TList<TParteProduzione> read GetPartiProduzione;
-    property Stato : double read GetStato;
+    property ID_Articolo: Tarticolo read GetID_Articolo write SetID_Articolo;
+    property partiproduzione: TList<Tparteproduzione> read Getpartiproduzione;
+    property Stato: integer read GetStato ;
   end;
   
   [Entity]
-  [Table('Clienti')]
+  [Table('clienti')]
   [Id('FID', TIdGenerator.IdentityOrSequence)]
-  TCliente = class
+  Tcliente = class
   private
     [Column('ID', [TColumnProp.Required, TColumnProp.NoInsert, TColumnProp.NoUpdate])]
     FID: Integer;
@@ -111,52 +111,52 @@ type
     [Column('Nome', [TColumnProp.Required], 50)]
     FNome: string;
     
-    [ManyValuedAssociation([TAssociationProp.Lazy, TAssociationProp.Required], [TCascadeType.SaveUpdate, TCascadeType.Merge, TCascadeType.Remove], 'FCliente')]
-    FOrdini: Proxy<TList<TOrdine>>;
-    function GetOrdini: TList<TOrdine>;
+    [ManyValuedAssociation([TAssociationProp.Lazy, TAssociationProp.Required], [TCascadeType.SaveUpdate, TCascadeType.Merge], 'FCliente')]
+    Fordini: Proxy<TList<Tordine>>;
+    function Getordini: TList<Tordine>;
   public
     constructor Create;
     destructor Destroy; override;
     property ID: Integer read FID write FID;
     property Nome: string read FNome write FNome;
-    property Ordini: TList<TOrdine> read GetOrdini;
+    property ordini: TList<Tordine> read Getordini;
   end;
   
   [Entity]
-  [Table('Componenti')]
+  [Table('componenti')]
   [Id('FID', TIdGenerator.IdentityOrSequence)]
-  TComponente = class
+  Tcomponente = class
   private
-    [Column('ID', [TColumnProp.Required])]
+    [Column('ID', [TColumnProp.Required, TColumnProp.NoInsert, TColumnProp.NoUpdate])]
     FID: Integer;
     
     [Column('Qta', [])]
     FQta: Nullable<Integer>;
     
     [Association([TAssociationProp.Lazy], CascadeTypeAll - [TCascadeType.Remove])]
-    [JoinColumn('ID_Prodotto', [], 'ID')]
-    FID_Prodotto: Proxy<TProdotto>;
+    [JoinColumn('ID_Parte', [], 'ID')]
+    FID_Parte: Proxy<Tparte>;
     
     [Association([TAssociationProp.Lazy], CascadeTypeAll - [TCascadeType.Remove])]
-    [JoinColumn('ID_Parte', [], 'ID')]
-    FID_Parte: Proxy<TParte>;
-    function GetID_Prodotto: TProdotto;
-    procedure SetID_Prodotto(const Value: TProdotto);
-    function GetID_Parte: TParte;
-    procedure SetID_Parte(const Value: TParte);
+    [JoinColumn('ID_Prodotto', [], 'ID')]
+    FID_Prodotto: Proxy<Tprodotto>;
+    function GetID_Parte: Tparte;
+    procedure SetID_Parte(const Value: Tparte);
+    function GetID_Prodotto: Tprodotto;
+    procedure SetID_Prodotto(const Value: Tprodotto);
   public
     property ID: Integer read FID write FID;
     property Qta: Nullable<Integer> read FQta write FQta;
-    property ID_Prodotto: TProdotto read GetID_Prodotto write SetID_Prodotto;
-    property ID_Parte: TParte read GetID_Parte write SetID_Parte;
+    property ID_Parte: Tparte read GetID_Parte write SetID_Parte;
+    property ID_Prodotto: Tprodotto read GetID_Prodotto write SetID_Prodotto;
   end;
   
   [Entity]
-  [Table('Fasi')]
+  [Table('fasi')]
   [Id('FId', TIdGenerator.IdentityOrSequence)]
-  TFase = class
+  Tfase = class
   private
-    [Column('Id', [TColumnProp.Required])]
+    [Column('Id', [TColumnProp.Required, TColumnProp.NoInsert, TColumnProp.NoUpdate])]
     FId: Integer;
     
     [Column('Descrizione', [], 50)]
@@ -166,37 +166,30 @@ type
     FPartProgram: Nullable<string>;
     
     [Association([TAssociationProp.Lazy, TAssociationProp.Required], CascadeTypeAll - [TCascadeType.Remove])]
-    [JoinColumn('ID_Parte', [TColumnProp.Required], 'ID')]
-    FParte: Proxy<TParte>;
+    [JoinColumn('Id_Macchina', [TColumnProp.Required], 'Id')]
+    FMacchina: Proxy<Tmacchina>;
     
     [Association([TAssociationProp.Lazy, TAssociationProp.Required], CascadeTypeAll - [TCascadeType.Remove])]
-    [JoinColumn('Id_Macchina', [TColumnProp.Required], 'Id')]
-    FMacchina: Proxy<TMacchina>;
-    
-    [ManyValuedAssociation([TAssociationProp.Lazy, TAssociationProp.Required], [TCascadeType.SaveUpdate, TCascadeType.Merge], 'FId_fase')]
-    FFasiProduzioneList: Proxy<TList<TFaseProduzione>>;
-    function GetParte: TParte;
-    procedure SetParte(const Value: TParte);
-    function GetMacchina: TMacchina;
-    procedure SetMacchina(const Value: TMacchina);
-    function GetFasiProduzioneList: TList<TFaseProduzione>;
+    [JoinColumn('ID_Parte', [TColumnProp.Required], 'ID')]
+    FID_Parte: Proxy<Tparte>;
+    function GetMacchina: Tmacchina;
+    procedure SetMacchina(const Value: Tmacchina);
+    function GetID_Parte: Tparte;
+    procedure SetID_Parte(const Value: Tparte);
   public
-    constructor Create;
-    destructor Destroy; override;
     property Id: Integer read FId write FId;
     property Descrizione: Nullable<string> read FDescrizione write FDescrizione;
     property PartProgram: Nullable<string> read FPartProgram write FPartProgram;
-    property Parte: TParte read GetParte write SetParte;
-    property Macchina: TMacchina read GetMacchina write SetMacchina;
-    property FasiProduzioneList: TList<TFaseProduzione> read GetFasiProduzioneList;
+    property Macchina: Tmacchina read GetMacchina write SetMacchina;
+    property ID_Parte: Tparte read GetID_Parte write SetID_Parte;
   end;
   
   [Entity]
-  [Table('FasiProduzione')]
+  [Table('fasiproduzione')]
   [Id('FID', TIdGenerator.IdentityOrSequence)]
-  TFaseProduzione = class
+  Tfaseproduzione = class
   private
-    [Column('ID', [TColumnProp.Required])]
+    [Column('ID', [TColumnProp.Required, TColumnProp.NoInsert, TColumnProp.NoUpdate])]
     FID: Integer;
     
     [Column('Qta_Richiesta', [])]
@@ -206,52 +199,55 @@ type
     FQta_Eseguita: Nullable<Integer>;
     
     [Association([TAssociationProp.Lazy, TAssociationProp.Required], CascadeTypeAll - [TCascadeType.Remove])]
-    [JoinColumn('ID_Parte', [TColumnProp.Required], 'ID')]
-    FID_Parte: Proxy<TParteProduzione>;
+    [JoinColumn('Id_fase', [TColumnProp.Required], 'Id')]
+    FId_fase: Proxy<Tfase>;
     
     [Association([TAssociationProp.Lazy, TAssociationProp.Required], CascadeTypeAll - [TCascadeType.Remove])]
-    [JoinColumn('Id_fase', [TColumnProp.Required], 'Id')]
-    FId_fase: Proxy<TFase>;
-    function GetID_Parte: TParteProduzione;
-    procedure SetID_Parte(const Value: TParteProduzione);
-    function GetId_fase: TFase;
-    procedure SetId_fase(const Value: TFase);
+    [JoinColumn('ID_Parte', [TColumnProp.Required], 'ID')]
+    FID_Parte: Proxy<Tparteproduzione>;
+    FStato: double;
+    function GetId_fase: Tfase;
+    procedure SetId_fase(const Value: Tfase);
+    function GetID_Parte: Tparteproduzione;
+    procedure SetID_Parte(const Value: Tparteproduzione);
+    function GetStato : integer;
   public
     property ID: Integer read FID write FID;
     property Qta_Richiesta: Nullable<Integer> read FQta_Richiesta write FQta_Richiesta;
     property Qta_Eseguita: Nullable<Integer> read FQta_Eseguita write FQta_Eseguita;
-    property ID_Parte: TParteProduzione read GetID_Parte write SetID_Parte;
-    property Id_fase: TFase read GetId_fase write SetId_fase;
+    property Id_fase: Tfase read GetId_fase write SetId_fase;
+    property ID_Parte: Tparteproduzione read GetID_Parte write SetID_Parte;
+    property Stato: Integer read GetStato ;
   end;
   
   [Entity]
-  [Table('Macchine')]
+  [Table('macchine')]
   [Id('FId', TIdGenerator.IdentityOrSequence)]
-  TMacchina = class
+  Tmacchina = class
   private
-    [Column('Id', [TColumnProp.Required])]
+    [Column('Id', [TColumnProp.Required, TColumnProp.NoInsert, TColumnProp.NoUpdate])]
     FId: Integer;
     
     [Column('DEscrizione', [], 50)]
     FDEscrizione: Nullable<string>;
     
     [ManyValuedAssociation([TAssociationProp.Lazy, TAssociationProp.Required], [TCascadeType.SaveUpdate, TCascadeType.Merge], 'FMacchina')]
-    FFasiList: Proxy<TList<TFase>>;
-    function GetFasiList: TList<TFase>;
+    Ffasi: Proxy<TList<Tfase>>;
+    function Getfasi: TList<Tfase>;
   public
     constructor Create;
     destructor Destroy; override;
     property Id: Integer read FId write FId;
     property DEscrizione: Nullable<string> read FDEscrizione write FDEscrizione;
-    property FasiList: TList<TFase> read GetFasiList;
+    property fasi: TList<Tfase> read Getfasi;
   end;
   
   [Entity]
-  [Table('Ordini')]
+  [Table('ordini')]
   [Id('FID', TIdGenerator.IdentityOrSequence)]
-  TOrdine = class
+  Tordine = class
   private
-    [Column('ID', [TColumnProp.Required])]
+    [Column('ID', [TColumnProp.Required, TColumnProp.NoInsert, TColumnProp.NoUpdate])]
     FID: Integer;
     
     [Column('Data', [])]
@@ -262,61 +258,61 @@ type
     
     [Association([TAssociationProp.Lazy, TAssociationProp.Required], CascadeTypeAll - [TCascadeType.Remove])]
     [JoinColumn('ID_Cliente', [TColumnProp.Required], 'ID')]
-    FCliente: Proxy<TCliente>;
+    FCliente: Proxy<Tcliente>;
     
-    [ManyValuedAssociation([TAssociationProp.Lazy, TAssociationProp.Required], [TCascadeType.SaveUpdate, TCascadeType.Merge, TCascadeType.Remove], 'FID_Ordine')]
-    FArticoli: Proxy<TList<TArticolo>>;
-    function GetCliente: TCliente;
-    procedure SetCliente(const Value: TCliente);
-    function GetArticoli: TList<TArticolo>;
+    [ManyValuedAssociation([TAssociationProp.Lazy, TAssociationProp.Required], [TCascadeType.SaveUpdate, TCascadeType.Merge], 'FID_Ordine')]
+    Farticoli: Proxy<TList<Tarticolo>>;
+    function GetCliente: Tcliente;
+    procedure SetCliente(const Value: Tcliente);
+    function Getarticoli: TList<Tarticolo>;
   public
     constructor Create;
     destructor Destroy; override;
     property ID: Integer read FID write FID;
     property Data: Nullable<TDateTime> read FData write FData;
     property Scadenza: Nullable<TDateTime> read FScadenza write FScadenza;
-    property Cliente: TCliente read GetCliente write SetCliente;
-    property Articoli: TList<TArticolo> read GetArticoli;
+    property Cliente: Tcliente read GetCliente write SetCliente;
+    property articoli: TList<Tarticolo> read Getarticoli;
   end;
   
   [Entity]
-  [Table('Parti')]
+  [Table('parti')]
   [Id('FID', TIdGenerator.IdentityOrSequence)]
-  TParte = class
+  Tparte = class
   private
-    [Column('ID', [TColumnProp.Required])]
+    [Column('ID', [TColumnProp.Required, TColumnProp.NoInsert, TColumnProp.NoUpdate])]
     FID: Integer;
     
     [Column('Descrizione', [], 50)]
     FDescrizione: Nullable<string>;
     
     [ManyValuedAssociation([TAssociationProp.Lazy], [TCascadeType.SaveUpdate, TCascadeType.Merge], 'FID_Parte')]
-    FComponenti: Proxy<TList<TComponente>>;
+    Fcomponenti: Proxy<TList<Tcomponente>>;
     
-    [ManyValuedAssociation([TAssociationProp.Lazy, TAssociationProp.Required], [TCascadeType.SaveUpdate, TCascadeType.Merge, TCascadeType.Remove], 'FParte')]
-    FFasiLavorazione: Proxy<TList<TFase>>;
+    [ManyValuedAssociation([TAssociationProp.Lazy, TAssociationProp.Required], [TCascadeType.SaveUpdate, TCascadeType.Merge], 'FID_Parte')]
+    FfasiLavorazione: Proxy<TList<Tfase>>;
     
     [ManyValuedAssociation([TAssociationProp.Lazy, TAssociationProp.Required], [TCascadeType.SaveUpdate, TCascadeType.Merge], 'FID_parte')]
-    FPartiProduzione: Proxy<TList<TParteProduzione>>;
-    function GetComponenti: TList<TComponente>;
-    function GetFasiLavorazione: TList<TFase>;
-    function GetPartiProduzione: TList<TParteProduzione>;
+    Fpartiproduzione: Proxy<TList<Tparteproduzione>>;
+    function Getcomponenti: TList<Tcomponente>;
+    function GetfasiLavorazione: TList<Tfase>;
+    function Getpartiproduzione: TList<Tparteproduzione>;
   public
     constructor Create;
     destructor Destroy; override;
     property ID: Integer read FID write FID;
     property Descrizione: Nullable<string> read FDescrizione write FDescrizione;
-    property Componenti: TList<TComponente> read GetComponenti;
-    property FasiLavorazione: TList<TFase> read GetFasiLavorazione;
-    property PartiProduzione: TList<TParteProduzione> read GetPartiProduzione;
+    property componenti: TList<Tcomponente> read Getcomponenti;
+    property fasiLavorazione: TList<Tfase> read GetfasiLavorazione;
+    property partiproduzione: TList<Tparteproduzione> read Getpartiproduzione;
   end;
   
   [Entity]
-  [Table('PartiProduzione')]
+  [Table('partiproduzione')]
   [Id('FID', TIdGenerator.IdentityOrSequence)]
-  TParteProduzione = class
+  Tparteproduzione = class
   private
-    [Column('ID', [TColumnProp.Required])]
+    [Column('ID', [TColumnProp.Required, TColumnProp.NoInsert, TColumnProp.NoUpdate])]
     FID: Integer;
     
     [Column('Qta', [])]
@@ -324,913 +320,782 @@ type
     
     [Association([TAssociationProp.Lazy, TAssociationProp.Required], CascadeTypeAll - [TCascadeType.Remove])]
     [JoinColumn('ID_Articolo', [TColumnProp.Required], 'ID')]
-    FID_Articolo: Proxy<TArticoloProduzione>;
+    FID_Articolo: Proxy<Tarticoloproduzione>;
     
     [Association([TAssociationProp.Lazy, TAssociationProp.Required], CascadeTypeAll - [TCascadeType.Remove])]
     [JoinColumn('ID_parte', [TColumnProp.Required], 'ID')]
-    FID_parte: Proxy<TParte>;
-    function GetID_Articolo: TArticoloProduzione;
-    procedure SetID_Articolo(const Value: TArticoloProduzione);
-    function GetID_parte: TParte;
-    procedure SetID_parte(const Value: TParte);
+    FID_parte: Proxy<Tparte>;
+    
+    [ManyValuedAssociation([TAssociationProp.Lazy, TAssociationProp.Required], [TCascadeType.SaveUpdate, TCascadeType.Merge], 'FID_Parte')]
+    Ffasiproduzione: Proxy<TList<Tfaseproduzione>>;
+    function GetID_Articolo: Tarticoloproduzione;
+    procedure SetID_Articolo(const Value: Tarticoloproduzione);
+    function GetID_parte: Tparte;
+    procedure SetID_parte(const Value: Tparte);
+    function Getfasiproduzione: TList<Tfaseproduzione>;
+    function GetStato : Integer;
   public
+    constructor Create;
+    destructor Destroy; override;
     property ID: Integer read FID write FID;
     property Qta: Nullable<Integer> read FQta write FQta;
-    property ID_Articolo: TArticoloProduzione read GetID_Articolo write SetID_Articolo;
-    property ID_parte: TParte read GetID_parte write SetID_parte;
+    property ID_Articolo: Tarticoloproduzione read GetID_Articolo write SetID_Articolo;
+    property ID_parte: Tparte read GetID_parte write SetID_parte;
+    property fasiproduzione: TList<Tfaseproduzione> read Getfasiproduzione;
+    property Stato: Integer read GetStato;
   end;
   
   [Entity]
-  [Table('Prodotti')]
+  [Table('prodotti')]
   [Id('FID', TIdGenerator.IdentityOrSequence)]
-  TProdotto = class
+  Tprodotto = class
   private
-    [Column('ID', [TColumnProp.Required])]
+    [Column('ID', [TColumnProp.Required, TColumnProp.NoInsert, TColumnProp.NoUpdate])]
     FID: Integer;
     
     [Column('Descrizione', [], 50)]
     FDescrizione: Nullable<string>;
     
     [ManyValuedAssociation([TAssociationProp.Lazy], [TCascadeType.SaveUpdate, TCascadeType.Merge], 'FID_Prodotto')]
-    FArticoli: Proxy<TList<TArticolo>>;
-    
-    [ManyValuedAssociation([TAssociationProp.Lazy], [TCascadeType.SaveUpdate, TCascadeType.Merge, TCascadeType.Remove], 'FID_Prodotto')]
-    FComponenti: Proxy<TList<TComponente>>;
-    function GetArticoli: TList<TArticolo>;
-    function GetComponenti: TList<TComponente>;
+    Fcomponenti: Proxy<TList<Tcomponente>>;
+    function Getcomponenti: TList<Tcomponente>;
   public
     constructor Create;
     destructor Destroy; override;
     property ID: Integer read FID write FID;
     property Descrizione: Nullable<string> read FDescrizione write FDescrizione;
-    property Articoli: TList<TArticolo> read GetArticoli;
-    property Componenti: TList<TComponente> read GetComponenti;
+    property componenti: TList<Tcomponente> read Getcomponenti;
   end;
   
-  IArticoloDictionary = interface;
-  
-  IArticoloProduzioneDictionary = interface;
-  
-  IClienteDictionary = interface;
-  
-  IComponenteDictionary = interface;
-  
-  IFaseDictionary = interface;
-  
-  IFaseProduzioneDictionary = interface;
-  
-  IMacchinaDictionary = interface;
-  
-  IOrdineDictionary = interface;
-  
-  IParteDictionary = interface;
-  
-  IParteProduzioneDictionary = interface;
-  
-  IProdottoDictionary = interface;
-  
-  IArticoloDictionary = interface(IAureliusEntityDictionary)
-    function ID: TLinqProjection;
-    function Qta: TLinqProjection;
-    function ID_Ordine: IOrdineDictionary;
-    function ID_Prodotto: IProdottoDictionary;
-    function ArticoliProduzione: IArticoloProduzioneDictionary;
-  end;
-  
-  IArticoloProduzioneDictionary = interface(IAureliusEntityDictionary)
-    function ID: TLinqProjection;
-    function ID_Articolo: IArticoloDictionary;
-    function PartiProduzione: IParteProduzioneDictionary;
-  end;
-  
-  IClienteDictionary = interface(IAureliusEntityDictionary)
-    function ID: TLinqProjection;
-    function Nome: TLinqProjection;
-    function Ordini: IOrdineDictionary;
-  end;
-  
-  IComponenteDictionary = interface(IAureliusEntityDictionary)
-    function ID: TLinqProjection;
-    function Qta: TLinqProjection;
-    function ID_Prodotto: IProdottoDictionary;
-    function ID_Parte: IParteDictionary;
-  end;
-  
-  IFaseDictionary = interface(IAureliusEntityDictionary)
-    function Id: TLinqProjection;
-    function Descrizione: TLinqProjection;
-    function PartProgram: TLinqProjection;
-    function Parte: IParteDictionary;
-    function Macchina: IMacchinaDictionary;
-    function FasiProduzioneList: IFaseProduzioneDictionary;
-  end;
-  
-  IFaseProduzioneDictionary = interface(IAureliusEntityDictionary)
-    function ID: TLinqProjection;
-    function Qta_Richiesta: TLinqProjection;
-    function Qta_Eseguita: TLinqProjection;
-    function ID_Parte: IParteProduzioneDictionary;
-    function Id_fase: IFaseDictionary;
-  end;
-  
-  IMacchinaDictionary = interface(IAureliusEntityDictionary)
-    function Id: TLinqProjection;
-    function DEscrizione: TLinqProjection;
-    function FasiList: IFaseDictionary;
-  end;
-  
-  IOrdineDictionary = interface(IAureliusEntityDictionary)
-    function ID: TLinqProjection;
-    function Data: TLinqProjection;
-    function Scadenza: TLinqProjection;
-    function Cliente: IClienteDictionary;
-    function Articoli: IArticoloDictionary;
-  end;
-  
-  IParteDictionary = interface(IAureliusEntityDictionary)
-    function ID: TLinqProjection;
-    function Descrizione: TLinqProjection;
-    function Componenti: IComponenteDictionary;
-    function FasiLavorazione: IFaseDictionary;
-    function PartiProduzione: IParteProduzioneDictionary;
-  end;
-  
-  IParteProduzioneDictionary = interface(IAureliusEntityDictionary)
-    function ID: TLinqProjection;
-    function Qta: TLinqProjection;
-    function ID_Articolo: IArticoloProduzioneDictionary;
-    function ID_parte: IParteDictionary;
-  end;
-  
-  IProdottoDictionary = interface(IAureliusEntityDictionary)
-    function ID: TLinqProjection;
-    function Descrizione: TLinqProjection;
-    function Articoli: IArticoloDictionary;
-    function Componenti: IComponenteDictionary;
-  end;
-  
-  TArticoloDictionary = class(TAureliusEntityDictionary, IArticoloDictionary)
+  TDicDictionary = class
+  private
+    Farticolo: TarticoloTableDictionary;
+    Farticoloproduzione: TarticoloproduzioneTableDictionary;
+    Fcliente: TclienteTableDictionary;
+    Fcomponente: TcomponenteTableDictionary;
+    Ffase: TfaseTableDictionary;
+    Ffaseproduzione: TfaseproduzioneTableDictionary;
+    Fmacchina: TmacchinaTableDictionary;
+    Fordine: TordineTableDictionary;
+    Fparte: TparteTableDictionary;
+    Fparteproduzione: TparteproduzioneTableDictionary;
+    Fprodotto: TprodottoTableDictionary;
+    function Getarticolo: TarticoloTableDictionary;
+    function Getarticoloproduzione: TarticoloproduzioneTableDictionary;
+    function Getcliente: TclienteTableDictionary;
+    function Getcomponente: TcomponenteTableDictionary;
+    function Getfase: TfaseTableDictionary;
+    function Getfaseproduzione: TfaseproduzioneTableDictionary;
+    function Getmacchina: TmacchinaTableDictionary;
+    function Getordine: TordineTableDictionary;
+    function Getparte: TparteTableDictionary;
+    function Getparteproduzione: TparteproduzioneTableDictionary;
+    function Getprodotto: TprodottoTableDictionary;
   public
-    function ID: TLinqProjection;
-    function Qta: TLinqProjection;
-    function ID_Ordine: IOrdineDictionary;
-    function ID_Prodotto: IProdottoDictionary;
-    function ArticoliProduzione: IArticoloProduzioneDictionary;
+    destructor Destroy; override;
+    property articolo: TarticoloTableDictionary read Getarticolo;
+    property articoloproduzione: TarticoloproduzioneTableDictionary read Getarticoloproduzione;
+    property cliente: TclienteTableDictionary read Getcliente;
+    property componente: TcomponenteTableDictionary read Getcomponente;
+    property fase: TfaseTableDictionary read Getfase;
+    property faseproduzione: TfaseproduzioneTableDictionary read Getfaseproduzione;
+    property macchina: TmacchinaTableDictionary read Getmacchina;
+    property ordine: TordineTableDictionary read Getordine;
+    property parte: TparteTableDictionary read Getparte;
+    property parteproduzione: TparteproduzioneTableDictionary read Getparteproduzione;
+    property prodotto: TprodottoTableDictionary read Getprodotto;
   end;
   
-  TArticoloProduzioneDictionary = class(TAureliusEntityDictionary, IArticoloProduzioneDictionary)
+  TarticoloTableDictionary = class
+  private
+    FID: TDictionaryAttribute;
+    FQta: TDictionaryAttribute;
+    FID_Ordine: TDictionaryAssociation;
+    FID_Prodotto: TDictionaryAssociation;
   public
-    function ID: TLinqProjection;
-    function ID_Articolo: IArticoloDictionary;
-    function PartiProduzione: IParteProduzioneDictionary;
+    constructor Create;
+    property ID: TDictionaryAttribute read FID;
+    property Qta: TDictionaryAttribute read FQta;
+    property ID_Ordine: TDictionaryAssociation read FID_Ordine;
+    property ID_Prodotto: TDictionaryAssociation read FID_Prodotto;
   end;
   
-  TClienteDictionary = class(TAureliusEntityDictionary, IClienteDictionary)
+  TarticoloproduzioneTableDictionary = class
+  private
+    FID: TDictionaryAttribute;
+    FID_Articolo: TDictionaryAssociation;
   public
-    function ID: TLinqProjection;
-    function Nome: TLinqProjection;
-    function Ordini: IOrdineDictionary;
+    constructor Create;
+    property ID: TDictionaryAttribute read FID;
+    property ID_Articolo: TDictionaryAssociation read FID_Articolo;
   end;
   
-  TComponenteDictionary = class(TAureliusEntityDictionary, IComponenteDictionary)
+  TclienteTableDictionary = class
+  private
+    FID: TDictionaryAttribute;
+    FNome: TDictionaryAttribute;
   public
-    function ID: TLinqProjection;
-    function Qta: TLinqProjection;
-    function ID_Prodotto: IProdottoDictionary;
-    function ID_Parte: IParteDictionary;
+    constructor Create;
+    property ID: TDictionaryAttribute read FID;
+    property Nome: TDictionaryAttribute read FNome;
   end;
   
-  TFaseDictionary = class(TAureliusEntityDictionary, IFaseDictionary)
+  TcomponenteTableDictionary = class
+  private
+    FID: TDictionaryAttribute;
+    FQta: TDictionaryAttribute;
+    FID_Parte: TDictionaryAssociation;
+    FID_Prodotto: TDictionaryAssociation;
   public
-    function Id: TLinqProjection;
-    function Descrizione: TLinqProjection;
-    function PartProgram: TLinqProjection;
-    function Parte: IParteDictionary;
-    function Macchina: IMacchinaDictionary;
-    function FasiProduzioneList: IFaseProduzioneDictionary;
+    constructor Create;
+    property ID: TDictionaryAttribute read FID;
+    property Qta: TDictionaryAttribute read FQta;
+    property ID_Parte: TDictionaryAssociation read FID_Parte;
+    property ID_Prodotto: TDictionaryAssociation read FID_Prodotto;
   end;
   
-  TFaseProduzioneDictionary = class(TAureliusEntityDictionary, IFaseProduzioneDictionary)
+  TfaseTableDictionary = class
+  private
+    FId: TDictionaryAttribute;
+    FDescrizione: TDictionaryAttribute;
+    FPartProgram: TDictionaryAttribute;
+    FMacchina: TDictionaryAssociation;
+    FID_Parte: TDictionaryAssociation;
   public
-    function ID: TLinqProjection;
-    function Qta_Richiesta: TLinqProjection;
-    function Qta_Eseguita: TLinqProjection;
-    function ID_Parte: IParteProduzioneDictionary;
-    function Id_fase: IFaseDictionary;
+    constructor Create;
+    property Id: TDictionaryAttribute read FId;
+    property Descrizione: TDictionaryAttribute read FDescrizione;
+    property PartProgram: TDictionaryAttribute read FPartProgram;
+    property Macchina: TDictionaryAssociation read FMacchina;
+    property ID_Parte: TDictionaryAssociation read FID_Parte;
   end;
   
-  TMacchinaDictionary = class(TAureliusEntityDictionary, IMacchinaDictionary)
+  TfaseproduzioneTableDictionary = class
+  private
+    FID: TDictionaryAttribute;
+    FQta_Richiesta: TDictionaryAttribute;
+    FQta_Eseguita: TDictionaryAttribute;
+    FId_fase: TDictionaryAssociation;
+    FID_Parte: TDictionaryAssociation;
   public
-    function Id: TLinqProjection;
-    function DEscrizione: TLinqProjection;
-    function FasiList: IFaseDictionary;
+    constructor Create;
+    property ID: TDictionaryAttribute read FID;
+    property Qta_Richiesta: TDictionaryAttribute read FQta_Richiesta;
+    property Qta_Eseguita: TDictionaryAttribute read FQta_Eseguita;
+    property Id_fase: TDictionaryAssociation read FId_fase;
+    property ID_Parte: TDictionaryAssociation read FID_Parte;
   end;
   
-  TOrdineDictionary = class(TAureliusEntityDictionary, IOrdineDictionary)
+  TmacchinaTableDictionary = class
+  private
+    FId: TDictionaryAttribute;
+    FDEscrizione: TDictionaryAttribute;
   public
-    function ID: TLinqProjection;
-    function Data: TLinqProjection;
-    function Scadenza: TLinqProjection;
-    function Cliente: IClienteDictionary;
-    function Articoli: IArticoloDictionary;
+    constructor Create;
+    property Id: TDictionaryAttribute read FId;
+    property DEscrizione: TDictionaryAttribute read FDEscrizione;
   end;
   
-  TParteDictionary = class(TAureliusEntityDictionary, IParteDictionary)
+  TordineTableDictionary = class
+  private
+    FID: TDictionaryAttribute;
+    FData: TDictionaryAttribute;
+    FScadenza: TDictionaryAttribute;
+    FCliente: TDictionaryAssociation;
   public
-    function ID: TLinqProjection;
-    function Descrizione: TLinqProjection;
-    function Componenti: IComponenteDictionary;
-    function FasiLavorazione: IFaseDictionary;
-    function PartiProduzione: IParteProduzioneDictionary;
+    constructor Create;
+    property ID: TDictionaryAttribute read FID;
+    property Data: TDictionaryAttribute read FData;
+    property Scadenza: TDictionaryAttribute read FScadenza;
+    property Cliente: TDictionaryAssociation read FCliente;
   end;
   
-  TParteProduzioneDictionary = class(TAureliusEntityDictionary, IParteProduzioneDictionary)
+  TparteTableDictionary = class
+  private
+    FID: TDictionaryAttribute;
+    FDescrizione: TDictionaryAttribute;
   public
-    function ID: TLinqProjection;
-    function Qta: TLinqProjection;
-    function ID_Articolo: IArticoloProduzioneDictionary;
-    function ID_parte: IParteDictionary;
+    constructor Create;
+    property ID: TDictionaryAttribute read FID;
+    property Descrizione: TDictionaryAttribute read FDescrizione;
   end;
   
-  TProdottoDictionary = class(TAureliusEntityDictionary, IProdottoDictionary)
+  TparteproduzioneTableDictionary = class
+  private
+    FID: TDictionaryAttribute;
+    FQta: TDictionaryAttribute;
+    FID_Articolo: TDictionaryAssociation;
+    FID_parte: TDictionaryAssociation;
   public
-    function ID: TLinqProjection;
-    function Descrizione: TLinqProjection;
-    function Articoli: IArticoloDictionary;
-    function Componenti: IComponenteDictionary;
+    constructor Create;
+    property ID: TDictionaryAttribute read FID;
+    property Qta: TDictionaryAttribute read FQta;
+    property ID_Articolo: TDictionaryAssociation read FID_Articolo;
+    property ID_parte: TDictionaryAssociation read FID_parte;
   end;
   
-  IDictionary = interface(IAureliusDictionary)
-    function Articolo: IArticoloDictionary;
-    function ArticoloProduzione: IArticoloProduzioneDictionary;
-    function Cliente: IClienteDictionary;
-    function Componente: IComponenteDictionary;
-    function Fase: IFaseDictionary;
-    function FaseProduzione: IFaseProduzioneDictionary;
-    function Macchina: IMacchinaDictionary;
-    function Ordine: IOrdineDictionary;
-    function Parte: IParteDictionary;
-    function ParteProduzione: IParteProduzioneDictionary;
-    function Prodotto: IProdottoDictionary;
-  end;
-  
-  TDictionary = class(TAureliusDictionary, IDictionary)
+  TprodottoTableDictionary = class
+  private
+    FID: TDictionaryAttribute;
+    FDescrizione: TDictionaryAttribute;
   public
-    function Articolo: IArticoloDictionary;
-    function ArticoloProduzione: IArticoloProduzioneDictionary;
-    function Cliente: IClienteDictionary;
-    function Componente: IComponenteDictionary;
-    function Fase: IFaseDictionary;
-    function FaseProduzione: IFaseProduzioneDictionary;
-    function Macchina: IMacchinaDictionary;
-    function Ordine: IOrdineDictionary;
-    function Parte: IParteDictionary;
-    function ParteProduzione: IParteProduzioneDictionary;
-    function Prodotto: IProdottoDictionary;
+    constructor Create;
+    property ID: TDictionaryAttribute read FID;
+    property Descrizione: TDictionaryAttribute read FDescrizione;
   end;
   
-function Dic: IDictionary;
+function Dic: TDicDictionary;
 
 implementation
 
 var
-  __Dic: IDictionary;
+  __Dic: TDicDictionary;
 
-function Dic: IDictionary;
+function Dic: TDicDictionary;
 begin
-  if __Dic = nil then __Dic := TDictionary.Create;
-  result := __Dic;
+  if __Dic = nil then __Dic := TDicDictionary.Create;
+  result := __Dic
 end;
 
-{ TArticolo }
+{ Tarticolo }
 
-function TArticolo.GetID_Ordine: TOrdine;
+function Tarticolo.GetID_Ordine: Tordine;
 begin
   result := FID_Ordine.Value;
 end;
 
-procedure TArticolo.SetID_Ordine(const Value: TOrdine);
+procedure Tarticolo.SetID_Ordine(const Value: Tordine);
 begin
   FID_Ordine.Value := Value;
 end;
 
-function TArticolo.GetID_Prodotto: TProdotto;
+function Tarticolo.GetID_Prodotto: Tprodotto;
 begin
   result := FID_Prodotto.Value;
 end;
 
-procedure TArticolo.SetID_Prodotto(const Value: TProdotto);
+procedure Tarticolo.SetID_Prodotto(const Value: Tprodotto);
 begin
   FID_Prodotto.Value := Value;
 end;
 
-constructor TArticolo.Create;
+constructor Tarticolo.Create;
 begin
   inherited;
-  FArticoliProduzione.SetInitialValue(TList<TArticoloProduzione>.Create);
+  Farticoliproduzione.SetInitialValue(TList<Tarticoloproduzione>.Create);
 end;
 
-destructor TArticolo.Destroy;
+destructor Tarticolo.Destroy;
 begin
-  FArticoliProduzione.DestroyValue;
+  Farticoliproduzione.DestroyValue;
   inherited;
 end;
 
-function TArticolo.GetArticoliProduzione: TList<TArticoloProduzione>;
+function Tarticolo.Getarticoliproduzione: TList<Tarticoloproduzione>;
 begin
-  result := FArticoliProduzione.Value;
+  result := Farticoliproduzione.Value;
 end;
 
-{ TArticoloProduzione }
+{ Tarticoloproduzione }
 
-function TArticoloProduzione.GetID_Articolo: TArticolo;
+function Tarticoloproduzione.GetID_Articolo: Tarticolo;
 begin
   result := FID_Articolo.Value;
 end;
 
-procedure TArticoloProduzione.SetID_Articolo(const Value: TArticolo);
+procedure Tarticoloproduzione.SetID_Articolo(const Value: Tarticolo);
 begin
   FID_Articolo.Value := Value;
 end;
 
-constructor TArticoloProduzione.Create;
+constructor Tarticoloproduzione.Create;
 begin
   inherited;
-  FPartiProduzione.SetInitialValue(TList<TParteProduzione>.Create);
+  Fpartiproduzione.SetInitialValue(TList<Tparteproduzione>.Create);
 end;
 
-destructor TArticoloProduzione.Destroy;
+destructor Tarticoloproduzione.Destroy;
 begin
-  FPartiProduzione.DestroyValue;
-  inherited;
-end;
-
-function TArticoloProduzione.GetPartiProduzione: TList<TParteProduzione>;
-begin
-  result := FPartiProduzione.Value;
-end;
-
-function TArticoloProduzione.GetStato: double;
-begin
-  result := 100;
-end;
-
-{ TCliente }
-
-constructor TCliente.Create;
-begin
-  inherited;
-  FOrdini.SetInitialValue(TList<TOrdine>.Create);
-end;
-
-destructor TCliente.Destroy;
-begin
-  FOrdini.DestroyValue;
+  Fpartiproduzione.DestroyValue;
   inherited;
 end;
 
-function TCliente.GetOrdini: TList<TOrdine>;
+function Tarticoloproduzione.Getpartiproduzione: TList<Tparteproduzione>;
 begin
-  result := FOrdini.Value;
+  result := Fpartiproduzione.Value;
 end;
 
-{ TComponente }
-
-function TComponente.GetID_Prodotto: TProdotto;
+function Tarticoloproduzione.GetStato: integer;
 begin
-  result := FID_Prodotto.Value;
+
+    var conta := 0;
+    var Totale := 0;
+    for var p in partiproduzione do
+    begin
+       inc(conta);
+       inc(Totale,p.Stato)
+
+    end;
+    result := totale div conta
 end;
 
-procedure TComponente.SetID_Prodotto(const Value: TProdotto);
+{ Tcliente }
+
+constructor Tcliente.Create;
 begin
-  FID_Prodotto.Value := Value;
+  inherited;
+  Fordini.SetInitialValue(TList<Tordine>.Create);
 end;
 
-function TComponente.GetID_Parte: TParte;
+destructor Tcliente.Destroy;
+begin
+  Fordini.DestroyValue;
+  inherited;
+end;
+
+function Tcliente.Getordini: TList<Tordine>;
+begin
+  result := Fordini.Value;
+end;
+
+{ Tcomponente }
+
+function Tcomponente.GetID_Parte: Tparte;
 begin
   result := FID_Parte.Value;
 end;
 
-procedure TComponente.SetID_Parte(const Value: TParte);
+procedure Tcomponente.SetID_Parte(const Value: Tparte);
 begin
   FID_Parte.Value := Value;
 end;
 
-{ TFase }
-
-function TFase.GetParte: TParte;
+function Tcomponente.GetID_Prodotto: Tprodotto;
 begin
-  result := FParte.Value;
+  result := FID_Prodotto.Value;
 end;
 
-procedure TFase.SetParte(const Value: TParte);
+procedure Tcomponente.SetID_Prodotto(const Value: Tprodotto);
 begin
-  FParte.Value := Value;
+  FID_Prodotto.Value := Value;
 end;
 
-function TFase.GetMacchina: TMacchina;
+{ Tfase }
+
+function Tfase.GetMacchina: Tmacchina;
 begin
   result := FMacchina.Value;
 end;
 
-procedure TFase.SetMacchina(const Value: TMacchina);
+procedure Tfase.SetMacchina(const Value: Tmacchina);
 begin
   FMacchina.Value := Value;
 end;
 
-constructor TFase.Create;
-begin
-  inherited;
-  FFasiProduzioneList.SetInitialValue(TList<TFaseProduzione>.Create);
-end;
-
-destructor TFase.Destroy;
-begin
-  FFasiProduzioneList.DestroyValue;
-  inherited;
-end;
-
-function TFase.GetFasiProduzioneList: TList<TFaseProduzione>;
-begin
-  result := FFasiProduzioneList.Value;
-end;
-
-{ TFaseProduzione }
-
-function TFaseProduzione.GetID_Parte: TParteProduzione;
+function Tfase.GetID_Parte: Tparte;
 begin
   result := FID_Parte.Value;
 end;
 
-procedure TFaseProduzione.SetID_Parte(const Value: TParteProduzione);
+procedure Tfase.SetID_Parte(const Value: Tparte);
 begin
   FID_Parte.Value := Value;
 end;
 
-function TFaseProduzione.GetId_fase: TFase;
+{ Tfaseproduzione }
+
+function Tfaseproduzione.GetId_fase: Tfase;
 begin
   result := FId_fase.Value;
 end;
 
-procedure TFaseProduzione.SetId_fase(const Value: TFase);
+procedure Tfaseproduzione.SetId_fase(const Value: Tfase);
 begin
   FId_fase.Value := Value;
 end;
 
-{ TMacchina }
+function Tfaseproduzione.GetID_Parte: Tparteproduzione;
+begin
+  result := FID_Parte.Value;
+end;
 
-constructor TMacchina.Create;
+function Tfaseproduzione.GetStato: integer;
+begin
+  result :=   Qta_Eseguita.Value div Qta_Richiesta.Value  * 100
+end;
+
+procedure Tfaseproduzione.SetID_Parte(const Value: Tparteproduzione);
+begin
+  FID_Parte.Value := Value;
+end;
+
+{ Tmacchina }
+
+constructor Tmacchina.Create;
 begin
   inherited;
-  FFasiList.SetInitialValue(TList<TFase>.Create);
+  Ffasi.SetInitialValue(TList<Tfase>.Create);
 end;
 
-destructor TMacchina.Destroy;
+destructor Tmacchina.Destroy;
 begin
-  FFasiList.DestroyValue;
+  Ffasi.DestroyValue;
   inherited;
 end;
 
-function TMacchina.GetFasiList: TList<TFase>;
+function Tmacchina.Getfasi: TList<Tfase>;
 begin
-  result := FFasiList.Value;
+  result := Ffasi.Value;
 end;
 
-{ TOrdine }
+{ Tordine }
 
-function TOrdine.GetCliente: TCliente;
+function Tordine.GetCliente: Tcliente;
 begin
   result := FCliente.Value;
 end;
 
-procedure TOrdine.SetCliente(const Value: TCliente);
+procedure Tordine.SetCliente(const Value: Tcliente);
 begin
   FCliente.Value := Value;
 end;
 
-constructor TOrdine.Create;
+constructor Tordine.Create;
 begin
   inherited;
-  FArticoli.SetInitialValue(TList<TArticolo>.Create);
+  Farticoli.SetInitialValue(TList<Tarticolo>.Create);
 end;
 
-destructor TOrdine.Destroy;
+destructor Tordine.Destroy;
 begin
-  FArticoli.DestroyValue;
-  inherited;
-end;
-
-function TOrdine.GetArticoli: TList<TArticolo>;
-begin
-  result := FArticoli.Value;
-end;
-
-{ TParte }
-
-constructor TParte.Create;
-begin
-  inherited;
-  FComponenti.SetInitialValue(TList<TComponente>.Create);
-  FFasiLavorazione.SetInitialValue(TList<TFase>.Create);
-  FPartiProduzione.SetInitialValue(TList<TParteProduzione>.Create);
-end;
-
-destructor TParte.Destroy;
-begin
-  FPartiProduzione.DestroyValue;
-  FFasiLavorazione.DestroyValue;
-  FComponenti.DestroyValue;
+  Farticoli.DestroyValue;
   inherited;
 end;
 
-function TParte.GetComponenti: TList<TComponente>;
+function Tordine.Getarticoli: TList<Tarticolo>;
 begin
-  result := FComponenti.Value;
+  result := Farticoli.Value;
 end;
 
-function TParte.GetFasiLavorazione: TList<TFase>;
+{ Tparte }
+
+constructor Tparte.Create;
 begin
-  result := FFasiLavorazione.Value;
+  inherited;
+  Fcomponenti.SetInitialValue(TList<Tcomponente>.Create);
+  FfasiLavorazione.SetInitialValue(TList<Tfase>.Create);
+  Fpartiproduzione.SetInitialValue(TList<Tparteproduzione>.Create);
 end;
 
-function TParte.GetPartiProduzione: TList<TParteProduzione>;
+destructor Tparte.Destroy;
 begin
-  result := FPartiProduzione.Value;
+  Fpartiproduzione.DestroyValue;
+  FfasiLavorazione.DestroyValue;
+  Fcomponenti.DestroyValue;
+  inherited;
 end;
 
-{ TParteProduzione }
+function Tparte.Getcomponenti: TList<Tcomponente>;
+begin
+  result := Fcomponenti.Value;
+end;
 
-function TParteProduzione.GetID_Articolo: TArticoloProduzione;
+function Tparte.GetfasiLavorazione: TList<Tfase>;
+begin
+  result := FfasiLavorazione.Value;
+end;
+
+function Tparte.Getpartiproduzione: TList<Tparteproduzione>;
+begin
+  result := Fpartiproduzione.Value;
+end;
+
+{ Tparteproduzione }
+
+function Tparteproduzione.GetID_Articolo: Tarticoloproduzione;
 begin
   result := FID_Articolo.Value;
 end;
 
-procedure TParteProduzione.SetID_Articolo(const Value: TArticoloProduzione);
+procedure Tparteproduzione.SetID_Articolo(const Value: Tarticoloproduzione);
 begin
   FID_Articolo.Value := Value;
 end;
 
-function TParteProduzione.GetID_parte: TParte;
+function Tparteproduzione.GetID_parte: Tparte;
 begin
   result := FID_parte.Value;
 end;
 
-procedure TParteProduzione.SetID_parte(const Value: TParte);
+function Tparteproduzione.GetStato: integer;
+begin
+    var conta := 0;
+    var Totale := 0;
+
+    for var f in fasiproduzione do
+    begin
+
+      inc(Totale, f.Stato);
+      inc(conta)
+
+
+    end;
+
+    result :=  Totale div conta
+end;
+
+procedure Tparteproduzione.SetID_parte(const Value: Tparte);
 begin
   FID_parte.Value := Value;
 end;
 
-{ TProdotto }
-
-constructor TProdotto.Create;
+constructor Tparteproduzione.Create;
 begin
   inherited;
-  FArticoli.SetInitialValue(TList<TArticolo>.Create);
-  FComponenti.SetInitialValue(TList<TComponente>.Create);
+  Ffasiproduzione.SetInitialValue(TList<Tfaseproduzione>.Create);
 end;
 
-destructor TProdotto.Destroy;
+destructor Tparteproduzione.Destroy;
 begin
-  FComponenti.DestroyValue;
-  FArticoli.DestroyValue;
+  Ffasiproduzione.DestroyValue;
   inherited;
 end;
 
-function TProdotto.GetArticoli: TList<TArticolo>;
+function Tparteproduzione.Getfasiproduzione: TList<Tfaseproduzione>;
 begin
-  result := FArticoli.Value;
+  result := Ffasiproduzione.Value;
 end;
 
-function TProdotto.GetComponenti: TList<TComponente>;
+{ Tprodotto }
+
+constructor Tprodotto.Create;
 begin
-  result := FComponenti.Value;
+  inherited;
+  Fcomponenti.SetInitialValue(TList<Tcomponente>.Create);
 end;
 
-{ TArticoloDictionary }
-
-function TArticoloDictionary.ID: TLinqProjection;
+destructor Tprodotto.Destroy;
 begin
-  Result := Prop('ID');
+  Fcomponenti.DestroyValue;
+  inherited;
 end;
 
-function TArticoloDictionary.Qta: TLinqProjection;
+function Tprodotto.Getcomponenti: TList<Tcomponente>;
 begin
-  Result := Prop('Qta');
+  result := Fcomponenti.Value;
 end;
 
-function TArticoloDictionary.ID_Ordine: IOrdineDictionary;
+{ TDicDictionary }
+
+destructor TDicDictionary.Destroy;
 begin
-  Result := TOrdineDictionary.Create(PropName('ID_Ordine'));
+  if Fprodotto <> nil then Fprodotto.Free;
+  if Fparteproduzione <> nil then Fparteproduzione.Free;
+  if Fparte <> nil then Fparte.Free;
+  if Fordine <> nil then Fordine.Free;
+  if Fmacchina <> nil then Fmacchina.Free;
+  if Ffaseproduzione <> nil then Ffaseproduzione.Free;
+  if Ffase <> nil then Ffase.Free;
+  if Fcomponente <> nil then Fcomponente.Free;
+  if Fcliente <> nil then Fcliente.Free;
+  if Farticoloproduzione <> nil then Farticoloproduzione.Free;
+  if Farticolo <> nil then Farticolo.Free;
+  inherited;
 end;
 
-function TArticoloDictionary.ID_Prodotto: IProdottoDictionary;
+function TDicDictionary.Getarticolo: TarticoloTableDictionary;
 begin
-  Result := TProdottoDictionary.Create(PropName('ID_Prodotto'));
+  if Farticolo = nil then Farticolo := TarticoloTableDictionary.Create;
+  result := Farticolo;
 end;
 
-function TArticoloDictionary.ArticoliProduzione: IArticoloProduzioneDictionary;
+function TDicDictionary.Getarticoloproduzione: TarticoloproduzioneTableDictionary;
 begin
-  Result := TArticoloProduzioneDictionary.Create(PropName('ArticoliProduzione'));
+  if Farticoloproduzione = nil then Farticoloproduzione := TarticoloproduzioneTableDictionary.Create;
+  result := Farticoloproduzione;
 end;
 
-{ TArticoloProduzioneDictionary }
-
-function TArticoloProduzioneDictionary.ID: TLinqProjection;
+function TDicDictionary.Getcliente: TclienteTableDictionary;
 begin
-  Result := Prop('ID');
+  if Fcliente = nil then Fcliente := TclienteTableDictionary.Create;
+  result := Fcliente;
 end;
 
-function TArticoloProduzioneDictionary.ID_Articolo: IArticoloDictionary;
+function TDicDictionary.Getcomponente: TcomponenteTableDictionary;
 begin
-  Result := TArticoloDictionary.Create(PropName('ID_Articolo'));
+  if Fcomponente = nil then Fcomponente := TcomponenteTableDictionary.Create;
+  result := Fcomponente;
 end;
 
-function TArticoloProduzioneDictionary.PartiProduzione: IParteProduzioneDictionary;
+function TDicDictionary.Getfase: TfaseTableDictionary;
 begin
-  Result := TParteProduzioneDictionary.Create(PropName('PartiProduzione'));
+  if Ffase = nil then Ffase := TfaseTableDictionary.Create;
+  result := Ffase;
 end;
 
-{ TClienteDictionary }
-
-function TClienteDictionary.ID: TLinqProjection;
+function TDicDictionary.Getfaseproduzione: TfaseproduzioneTableDictionary;
 begin
-  Result := Prop('ID');
+  if Ffaseproduzione = nil then Ffaseproduzione := TfaseproduzioneTableDictionary.Create;
+  result := Ffaseproduzione;
 end;
 
-function TClienteDictionary.Nome: TLinqProjection;
+function TDicDictionary.Getmacchina: TmacchinaTableDictionary;
 begin
-  Result := Prop('Nome');
+  if Fmacchina = nil then Fmacchina := TmacchinaTableDictionary.Create;
+  result := Fmacchina;
 end;
 
-function TClienteDictionary.Ordini: IOrdineDictionary;
+function TDicDictionary.Getordine: TordineTableDictionary;
 begin
-  Result := TOrdineDictionary.Create(PropName('Ordini'));
+  if Fordine = nil then Fordine := TordineTableDictionary.Create;
+  result := Fordine;
 end;
 
-{ TComponenteDictionary }
-
-function TComponenteDictionary.ID: TLinqProjection;
+function TDicDictionary.Getparte: TparteTableDictionary;
 begin
-  Result := Prop('ID');
+  if Fparte = nil then Fparte := TparteTableDictionary.Create;
+  result := Fparte;
 end;
 
-function TComponenteDictionary.Qta: TLinqProjection;
+function TDicDictionary.Getparteproduzione: TparteproduzioneTableDictionary;
 begin
-  Result := Prop('Qta');
+  if Fparteproduzione = nil then Fparteproduzione := TparteproduzioneTableDictionary.Create;
+  result := Fparteproduzione;
 end;
 
-function TComponenteDictionary.ID_Prodotto: IProdottoDictionary;
+function TDicDictionary.Getprodotto: TprodottoTableDictionary;
 begin
-  Result := TProdottoDictionary.Create(PropName('ID_Prodotto'));
+  if Fprodotto = nil then Fprodotto := TprodottoTableDictionary.Create;
+  result := Fprodotto;
 end;
 
-function TComponenteDictionary.ID_Parte: IParteDictionary;
+{ TarticoloTableDictionary }
+
+constructor TarticoloTableDictionary.Create;
 begin
-  Result := TParteDictionary.Create(PropName('ID_Parte'));
+  inherited;
+  FID := TDictionaryAttribute.Create('ID');
+  FQta := TDictionaryAttribute.Create('Qta');
+  FID_Ordine := TDictionaryAssociation.Create('ID_Ordine');
+  FID_Prodotto := TDictionaryAssociation.Create('ID_Prodotto');
 end;
 
-{ TFaseDictionary }
+{ TarticoloproduzioneTableDictionary }
 
-function TFaseDictionary.Id: TLinqProjection;
+constructor TarticoloproduzioneTableDictionary.Create;
 begin
-  Result := Prop('Id');
+  inherited;
+  FID := TDictionaryAttribute.Create('ID');
+  FID_Articolo := TDictionaryAssociation.Create('ID_Articolo');
 end;
 
-function TFaseDictionary.Descrizione: TLinqProjection;
+{ TclienteTableDictionary }
+
+constructor TclienteTableDictionary.Create;
 begin
-  Result := Prop('Descrizione');
+  inherited;
+  FID := TDictionaryAttribute.Create('ID');
+  FNome := TDictionaryAttribute.Create('Nome');
 end;
 
-function TFaseDictionary.PartProgram: TLinqProjection;
+{ TcomponenteTableDictionary }
+
+constructor TcomponenteTableDictionary.Create;
 begin
-  Result := Prop('PartProgram');
+  inherited;
+  FID := TDictionaryAttribute.Create('ID');
+  FQta := TDictionaryAttribute.Create('Qta');
+  FID_Parte := TDictionaryAssociation.Create('ID_Parte');
+  FID_Prodotto := TDictionaryAssociation.Create('ID_Prodotto');
 end;
 
-function TFaseDictionary.Parte: IParteDictionary;
+{ TfaseTableDictionary }
+
+constructor TfaseTableDictionary.Create;
 begin
-  Result := TParteDictionary.Create(PropName('Parte'));
+  inherited;
+  FId := TDictionaryAttribute.Create('Id');
+  FDescrizione := TDictionaryAttribute.Create('Descrizione');
+  FPartProgram := TDictionaryAttribute.Create('PartProgram');
+  FMacchina := TDictionaryAssociation.Create('Macchina');
+  FID_Parte := TDictionaryAssociation.Create('ID_Parte');
 end;
 
-function TFaseDictionary.Macchina: IMacchinaDictionary;
+{ TfaseproduzioneTableDictionary }
+
+constructor TfaseproduzioneTableDictionary.Create;
 begin
-  Result := TMacchinaDictionary.Create(PropName('Macchina'));
+  inherited;
+  FID := TDictionaryAttribute.Create('ID');
+  FQta_Richiesta := TDictionaryAttribute.Create('Qta_Richiesta');
+  FQta_Eseguita := TDictionaryAttribute.Create('Qta_Eseguita');
+  FId_fase := TDictionaryAssociation.Create('Id_fase');
+  FID_Parte := TDictionaryAssociation.Create('ID_Parte');
 end;
 
-function TFaseDictionary.FasiProduzioneList: IFaseProduzioneDictionary;
+{ TmacchinaTableDictionary }
+
+constructor TmacchinaTableDictionary.Create;
 begin
-  Result := TFaseProduzioneDictionary.Create(PropName('FasiProduzioneList'));
+  inherited;
+  FId := TDictionaryAttribute.Create('Id');
+  FDEscrizione := TDictionaryAttribute.Create('DEscrizione');
 end;
 
-{ TFaseProduzioneDictionary }
+{ TordineTableDictionary }
 
-function TFaseProduzioneDictionary.ID: TLinqProjection;
+constructor TordineTableDictionary.Create;
 begin
-  Result := Prop('ID');
+  inherited;
+  FID := TDictionaryAttribute.Create('ID');
+  FData := TDictionaryAttribute.Create('Data');
+  FScadenza := TDictionaryAttribute.Create('Scadenza');
+  FCliente := TDictionaryAssociation.Create('Cliente');
 end;
 
-function TFaseProduzioneDictionary.Qta_Richiesta: TLinqProjection;
+{ TparteTableDictionary }
+
+constructor TparteTableDictionary.Create;
 begin
-  Result := Prop('Qta_Richiesta');
+  inherited;
+  FID := TDictionaryAttribute.Create('ID');
+  FDescrizione := TDictionaryAttribute.Create('Descrizione');
 end;
 
-function TFaseProduzioneDictionary.Qta_Eseguita: TLinqProjection;
+{ TparteproduzioneTableDictionary }
+
+constructor TparteproduzioneTableDictionary.Create;
 begin
-  Result := Prop('Qta_Eseguita');
+  inherited;
+  FID := TDictionaryAttribute.Create('ID');
+  FQta := TDictionaryAttribute.Create('Qta');
+  FID_Articolo := TDictionaryAssociation.Create('ID_Articolo');
+  FID_parte := TDictionaryAssociation.Create('ID_parte');
 end;
 
-function TFaseProduzioneDictionary.ID_Parte: IParteProduzioneDictionary;
+{ TprodottoTableDictionary }
+
+constructor TprodottoTableDictionary.Create;
 begin
-  Result := TParteProduzioneDictionary.Create(PropName('ID_Parte'));
-end;
-
-function TFaseProduzioneDictionary.Id_fase: IFaseDictionary;
-begin
-  Result := TFaseDictionary.Create(PropName('Id_fase'));
-end;
-
-{ TMacchinaDictionary }
-
-function TMacchinaDictionary.Id: TLinqProjection;
-begin
-  Result := Prop('Id');
-end;
-
-function TMacchinaDictionary.DEscrizione: TLinqProjection;
-begin
-  Result := Prop('DEscrizione');
-end;
-
-function TMacchinaDictionary.FasiList: IFaseDictionary;
-begin
-  Result := TFaseDictionary.Create(PropName('FasiList'));
-end;
-
-{ TOrdineDictionary }
-
-function TOrdineDictionary.ID: TLinqProjection;
-begin
-  Result := Prop('ID');
-end;
-
-function TOrdineDictionary.Data: TLinqProjection;
-begin
-  Result := Prop('Data');
-end;
-
-function TOrdineDictionary.Scadenza: TLinqProjection;
-begin
-  Result := Prop('Scadenza');
-end;
-
-function TOrdineDictionary.Cliente: IClienteDictionary;
-begin
-  Result := TClienteDictionary.Create(PropName('Cliente'));
-end;
-
-function TOrdineDictionary.Articoli: IArticoloDictionary;
-begin
-  Result := TArticoloDictionary.Create(PropName('Articoli'));
-end;
-
-{ TParteDictionary }
-
-function TParteDictionary.ID: TLinqProjection;
-begin
-  Result := Prop('ID');
-end;
-
-function TParteDictionary.Descrizione: TLinqProjection;
-begin
-  Result := Prop('Descrizione');
-end;
-
-function TParteDictionary.Componenti: IComponenteDictionary;
-begin
-  Result := TComponenteDictionary.Create(PropName('Componenti'));
-end;
-
-function TParteDictionary.FasiLavorazione: IFaseDictionary;
-begin
-  Result := TFaseDictionary.Create(PropName('FasiLavorazione'));
-end;
-
-function TParteDictionary.PartiProduzione: IParteProduzioneDictionary;
-begin
-  Result := TParteProduzioneDictionary.Create(PropName('PartiProduzione'));
-end;
-
-{ TParteProduzioneDictionary }
-
-function TParteProduzioneDictionary.ID: TLinqProjection;
-begin
-  Result := Prop('ID');
-end;
-
-function TParteProduzioneDictionary.Qta: TLinqProjection;
-begin
-  Result := Prop('Qta');
-end;
-
-function TParteProduzioneDictionary.ID_Articolo: IArticoloProduzioneDictionary;
-begin
-  Result := TArticoloProduzioneDictionary.Create(PropName('ID_Articolo'));
-end;
-
-function TParteProduzioneDictionary.ID_parte: IParteDictionary;
-begin
-  Result := TParteDictionary.Create(PropName('ID_parte'));
-end;
-
-{ TProdottoDictionary }
-
-function TProdottoDictionary.ID: TLinqProjection;
-begin
-  Result := Prop('ID');
-end;
-
-function TProdottoDictionary.Descrizione: TLinqProjection;
-begin
-  Result := Prop('Descrizione');
-end;
-
-function TProdottoDictionary.Articoli: IArticoloDictionary;
-begin
-  Result := TArticoloDictionary.Create(PropName('Articoli'));
-end;
-
-function TProdottoDictionary.Componenti: IComponenteDictionary;
-begin
-  Result := TComponenteDictionary.Create(PropName('Componenti'));
-end;
-
-{ TDictionary }
-
-function TDictionary.Articolo: IArticoloDictionary;
-begin
-  Result := TArticoloDictionary.Create;
-end;
-
-function TDictionary.ArticoloProduzione: IArticoloProduzioneDictionary;
-begin
-  Result := TArticoloProduzioneDictionary.Create;
-end;
-
-function TDictionary.Cliente: IClienteDictionary;
-begin
-  Result := TClienteDictionary.Create;
-end;
-
-function TDictionary.Componente: IComponenteDictionary;
-begin
-  Result := TComponenteDictionary.Create;
-end;
-
-function TDictionary.Fase: IFaseDictionary;
-begin
-  Result := TFaseDictionary.Create;
-end;
-
-function TDictionary.FaseProduzione: IFaseProduzioneDictionary;
-begin
-  Result := TFaseProduzioneDictionary.Create;
-end;
-
-function TDictionary.Macchina: IMacchinaDictionary;
-begin
-  Result := TMacchinaDictionary.Create;
-end;
-
-function TDictionary.Ordine: IOrdineDictionary;
-begin
-  Result := TOrdineDictionary.Create;
-end;
-
-function TDictionary.Parte: IParteDictionary;
-begin
-  Result := TParteDictionary.Create;
-end;
-
-function TDictionary.ParteProduzione: IParteProduzioneDictionary;
-begin
-  Result := TParteProduzioneDictionary.Create;
-end;
-
-function TDictionary.Prodotto: IProdottoDictionary;
-begin
-  Result := TProdottoDictionary.Create;
+  inherited;
+  FID := TDictionaryAttribute.Create('ID');
+  FDescrizione := TDictionaryAttribute.Create('Descrizione');
 end;
 
 initialization
-  RegisterEntity(TCliente);
-  RegisterEntity(TOrdine);
-  RegisterEntity(TArticolo);
-  RegisterEntity(TProdotto);
-  RegisterEntity(TParte);
-  RegisterEntity(TComponente);
-  RegisterEntity(TArticoloProduzione);
-  RegisterEntity(TParteProduzione);
-  RegisterEntity(TFaseProduzione);
-  RegisterEntity(TMacchina);
-  RegisterEntity(TFase);
+  RegisterEntity(Tarticolo);
+  RegisterEntity(Tarticoloproduzione);
+  RegisterEntity(Tcliente);
+  RegisterEntity(Tcomponente);
+  RegisterEntity(Tfase);
+  RegisterEntity(Tfaseproduzione);
+  RegisterEntity(Tmacchina);
+  RegisterEntity(Tordine);
+  RegisterEntity(Tparte);
+  RegisterEntity(Tparteproduzione);
+  RegisterEntity(Tprodotto);
+
+finalization
+  if __Dic <> nil then __Dic.Free
 
 end.

@@ -15,7 +15,7 @@ uses
   cxFilter, cxData, cxDataStorage, cxNavigator, dxDateRanges,
   dxScrollbarAnnotations, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, UData,
-  Uprodotto, Vcl.ExtCtrls, UGridFrame, System.ImageList, Vcl.ImgList,
+  Vcl.ExtCtrls, UGridFrame, System.ImageList, Vcl.ImgList,
   cxImageList, cxSplitter, Generics.Collections, USettings;
 
 type
@@ -234,15 +234,15 @@ procedure TfrmMain.FormCreate(Sender: Tobject);
 begin
 
   memoLog.Clear;
-//   dbmngr := TDatabaseManager.Create
-//   (DataContainer.AureliusConnection1.CreateConnection);
-//
-//   try
-//   dbmngr.UpdateDatabase;
-//
-//   finally
-//   dbmngr.Free
-//   end;
+  // dbmngr := TDatabaseManager.Create
+  // (DataContainer.AureliusConnection1.CreateConnection);
+  //
+  // try
+  // dbmngr.UpdateDatabase;
+  //
+  // finally
+  // dbmngr.Free
+  // end;
 
   { var
     cl := DataContainer.AureliusManager1.Find<TCliente>.List;
@@ -410,7 +410,8 @@ begin
     ol.Free
   end;
 end;
- //mette in produzione
+
+// mette in produzione
 procedure TOrdersData.ExtraButtonProc(aMasterView: TcxGridTableView);
 begin
   with aMasterView.DataController do
@@ -420,11 +421,14 @@ begin
     var
 
       // recupera l'oggetto
-    o := DataContainer.AureliusManager1.Find<TOrdine>.Where(Dic.ordine.ID = v)
+    o := DataContainer.AureliusManager1.Find<TOrdine>.Add(Linq['ID'] = v)
       .UniqueResult;
     // per ogni articolo in ordine
     for var a in o.Articoli do
     begin
+      var // creo l'articolo di produzione  e lo valorizzo
+      ap := TArticoloProduzione.Create;
+      ap.ID_Articolo := a;
 
       // prendo il prodotto agganciato all'articolo in ordine
       var
@@ -433,17 +437,34 @@ begin
       // per ogni componente del prodotto  qta_componente * qtaordine
       for var c in p.Componenti do
       begin
-        var // creo l'articolo di produzione
-        op := TArticoloProduzione.Create;
-        op.ID_Articolo := a;
-      //  op.QtaInOrdine := a.Qta;
-     //   op.QtaParteRichiesta.Value := op.QtaInOrdine.Value * c.Qta.Value;
-      //  op.QtaProdotta.Value := 0;
-      //  op.ID_Parte := c.ID_Parte;
+        var
+        prt := Tparteproduzione.Create;
+        prt.ID_parte := c.ID_parte; // riferimento alla parte del prodotto
+        prt.ID_Articolo := ap;
+        // riferimento all'articolo di produzione (prodotto)
+        prt.Qta := c.Qta.Value * a.Qta.Value;
+        // quantità parte in produzione = qta componente * quantità articolo(prodotto)
 
+        // per ogni parte vengono create istanze di produzione per ogni fase
+        for var f in prt.ID_parte.fasiLavorazione do
+        begin
 
-        DataContainer.AureliusManager1.Save(op);
+          var
+          fp := Tfaseproduzione.Create;
+          fp.Id_fase := f;
+          fp.ID_parte := prt; // riferimento a che parte la fase appartienee
+          fp.Qta_Richiesta := prt.Qta;
+          // tante fasi quante sono le parti da creare
+          fp.Qta_Eseguita := 0;
+
+          // salva la fase di produzione
+          prt.fasiproduzione.Add(fp)
+        end;
+        // salva la parte di produzione
+        ap.partiproduzione.Add(prt);
+
       end;
+      DataContainer.AureliusManager1.Save(ap); // salva l'articolo di produzione
 
     end;
 
@@ -632,7 +653,7 @@ begin
         end
         else
           a := DataContainer.AureliusManager1.Find<TArticolo>.Add
-            (Dic.Articolo.ID = v).UniqueResult;
+            (Linq['ID'] = v).UniqueResult;
 
         c := (TcxCustomGridTableItem(dv.GetItem(2))
           .Properties as TcxComboBoxProperties);
@@ -754,9 +775,9 @@ begin
         if (o.ClassType = Tfase) then
         begin
           for var c in prodotto.Componenti do
-            if c.ID_Parte.FasiLavorazione.IndexOf(Tfase(o)) <> -1 then
-              c.ID_Parte.FasiLavorazione.Delete
-                (c.ID_Parte.FasiLavorazione.IndexOf(Tfase(o)))
+            if c.ID_parte.fasiLavorazione.IndexOf(Tfase(o)) <> -1 then
+              c.ID_parte.fasiLavorazione.Delete
+                (c.ID_parte.fasiLavorazione.IndexOf(Tfase(o)))
 
         end;
       end;
@@ -993,7 +1014,7 @@ begin
         end
         else // altrimenti   lo recupera
           a := DataContainer.AureliusManager1.Find<TComponente>.Add
-            (Dic.Componente.ID = v).UniqueResult;
+            (Linq['ID'] = v).UniqueResult;
 
         a.ID_Prodotto := o; // metto il prodotto
 
@@ -1008,16 +1029,16 @@ begin
         var
         idx := c.Items.IndexOf(v); // descrizione dedla parte
         if (idx = -1) then
-          if Assigned(a.ID_Parte) then
-            a.ID_Parte.Descrizione := v
+          if Assigned(a.ID_parte) then
+            a.ID_parte.Descrizione := v
           else
           begin
-            a.ID_Parte := Tparte.Create;
-            a.ID_Parte.Descrizione := v
+            a.ID_parte := Tparte.Create;
+            a.ID_parte.Descrizione := v
           end
 
         else
-          a.ID_Parte := Tparte(c.Items.Objects[idx]);
+          a.ID_parte := Tparte(c.Items.Objects[idx]);
 
         // subdetail fasi
 
@@ -1035,15 +1056,13 @@ begin
           if VarIsNull(idFase) then
           begin
             f := Tfase.Create;
-            a.ID_Parte.FasiLavorazione.Add(f);
-             f.Parte := a.ID_Parte;
+            a.ID_parte.fasiLavorazione.Add(f);
+            f.ID_parte := a.ID_parte;
 
           end
           else
             f := Tfase(Integer(subdetail_controller.Values[k, 4]));
           // oggetto fase
-
-
 
           f.Descrizione := subdetail_controller.Values[k, 1];
           // descrizione fase
@@ -1129,7 +1148,7 @@ begin
             Values[rd, 0] := a.ID; // componente
             Values[rd, 1] := a.ID_Prodotto.ID; // prodotto
 
-            Values[rd, 2] := a.ID_Parte.Descrizione; // descrizione della parte
+            Values[rd, 2] := a.ID_parte.Descrizione; // descrizione della parte
             Values[rd, 3] := a.Qta; // quantità
 
             Values[rd, 4] := Integer(a); // store dell'oggetto componente
@@ -1138,7 +1157,7 @@ begin
             // fasi
             var
             sdc := dw.GetDetailDataController(rd, 0);
-            for var f in a.ID_Parte.FasiLavorazione do
+            for var f in a.ID_parte.fasiLavorazione do
             begin
               var
               r := sdc.AppendRecord;
@@ -1183,14 +1202,30 @@ function TProductionData.GetDetailColumns: TGridColumnsNames;
 begin
 
   result := Tlist<TMyGridItem>.Create;
-
-//    var
-//    p: TSetPropertiesProc;
-
   var
-  I := TMyGridItem.Create('ProductionPartiViewId_Parte', 'Parte', nil, nil);
+  I := TMyGridItem.Create('ProductionDetailID', 'ID', nil, nil);
   result.Add(I);
 
+  I := TMyGridItem.Create('ProductionDetailParte', 'Parte', nil, nil);
+  result.Add(I);
+
+  I := TMyGridItem.Create('ProductionDetailQta', 'Quantità da produrre',
+    nil, nil);
+  result.Add(I);
+
+  var
+p:
+  TSetPropertiesProc := procedure(aItem: TcxCustomGridTableItem)
+    begin
+      aItem.PropertiesClass := TcxProgressBarProperties;
+
+    end;
+
+  I := TMyGridItem.Create('ProductionDetailStato', 'Qta', p, nil);
+  result.Add(I);
+
+  I := TMyGridItem.Create('ProductionDetailObject', 'Object', nil, nil);
+  result.Add(I);
 
 end;
 
@@ -1204,14 +1239,11 @@ begin
   I := TMyGridItem.Create('ProductionViewId_Ordine', 'ID_Ordine', nil, nil);
   result.Add(I);
 
-
-
-
   I := TMyGridItem.Create('ProductionViewProdotto', 'Prodotto', nil, nil);
   result.Add(I);
 
-
- 
+   I := TMyGridItem.Create('ProductionViewQta', 'Quantità', nil, nil);
+  result.Add(I);
 
   p := procedure(aItem: TcxCustomGridTableItem)
     begin
@@ -1226,13 +1258,39 @@ begin
   I.Visibile := false;
   result.Add(I);
 
- 
-
 end;
 
 function TProductionData.GetSubDetailColumns: TGridColumnsNames;
 begin
   result := Tlist<TMyGridItem>.Create;
+  // Values[r, 0] := fp.ID;
+  // Values[r, 1] := fp.Id_fase.Descrizione;
+  // Values[r, 2] := fp.Id_fase.PartProgram;
+  // Values[r, 3] := p.Qta_richiesta;
+  // Values[r, 4] := p.Qta_eseguita;
+  // Values[r, 5] := Integer(fp);
+
+  var
+  I := TMyGridItem.Create('ProductionFasiViewId', 'ID', nil, nil);
+  result.Add(I);
+
+  I := TMyGridItem.Create('ProductionFasiViewFase', 'Fase', nil, nil);
+  result.Add(I);
+  I := TMyGridItem.Create('ProductionFasiViewPartProgram', 'File programma',
+    nil, nil);
+  result.Add(I);
+
+  I := TMyGridItem.Create('ProductionFasiViewQta', 'Quantità da eseguire',
+    nil, nil);
+  result.Add(I);
+
+  I := TMyGridItem.Create('ProductionFasiViewQtaFatta', 'Quantità eseguita',
+    nil, nil);
+  result.Add(I);
+
+  I := TMyGridItem.Create('ProductionFasiViewObject', 'Object', nil, nil);
+  result.Add(I);
+
 end;
 
 procedure TProductionData.Refresh(aMasterView: TcxGridTableView);
@@ -1241,94 +1299,136 @@ begin
   // individuo l'oggetto che contiene quel file macchina
   // e aggiorno la quantità e richiamo la procedura di load data
 
-  // lettura del file csv
- { var
-  f := 'Fiancata lat. dx mod genova.hop';
-
   var
-  lr := frmMain.GetLogReport(dlgSettings.edtPathPantografo.Text);
+  apl := DataContainer.AureliusManager1.Find<TArticoloProduzione>.List;
 
   try
-    for var r in lr do
+
+    for var ap in apl do // per ogni articolo di produzione
     begin
-      f := trim(dxExtractFileName(r.FE, '/'));
-      frmMain.memoLog.Lines.Add
-        (Format('Report %s   --  Start   : %s    End  :  %s ',
-        [f, r.FK, r.FL]));
-
-      r.Free;
-
-      with DataContainer do
+      for var pp in ap.partiproduzione do
       begin
+        // per ogni parte di produzione della'articolo di produzione
+        for var fp in pp.fasiproduzione do
+        // per ogni fase della parte dell'articolo in produzione
+        begin
 
-        var
-        ap := AureliusManager1.Find<TArticoloProduzione>.Where
-          (Dic.ArticoloProduzione.ID_Parte.MachineFile = f)
-          .OrderBy(Dic.ArticoloProduzione.ID).List;
-        try
-          var
-          updated := false;
-          for var a in ap do
-          begin
-            if (not updated) and (a.QtaParteRichiesta > a.QtaProdotta) then
-            begin
-              a.QtaProdotta.Value := a.QtaProdotta.Value + 1;
-              AureliusManager1.Flush(a); // registra la modifica
+          if fp.Qta_Eseguita.Value < fp.Qta_Richiesta.Value then
 
-              updated := True
-            end;
-
-          end;
-
-        finally
-          ap.Free
-        end;
+            fp.Qta_Eseguita.Value := fp.Qta_Eseguita.Value + 1;
+          // test : incremenmto la quantità fatta
+        end
       end;
+      DataContainer.AureliusManager1.Update(ap);
 
     end;
 
   finally
-
-    lr.Free
+    apl.Free
   end;
 
-  with DataContainer do
-  begin
+  DataContainer.AureliusManager1.Flush(); // registra la modifica
+
+  SetDataMasterView(aMasterView)
+
+
+  // lettura del file csv
+  { var
+    f := 'Fiancata lat. dx mod genova.hop';
+
+    var
+    lr := frmMain.GetLogReport(dlgSettings.edtPathPantografo.Text);
+
+    try
+    for var r in lr do
+    begin
+    f := trim(dxExtractFileName(r.FE, '/'));
+    frmMain.memoLog.Lines.Add
+    (Format('Report %s   --  Start   : %s    End  :  %s ',
+    [f, r.FK, r.FL]));
+
+    r.Free;
+
+    with DataContainer do
+    begin
 
     var
     ap := AureliusManager1.Find<TArticoloProduzione>.Where
-      (Dic.ArticoloProduzione.ID_Parte.MachineFile = f)
-      .OrderBy(Dic.ArticoloProduzione.ID).List;
+    (Dic.ArticoloProduzione.ID_Parte.MachineFile = f)
+    .OrderBy(Dic.ArticoloProduzione.ID).List;
     try
-      var
-      updated := false;
-      for var a in ap do
-      begin
-        if (not updated) and (a.QtaParteRichiesta > a.QtaProdotta) then
-        begin
-          a.QtaProdotta.Value := a.QtaProdotta.Value + 1;
-          AureliusManager1.Flush(a); // registra la modifica
+    var
+    updated := false;
+    for var a in ap do
+    begin
+    if (not updated) and (a.QtaParteRichiesta > a.QtaProdotta) then
+    begin
+    a.QtaProdotta.Value := a.QtaProdotta.Value + 1;
+    AureliusManager1.Flush(a); // registra la modifica
 
-          updated := True
-        end;
+    updated := True
+    end;
 
-      end;
+    end;
 
     finally
-      ap.Free
+    ap.Free
     end;
-  end;
+    end;
 
-  SetDataMasterView(aMasterView)      }
+    end;
+
+    finally
+
+    lr.Free
+    end;
+
+    with DataContainer do
+    begin
+
+    var
+    ap := AureliusManager1.Find<TArticoloProduzione>.Where
+    (Dic.ArticoloProduzione.ID_Parte.MachineFile = f)
+    .OrderBy(Dic.ArticoloProduzione.ID).List;
+    try
+    var
+    updated := false;
+    for var a in ap do
+    begin
+    if (not updated) and (a.QtaParteRichiesta > a.QtaProdotta) then
+    begin
+    a.QtaProdotta.Value := a.QtaProdotta.Value + 1;
+    AureliusManager1.Flush(a); // registra la modifica
+
+    updated := True
+    end;
+
+    end;
+
+    finally
+    ap.Free
+    end;
+    end;
+
+    SetDataMasterView(aMasterView) }
 
 end;
 
 procedure TProductionData.SaveDataMasterView(aMasterView: TcxGridTableView);
 begin
+  var
+    idx_object: Integer;
+  for var I := 0 to aMasterView.ItemCount - 1 do
+    if aMasterView.Items[I].Caption = 'Object' then
+      idx_object := aMasterView.Items[I].Index;
+
   for var r := 0 to aMasterView.DataController.RecordCount - 1 do
   begin
     var
-    o := TArticoloProduzione(Integer(aMasterView.DataController.Values[r, 8]));
+
+    o := TArticoloProduzione(Integer(aMasterView.DataController.Values[r,
+      idx_object]));
+
     DataContainer.AureliusManager1.Update(o)
   end;
 
@@ -1351,7 +1451,7 @@ begin
 
       aMasterView.DataController.RecordCount := 0;
 
-      for var a in lap do
+      for var a in lap do // peert ogni artiocolo di produzione
       begin
         with aMasterView.DataController do
         begin
@@ -1359,17 +1459,48 @@ begin
           r := AppendRecord;
 
           Values[r, 0] := a.ID_Articolo.ID_Ordine.Cliente.Nome; // id ordine
-//          Values[r, 1] := a.QtaInOrdine; // qta ordine
           Values[r, 1] := a.ID_Articolo.ID_Prodotto.Descrizione;
-//
-          Values[r, 2] := a.Stato
-//          Values[r, 4] := a.ID_Parte.Descrizione;
-//          Values[r, 5] := a.QtaParteRichiesta.Value;
-//
-//          Values[r, 6] := a.QtaProdotta.Value;
-//          Values[r, 7] := a.stato;
-//          Values[r, 8] := Integer(a);
-          // Values[r, 9] := a.ID_Parte.MachineFile;
+          Values[r, 2] := a.ID_Articolo.Qta.Value;
+          Values[r, 3] := a.Stato;
+          Values[r, 4] := Integer(a);
+
+          // dettaglio parti
+          var
+          DetailParti_DataController := GetDetailDataController(r, 0);
+
+          with DetailParti_DataController do
+          // per ogni parte dell'articolo(prodotto) in produzione
+          begin
+            for var p in a.partiproduzione do
+            begin
+              r := AppendRecord;
+              Values[r, 0] := p.ID;
+              Values[r, 1] := p.ID_parte.Descrizione;
+              Values[r, 2] := p.Qta;
+              Values[r, 3] := p.Stato;
+              Values[r, 4] := Integer(p);
+
+              var
+              DetailFasi_DataController := GetDetailDataController(r, 0);
+              with DetailFasi_DataController do
+              begin
+
+                for var fp in p.fasiproduzione do
+                begin
+                  r := AppendRecord;
+                  Values[r, 0] := fp.ID;
+                  Values[r, 1] := fp.Id_fase.Descrizione;
+                  Values[r, 2] := fp.Id_fase.PartProgram;
+                  Values[r, 3] := fp.Qta_Richiesta;
+                  Values[r, 4] := fp.Qta_Eseguita;
+                  Values[r, 5] := Integer(fp);
+
+                end;
+              end;
+
+            end;
+
+          end;
 
         end;
       end;
@@ -1537,12 +1668,11 @@ begin
         var
         m := dc.Values[j, 3];
 
-        fobject.Macchina :=
-          TMacchina(c.Items.Objects[c.Items.IndexOf(m)]);
+        fobject.Macchina := TMacchina(c.Items.Objects[c.Items.IndexOf(m)]);
 
-        fobject.Parte := o;
+        fobject.ID_parte := o;
 
-        o.FasiLavorazione.Add(fobject);
+        o.fasiLavorazione.Add(fobject);
 
       end;
 
@@ -1584,7 +1714,7 @@ begin
           var
           dc := GetDetailDataController(r, 0);
 
-          for var f in p.FasiLavorazione do
+          for var f in p.fasiLavorazione do
           begin
             r := dc.AppendRecord;
             dc.Values[r, 0] := f.ID;

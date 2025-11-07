@@ -18,13 +18,13 @@ object DataContainer: TDataContainer
   end
   object UniConnection1: TUniConnection
     ProviderName = 'MySQL'
-    Port = 3307
+    Port = 3306
     Database = 'dbTestAurelius'
-    Username = 'root'
+    Username = 'bartolo'
     Server = 'localhost'
     LoginPrompt = False
     Left = 624
     Top = 328
-    EncryptedPassword = '8DFF90FF90FF8BFF'
+    EncryptedPassword = '9DFF9EFF8DFF8BFF90FF93FF90FF'
   end
 end
