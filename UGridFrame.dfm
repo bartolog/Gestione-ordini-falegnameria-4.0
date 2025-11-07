@@ -11,18 +11,36 @@ object GridFrame: TGridFrame
     Height = 432
     Align = alClient
     TabOrder = 0
+    LookAndFeel.NativeStyle = False
     object MasterView: TcxGridTableView
       DataController.OnBeforeDelete = MasterViewDataControllerBeforeDelete
-      OptionsData.Appending = True
-    end
-    object DetailView: TcxGridTableView
+      OptionsCustomize.ColumnsQuickCustomization = True
       OptionsData.Appending = True
       OptionsView.GroupByBox = False
+      Styles.Content = cxStyle2
+      Styles.Header = cxStyle1
+      Styles.StyleSheet = cxGridTableViewStyleSheet1
+    end
+    object DetailView: TcxGridTableView
+      DataController.OnBeforeDelete = MasterViewDataControllerBeforeDelete
+      OptionsData.Appending = True
+      OptionsView.GroupByBox = False
+      Styles.StyleSheet = cxGridTableViewStyleSheet2
+    end
+    object SubDetailView: TcxGridTableView
+      DataController.OnBeforeDelete = MasterViewDataControllerBeforeDelete
+      OptionsData.Appending = True
+      OptionsView.GroupByBox = False
+      Styles.StyleSheet = cxGridTableViewStyleSheet3
     end
     object cxGrid1Level1: TcxGridLevel
       GridView = MasterView
       object cxGrid1Level2: TcxGridLevel
         GridView = DetailView
+        object cxGrid1Level3: TcxGridLevel
+          GridView = SubDetailView
+          Visible = False
+        end
       end
     end
   end
@@ -45,7 +63,6 @@ object GridFrame: TGridFrame
       Images = cxImageList1
       TabOrder = 0
       OnClick = btnSaveClick
-      ExplicitTop = 6
     end
     object btnProduzione: TButton
       AlignWithMargins = True
@@ -480,5 +497,77 @@ object GridFrame: TGridFrame
         FileName = 'SVG Images\Spreadsheet\RefreshAllPivotTable.svg'
         Keywords = 'Spreadsheet;RefreshAllPivotTable'
       end>
+  end
+  object cxStyleRepository1: TcxStyleRepository
+    Left = 112
+    Top = 160
+    PixelsPerInch = 96
+    object cxStyle1: TcxStyle
+      AssignedValues = [svFont]
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clDefault
+      Font.Height = -16
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+    end
+    object cxStyle2: TcxStyle
+      AssignedValues = [svFont, svTextColor]
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clDefault
+      Font.Height = -15
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      TextColor = clDefault
+    end
+    object cxGridTableViewStyleSheet1: TcxGridTableViewStyleSheet
+      Styles.Header = cxStyle1
+      BuiltIn = True
+    end
+  end
+  object cxStyleRepository2: TcxStyleRepository
+    Left = 72
+    Top = 304
+    PixelsPerInch = 96
+    object cxStyle3: TcxStyle
+      AssignedValues = [svFont]
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clDefault
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+    end
+    object cxStyle4: TcxStyle
+      AssignedValues = [svColor, svFont, svTextColor]
+      Color = 13362391
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clDefault
+      Font.Height = -13
+      Font.Name = 'Segoe UI Semibold'
+      Font.Style = [fsBold]
+      TextColor = clDefault
+    end
+    object cxGridTableViewStyleSheet2: TcxGridTableViewStyleSheet
+      Styles.Content = cxStyle3
+      Styles.ContentEven = cxStyle4
+      BuiltIn = True
+    end
+  end
+  object cxStyleRepository3: TcxStyleRepository
+    Left = 512
+    Top = 184
+    PixelsPerInch = 96
+    object cxStyle5: TcxStyle
+      AssignedValues = [svFont, svTextColor]
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clDefault
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsItalic]
+      TextColor = clDefault
+    end
+    object cxGridTableViewStyleSheet3: TcxGridTableViewStyleSheet
+      Styles.Content = cxStyle5
+      BuiltIn = True
+    end
   end
 end

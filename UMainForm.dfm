@@ -85,6 +85,7 @@ object frmMain: TfrmMain
       ImageIndex = 4
       Images = cxImageList1
       TabOrder = 4
+      Visible = False
       OnClick = btnCreateFrameClick
     end
   end

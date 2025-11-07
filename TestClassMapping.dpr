@@ -16,11 +16,11 @@ uses
   {$ENDIF EurekaLog}
   Vcl.Forms,
   UMainForm in 'UMainForm.pas' {frmMain},
-  UEntitiesModel in 'UEntitiesModel.pas',
   Uprodotto in 'Uprodotto.pas' {frmProdotto},
   UData in 'UData.pas' {DataContainer: TDataModule},
   UGridFrame in 'UGridFrame.pas' {GridFrame: TFrame},
-  USettings in 'USettings.pas' {dlgSettings};
+  USettings in 'USettings.pas' {dlgSettings},
+  UEntitiesModel in '..\..\..\..\..\..\..\Desktop\NuovoModelloFal4.0\UEntitiesModel.pas';
 
 {$R *.res}
 

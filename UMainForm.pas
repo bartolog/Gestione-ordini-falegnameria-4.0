@@ -40,6 +40,7 @@ type
   TOrdersData = class(TInterfacedObject, IMasterDetailUnboundedGrid)
     function GetMasterColumns: TGridColumnsNames;
     function GetDetailColumns: TGridColumnsNames;
+    function GetSubDetailColumns: TGridColumnsNames;
     procedure SetDataMasterView(aMasterView: TcxGridTableView);
     procedure SaveDataMasterView(aMasterView: TcxGridTableView);
     procedure ExtraButtonProc(aMasterView: TcxGridTableView);
@@ -51,6 +52,7 @@ type
   TProductData = class(TInterfacedObject, IMasterDetailUnboundedGrid)
     function GetMasterColumns: TGridColumnsNames;
     function GetDetailColumns: TGridColumnsNames;
+    function GetSubDetailColumns: TGridColumnsNames;
     procedure SetDataMasterView(aMasterView: TcxGridTableView);
     procedure SaveDataMasterView(aMasterView: TcxGridTableView);
     procedure ExtraButtonProc(aMasterView: TcxGridTableView);
@@ -61,6 +63,7 @@ type
   TProductionData = class(TInterfacedObject, IMasterDetailUnboundedGrid)
     function GetMasterColumns: TGridColumnsNames;
     function GetDetailColumns: TGridColumnsNames;
+    function GetSubDetailColumns: TGridColumnsNames;
     procedure SetDataMasterView(aMasterView: TcxGridTableView);
     procedure SaveDataMasterView(aMasterView: TcxGridTableView);
     procedure ExtraButtonProc(aMasterView: TcxGridTableView);
@@ -71,6 +74,7 @@ type
   TPartData = class(TInterfacedObject, IMasterDetailUnboundedGrid)
     function GetMasterColumns: TGridColumnsNames;
     function GetDetailColumns: TGridColumnsNames;
+    function GetSubDetailColumns: TGridColumnsNames;
     procedure SetDataMasterView(aMasterView: TcxGridTableView);
     procedure SaveDataMasterView(aMasterView: TcxGridTableView);
     procedure ExtraButtonProc(aMasterView: TcxGridTableView);
@@ -90,10 +94,7 @@ type
     memoLog: TMemo;
     cxSplitter1: TcxSplitter;
     procedure FormCreate(Sender: Tobject);
-    procedure btnCreaProdottoClick(Sender: Tobject);
     procedure btnCaricaClick(Sender: Tobject);
-    procedure btnSalvaTuttoClick(Sender: Tobject);
-    procedure btnProdottoClick(Sender: Tobject);
     procedure OrdersViewDataControllerBeforeDelete(ADataController
       : TcxCustomDataController; ARecordIndex: Integer);
     procedure OrdersViewDataControllerBeforePost(ADataController
@@ -187,80 +188,6 @@ begin
   // end;
 end;
 
-procedure TfrmMain.btnCreaProdottoClick(Sender: Tobject);
-begin
-
-  // *** Crea Prodotto (armnadio , cucina, etc...
-  var
-  p := TProdotto.Create;
-  p.Descrizione := 'Armadio modello marte';
-
-  // *** Crea le parti che compongono vari modelli
-  var
-  prt := Tparte.Create;
-  prt.Descrizione := 'Anta sx mod.venere';
-  prt.MachineFile := 'Anta_sx_venere.hop';
-
-  // *** Crea componente per il singolo prodotto
-  var
-  c := TComponente.Create;
-  c.Qta := 1;
-  c.ID_Prodotto := p;
-  c.ID_Parte := prt;
-
-  // aggiungo nella lista dei componenti(distinta)
-  p.Componenti.Add(c);
-
-  // *** Crea le parti che compongono vari modelli
-  prt := Tparte.Create;
-  prt.Descrizione := 'Anta dx mod.venere';
-  prt.MachineFile := 'Anta_dx_venere.hop';
-
-  // *** Crea componente per il singolo prodotto
-  c := TComponente.Create;
-  c.Qta := 1;
-  c.ID_Prodotto := p;
-  c.ID_Parte := prt;
-
-  // aggiungo nella lista dei componenti(distinta)
-  p.Componenti.Add(c);
-
-  // ********************** Creazione di un ordine ***********
-  // ...il  Cliente
-  var
-  cl := TCliente.Create;
-  cl.Nome := 'Giorgio Bartolomeo';
-
-  // ...l'ordine
-  var
-  o := TOrdine.Create;
-  o.Cliente := cl;
-  o.Data := Now;
-  o.Scadenza := Now + 10;
-
-  // ...articolo
-  var
-  art := TArticolo.Create;
-  art.Qta := 1;
-  art.ID_Ordine := o;
-  art.ID_Prodotto := p;
-
-  // aggiungo all'ordine l'articolo appena creato
-  o.Articoli.Add(art);
-
-  with DataContainer do
-  begin
-
-    AureliusManager1.Save(p); // salvo il prodotto
-    AureliusManager1.Save(cl); // salvo il cliente
-    AureliusManager1.Save(o); // e salvo l'ordine
-
-    AureliusManager1.Flush;
-
-  end;
-  showmessage('Ok')
-end;
-
 procedure TfrmMain.btnCreateFrameClick(Sender: Tobject);
 begin
 
@@ -273,12 +200,19 @@ begin
   if not Assigned(frmGrid) then
   begin
     frmGrid := TGridFrame.Create(Self);
+    frmGrid.btnRefresh.Visible := (Sender as TButton).Tag = 3;
+    frmGrid.btnProduzione.Visible := (Sender as TButton).Tag = 0;
+    frmGrid.MasterView.OptionsView.GroupByBox := (Sender as TButton).Tag = 3;
+
     if (Sender as TButton).Tag = 0 then // orders
       frmGrid.CreateDataInterace(TOrdersData.Create);
     if (Sender as TButton).Tag = 1 then // prodotti
       frmGrid.CreateDataInterace(TProductData.Create);
     if (Sender as TButton).Tag = 3 then // produzione
+    begin
       frmGrid.CreateDataInterace(TProductionData.Create);
+
+    end;
     if (Sender as TButton).Tag = 4 then // parti
       frmGrid.CreateDataInterace(TPartData.Create);
 
@@ -289,112 +223,26 @@ begin
 
 end;
 
-procedure TfrmMain.btnProdottoClick(Sender: Tobject);
-begin
-  frmProdotto.Show
-end;
-
-procedure TfrmMain.btnSalvaTuttoClick(Sender: Tobject);
-begin
-  {
-    with OrdersView.DataController do
-    begin
-    var
-    r := RecordCount - 1; // i records da  navigare
-
-    var // oggetto ordine che sarà salvato/aggiornato
-    o: TOrdine;
-
-    // per ogni riga ordine 1° livello
-    for var I := 0 to r do
-    begin
-
-    var
-    v := Values[I, OrdersViewIdOrder.Index]; // id ordine
-    if VarIsNull(v) then
-    o := TOrdine.Create // nuovo ordine
-    else
-    // ordine esistente
-    o := TOrdine(Integer(Values[I, OrdersViewObject.Index]));
-
-    v := Values[I, OrdersViewCliente.Index];
-
-    var
-    c := (OrdersViewCliente.Properties as TcxComboBoxProperties);
-
-    o.Cliente := TCliente(c.Items.Objects[c.Items.IndexOf(v)]);
-
-    var
-    s := Values[I, OrdersViewData.Index];
-    o.Data := strtodatetime(s);
-
-    s := Values[I, OrdersViewScadenza.Index];
-    o.Scadenza := strtodatetime(s);
-
-    var
-    dv := OrdersView.DataController.GetDetailDataController(I, 0);
-    for var j := 0 to dv.RecordCount - 1 do
-    begin
-
-    v := dv.Values[j, OrderDetailViewIdArticolo.Index];
-
-    var
-    a: TArticolo;
-    if VarIsNull(v) then
-
-    begin
-    a := TArticolo.Create;
-    o.Articoli.Add(a);
-    end
-    else
-    a := DataContainer.AureliusManager1.Find<TArticolo>.Add
-    (Dic.Articolo.ID = v).UniqueResult;
-
-    c := (OrderDetailViewProdotto.Properties as TcxComboBoxProperties);
-    v := dv.Values[j, OrderDetailViewProdotto.Index];
-    a.ID_Prodotto := TProdotto(c.Items.Objects[c.Items.IndexOf(v)]);
-    a.Qta.Value := dv.Values[j, OrderDetailViewQta.Index];
-    a.ID_Ordine := o;
-
-    end;
-
-    with DataContainer do
-    begin
-
-    if AureliusManager1.IsAttached(o) then
-    AureliusManager1.Update(o)
-    else
-    AureliusManager1.Save(o);
-
-    end;
-
-    end;
-
-    DataContainer.AureliusManager1.Flush;
-    end; }
-
-end;
-
 procedure TfrmMain.btnSettingsClick(Sender: Tobject);
 begin
   dlgSettings.ShowModal
 end;
 
 procedure TfrmMain.FormCreate(Sender: Tobject);
- var
- dbmngr: TDatabaseManager;
+// var
+// dbmngr: TDatabaseManager;
 begin
 
   memoLog.Clear;
-   dbmngr := TDatabaseManager.Create
-   (DataContainer.AureliusConnection1.CreateConnection);
-
-   try
-   dbmngr.BuildDatabase;
-
-   finally
-   dbmngr.Free
-   end;
+//   dbmngr := TDatabaseManager.Create
+//   (DataContainer.AureliusConnection1.CreateConnection);
+//
+//   try
+//   dbmngr.UpdateDatabase;
+//
+//   finally
+//   dbmngr.Free
+//   end;
 
   { var
     cl := DataContainer.AureliusManager1.Find<TCliente>.List;
@@ -538,12 +386,31 @@ end;
 
 procedure TOrdersData.DeleteData(aListOfDeletedObjects: Tlist<Tobject>);
 begin
-  for var o in aListOfDeletedObjects do
-    DataContainer.AureliusManager1.Remove(o);
 
-  DataContainer.AureliusManager1.Flush
+  var
+  ol := DataContainer.AureliusManager1.Find<TOrdine>.List;
+  try
+
+    for var o in aListOfDeletedObjects do
+    begin
+      for var ordine in ol do
+      begin
+
+        if ((o.ClassType = TArticolo) and (ordine.Articoli.IndexOf(TArticolo(o))
+          <> -1)) then
+          ordine.Articoli.Delete(ordine.Articoli.IndexOf(TArticolo(o)));
+
+      end;
+
+      DataContainer.AureliusManager1.Remove(o);
+    end;
+
+    DataContainer.AureliusManager1.Flush
+  finally
+    ol.Free
+  end;
 end;
-
+ //mette in produzione
 procedure TOrdersData.ExtraButtonProc(aMasterView: TcxGridTableView);
 begin
   with aMasterView.DataController do
@@ -553,7 +420,7 @@ begin
     var
 
       // recupera l'oggetto
-    o := DataContainer.AureliusManager1.Find<TOrdine>.Where(Dic.Ordine.ID = v)
+    o := DataContainer.AureliusManager1.Find<TOrdine>.Where(Dic.ordine.ID = v)
       .UniqueResult;
     // per ogni articolo in ordine
     for var a in o.Articoli do
@@ -569,10 +436,11 @@ begin
         var // creo l'articolo di produzione
         op := TArticoloProduzione.Create;
         op.ID_Articolo := a;
-        op.QtaInOrdine := a.Qta;
-        op.QtaParteRichiesta.Value := op.QtaInOrdine.Value * c.Qta.Value;
-        op.QtaProdotta.Value := 0;
-        op.ID_Parte := c.ID_Parte;
+      //  op.QtaInOrdine := a.Qta;
+     //   op.QtaParteRichiesta.Value := op.QtaInOrdine.Value * c.Qta.Value;
+      //  op.QtaProdotta.Value := 0;
+      //  op.ID_Parte := c.ID_Parte;
+
 
         DataContainer.AureliusManager1.Save(op);
       end;
@@ -593,8 +461,6 @@ function TOrdersData.GetDetailColumns: TGridColumnsNames;
 var
   I: TMyGridItem;
 begin
-
-  // Result := ['Id_articolo' ,'Id_Ordine',  'Prodotto', 'Qta',  'Object']
 
   result := Tlist<TMyGridItem>.Create;
 
@@ -639,6 +505,7 @@ begin
 
   I := TMyGridItem.Create('OrderDetailObject', 'Object', nil, nil);
   I.Visibile := false;
+
   result.Add(I);
 
 end;
@@ -698,6 +565,11 @@ begin
   I.Visibile := false;
   result.Add(I);
 
+end;
+
+function TOrdersData.GetSubDetailColumns: TGridColumnsNames;
+begin
+  result := Tlist<TMyGridItem>.Create;
 end;
 
 procedure TOrdersData.Refresh(aMasterView: TcxGridTableView);
@@ -765,7 +637,17 @@ begin
         c := (TcxCustomGridTableItem(dv.GetItem(2))
           .Properties as TcxComboBoxProperties);
         v := dv.Values[j, 2];
-        a.ID_Prodotto := TProdotto(c.Items.Objects[c.Items.IndexOf(v)]);
+        var
+        idx := c.Items.IndexOf(v);
+        if idx = -1 then
+        begin
+          a.ID_Prodotto := TProdotto.Create;
+          a.ID_Prodotto.Descrizione := v
+
+        end
+        else
+          a.ID_Prodotto := TProdotto(c.Items.Objects[idx]);
+
         a.Qta.Value := dv.Values[j, 3]; // qta articolo
         a.ID_Ordine := o;
 
@@ -854,10 +736,38 @@ end;
 
 procedure TProductData.DeleteData(aListOfDeletedObjects: Tlist<Tobject>);
 begin
-  for var o in aListOfDeletedObjects do
-    DataContainer.AureliusManager1.Remove(o);
 
-  DataContainer.AureliusManager1.Flush
+  var
+  ol := DataContainer.AureliusManager1.Find<TProdotto>.List;
+  try
+
+    for var o in aListOfDeletedObjects do
+    begin
+      for var prodotto in ol do
+      begin
+
+        if ((o.ClassType = TComponente) and
+          (prodotto.Componenti.IndexOf(TComponente(o)) <> -1)) then
+          prodotto.Componenti.Delete
+            (prodotto.Componenti.IndexOf(TComponente(o)));
+
+        if (o.ClassType = Tfase) then
+        begin
+          for var c in prodotto.Componenti do
+            if c.ID_Parte.FasiLavorazione.IndexOf(Tfase(o)) <> -1 then
+              c.ID_Parte.FasiLavorazione.Delete
+                (c.ID_Parte.FasiLavorazione.IndexOf(Tfase(o)))
+
+        end;
+      end;
+
+      DataContainer.AureliusManager1.Remove(o);
+    end;
+
+    DataContainer.AureliusManager1.Flush
+  finally
+    ol.Free
+  end;
 end;
 
 procedure TProductData.ExtraButtonProc(aMasterView: TcxGridTableView);
@@ -927,13 +837,6 @@ begin
   I.Visibile := false;
   result.Add(I);
 
-
-  // colonna (item) quantità componente
-
-  I := TMyGridItem.Create('ProductDetailProgramFile', 'File programma',
-    nil, nil);
-  result.Add(I);
-
 end;
 
 function TProductData.GetMasterColumns: TGridColumnsNames;
@@ -988,6 +891,58 @@ begin
   //
   // end;
 
+end;
+
+function TProductData.GetSubDetailColumns: TGridColumnsNames;
+begin
+  result := Tlist<TMyGridItem>.Create;
+
+  var
+    p: TSetPropertiesProc;
+
+  var
+  I := TMyGridItem.Create('ParteDetailViewID_Fase', 'ID_Fase', nil, nil);
+  I.Visibile := false;
+  result.Add(I);
+
+  I := TMyGridItem.Create('ParteDEtailViewDescrizioneFase', 'Descrizione fase',
+    nil, nil);
+  result.Add(I);
+
+  I := TMyGridItem.Create('ParteDetailViewPartProgram', 'File programma',
+    nil, nil);
+  result.Add(I);
+
+  p := procedure(aItem: TcxCustomGridTableItem)
+    begin
+      aItem.PropertiesClass := TcxComboBoxProperties
+
+    end;
+
+  I := TMyGridItem.Create('ParteDetailViewPartMacchina', 'Macchina', p,
+    procedure(aItem: TcxCustomGridTableItem)
+
+    begin
+      var
+      cl := DataContainer.AureliusManager1.Find<TMacchina>.List;
+      try
+        for var c in cl do
+        begin
+
+          (aItem.Properties as TcxComboBoxProperties)
+            .Items.AddObject(c.Descrizione, c)
+
+        end;
+      finally
+        cl.Free
+      end;
+
+    end);
+  result.Add(I);
+
+  I := TMyGridItem.Create('ParteDetailViewPartObject', 'Object', nil, nil);
+  I.Visibile := false;
+  result.Add(I);
 end;
 
 procedure TProductData.Refresh(aMasterView: TcxGridTableView);
@@ -1045,13 +1000,80 @@ begin
         a.Qta := dv.Values[j, 3]; // qta componente    da vedere se indice 3
 
         var
+          // la parte del prodotto
         c := (TcxCustomGridTableItem(dv.GetItem(2)) // oggetto combo parte
           .Properties as TcxComboBoxProperties);
         v := dv.Values[j, 2]; // valore
 
-        a.ID_Parte := Tparte(c.Items.Objects[c.Items.IndexOf(v)]);
+        var
+        idx := c.Items.IndexOf(v); // descrizione dedla parte
+        if (idx = -1) then
+          if Assigned(a.ID_Parte) then
+            a.ID_Parte.Descrizione := v
+          else
+          begin
+            a.ID_Parte := Tparte.Create;
+            a.ID_Parte.Descrizione := v
+          end
+
+        else
+          a.ID_Parte := Tparte(c.Items.Objects[idx]);
+
+        // subdetail fasi
+
+        var
+        subdetail_controller := dv.GetDetailDataController(j, 0);
+
+        for var k := 0 to subdetail_controller.RecordCount - 1 do
+        begin
+
+          // id fase
+          var
+          idFase := subdetail_controller.Values[k, 0];
+          var
+            f: Tfase;
+          if VarIsNull(idFase) then
+          begin
+            f := Tfase.Create;
+            a.ID_Parte.FasiLavorazione.Add(f);
+             f.Parte := a.ID_Parte;
+
+          end
+          else
+            f := Tfase(Integer(subdetail_controller.Values[k, 4]));
+          // oggetto fase
+
+
+
+          f.Descrizione := subdetail_controller.Values[k, 1];
+          // descrizione fase
+          f.PartProgram := subdetail_controller.Values[k, 2]; // file programma
+
+          // la parte del prodotto
+          c := (TcxCustomGridTableItem(subdetail_controller.GetItem(3))
+          // oggetto combo parte
+            .Properties as TcxComboBoxProperties);
+          c.DropDownListStyle := lsEditFixedList; // solo dalla lista
+          v := subdetail_controller.Values[k, 3]; // valore
+
+          idx := c.Items.IndexOf(v); // descrizione dedla parte
+          if (idx = -1) then
+            if Assigned(f.Macchina) then
+              f.Macchina.Descrizione := v
+            else
+            begin
+              f.Macchina := TMacchina.Create;
+              f.Macchina.Descrizione := v
+            end
+
+          else
+            f.Macchina := TMacchina(c.Items.Objects[idx]);
+
+        end;
+
       end;
 
+      // salvataggio
       with DataContainer do
       begin
 
@@ -1111,7 +1133,22 @@ begin
             Values[rd, 3] := a.Qta; // quantità
 
             Values[rd, 4] := Integer(a); // store dell'oggetto componente
-            Values[rd, 5] := a.ID_Parte.MachineFile // file programma
+            // Values[rd, 5] := a.ID_Parte.MachineFile // file programma
+
+            // fasi
+            var
+            sdc := dw.GetDetailDataController(rd, 0);
+            for var f in a.ID_Parte.FasiLavorazione do
+            begin
+              var
+              r := sdc.AppendRecord;
+              sdc.Values[r, 0] := f.ID; // componente
+              sdc.Values[r, 1] := f.Descrizione; // componente
+              sdc.Values[r, 2] := f.PartProgram; // componente
+              sdc.Values[r, 3] := f.Macchina.Descrizione; // componente
+              sdc.Values[r, 4] := Integer(f); // componente
+
+            end;
 
           end;
         end;
@@ -1145,7 +1182,16 @@ end;
 function TProductionData.GetDetailColumns: TGridColumnsNames;
 begin
 
-  result := Tlist<TMyGridItem>.Create
+  result := Tlist<TMyGridItem>.Create;
+
+//    var
+//    p: TSetPropertiesProc;
+
+  var
+  I := TMyGridItem.Create('ProductionPartiViewId_Parte', 'Parte', nil, nil);
+  result.Add(I);
+
+
 end;
 
 function TProductionData.GetMasterColumns: TGridColumnsNames;
@@ -1158,25 +1204,14 @@ begin
   I := TMyGridItem.Create('ProductionViewId_Ordine', 'ID_Ordine', nil, nil);
   result.Add(I);
 
-  I := TMyGridItem.Create('ProductionViewQta_Articolo', 'Quantità articolo',
-    nil, nil);
-  result.Add(I);
+
+
 
   I := TMyGridItem.Create('ProductionViewProdotto', 'Prodotto', nil, nil);
   result.Add(I);
 
-  I := TMyGridItem.Create('ProductionViewId_Parte', 'Id_parte', nil, nil);
-  result.Add(I);
-  I := TMyGridItem.Create('ProductionViewParte', 'Parte', nil, nil);
-  result.Add(I);
 
-  I := TMyGridItem.Create('ProductionViewQtaRichiesta', 'Quantità richiesta',
-    nil, nil);
-  result.Add(I);
-
-  I := TMyGridItem.Create('ProductionViewQtaOttenuta', 'Quantità ottenuta',
-    nil, nil);
-  result.Add(I);
+ 
 
   p := procedure(aItem: TcxCustomGridTableItem)
     begin
@@ -1191,10 +1226,13 @@ begin
   I.Visibile := false;
   result.Add(I);
 
-  I := TMyGridItem.Create('ProductionViewProgramFile', 'File programma',
-    nil, nil);
-  result.Add(I);
+ 
 
+end;
+
+function TProductionData.GetSubDetailColumns: TGridColumnsNames;
+begin
+  result := Tlist<TMyGridItem>.Create;
 end;
 
 procedure TProductionData.Refresh(aMasterView: TcxGridTableView);
@@ -1204,7 +1242,7 @@ begin
   // e aggiorno la quantità e richiamo la procedura di load data
 
   // lettura del file csv
-  var
+ { var
   f := 'Fiancata lat. dx mod genova.hop';
 
   var
@@ -1218,39 +1256,34 @@ begin
         (Format('Report %s   --  Start   : %s    End  :  %s ',
         [f, r.FK, r.FL]));
 
-      r.Free  ;
-
+      r.Free;
 
       with DataContainer do
-  begin
-
-    var
-    ap := AureliusManager1.Find<TArticoloProduzione>.Where
-      (Dic.ArticoloProduzione.ID_Parte.MachineFile = f)
-      .OrderBy(Dic.ArticoloProduzione.ID).List;
-    try
-      var
-      updated := false;
-      for var a in ap do
       begin
-        if (not updated) and (a.QtaParteRichiesta > a.QtaProdotta) then
-        begin
-          a.QtaProdotta.Value := a.QtaProdotta.Value + 1;
-          AureliusManager1.Flush(a); // registra la modifica
 
-          updated := True
+        var
+        ap := AureliusManager1.Find<TArticoloProduzione>.Where
+          (Dic.ArticoloProduzione.ID_Parte.MachineFile = f)
+          .OrderBy(Dic.ArticoloProduzione.ID).List;
+        try
+          var
+          updated := false;
+          for var a in ap do
+          begin
+            if (not updated) and (a.QtaParteRichiesta > a.QtaProdotta) then
+            begin
+              a.QtaProdotta.Value := a.QtaProdotta.Value + 1;
+              AureliusManager1.Flush(a); // registra la modifica
+
+              updated := True
+            end;
+
+          end;
+
+        finally
+          ap.Free
         end;
-
       end;
-
-    finally
-      ap.Free
-    end;
-  end;
-
-
-
-
 
     end;
 
@@ -1286,7 +1319,7 @@ begin
     end;
   end;
 
-  SetDataMasterView(aMasterView)
+  SetDataMasterView(aMasterView)      }
 
 end;
 
@@ -1312,6 +1345,7 @@ begin
 
     var
     fr := aMasterView.DataController.FocusedRecordIndex;
+
     aMasterView.DataController.BeginUpdate;
     try
 
@@ -1323,18 +1357,19 @@ begin
         begin
           var
           r := AppendRecord;
-          Values[r, 0] := a.ID_Articolo.ID_Ordine.ID; // id ordine
-          Values[r, 1] := a.QtaInOrdine; // qta ordine
-          Values[r, 2] := a.ID_Articolo.ID_Prodotto.Descrizione;
 
-          Values[r, 3] := a.ID_Parte.ID;
-          Values[r, 4] := a.ID_Parte.Descrizione;
-          Values[r, 5] := a.QtaParteRichiesta.Value;
-
-          Values[r, 6] := a.QtaProdotta.Value;
-          Values[r, 7] := a.stato;
-          Values[r, 8] := Integer(a);
-          Values[r, 9] := a.ID_Parte.MachineFile;
+          Values[r, 0] := a.ID_Articolo.ID_Ordine.Cliente.Nome; // id ordine
+//          Values[r, 1] := a.QtaInOrdine; // qta ordine
+          Values[r, 1] := a.ID_Articolo.ID_Prodotto.Descrizione;
+//
+          Values[r, 2] := a.Stato
+//          Values[r, 4] := a.ID_Parte.Descrizione;
+//          Values[r, 5] := a.QtaParteRichiesta.Value;
+//
+//          Values[r, 6] := a.QtaProdotta.Value;
+//          Values[r, 7] := a.stato;
+//          Values[r, 8] := Integer(a);
+          // Values[r, 9] := a.ID_Parte.MachineFile;
 
         end;
       end;
@@ -1365,7 +1400,53 @@ end;
 function TPartData.GetDetailColumns: TGridColumnsNames;
 begin
 
+  var
+    p: TSetPropertiesProc;
+
   result := Tlist<TMyGridItem>.Create; // no detail
+
+  var
+  I := TMyGridItem.Create('ParteDetailViewID_Fase', 'ID_Fase', nil, nil);
+  result.Add(I);
+
+  I := TMyGridItem.Create('ParteDEtailViewDescrizioneFase', 'Descrizione fase',
+    nil, nil);
+  result.Add(I);
+
+  I := TMyGridItem.Create('ParteDetailViewPartProgram', 'File programma',
+    nil, nil);
+  result.Add(I);
+
+  p := procedure(aItem: TcxCustomGridTableItem)
+    begin
+      aItem.PropertiesClass := TcxComboBoxProperties
+
+    end;
+
+  I := TMyGridItem.Create('ParteDetailViewPartMacchina', 'Macchina', p,
+    procedure(aItem: TcxCustomGridTableItem)
+
+    begin
+      var
+      cl := DataContainer.AureliusManager1.Find<TMacchina>.List;
+      try
+        for var c in cl do
+        begin
+
+          (aItem.Properties as TcxComboBoxProperties)
+            .Items.AddObject(c.Descrizione, c)
+
+        end;
+      finally
+        cl.Free
+      end;
+
+    end);
+  result.Add(I);
+
+  I := TMyGridItem.Create('ParteDetailViewPartObject', 'Object', nil, nil);
+  result.Add(I);
+
 end;
 
 function TPartData.GetMasterColumns: TGridColumnsNames;
@@ -1386,15 +1467,21 @@ begin
   I := TMyGridItem.Create('ParteViewParte', 'Parte', nil, nil);
   result.Add(I);
 
-  I := TMyGridItem.Create('ParteViewPartProgram', 'File programma', nil, nil);
-  result.Add(I);
+  // I := TMyGridItem.Create('ParteViewPartProgram', 'File programma', nil, nil);
+  // result.Add(I);
 
   I := TMyGridItem.Create('ParteViewObject', 'Object', nil, nil);
   I.Visibile := false;
   result.Add(I);
 
-  I := TMyGridItem.Create('ParteViewPartBordato', 'Bordato', p, nil);
-  result.Add(I);
+  // I := TMyGridItem.Create('ParteViewPartBordato', 'Bordato', p, nil);
+  // result.Add(I);
+
+end;
+
+function TPartData.GetSubDetailColumns: TGridColumnsNames;
+begin
+  result := Tlist<TMyGridItem>.Create;
 
 end;
 
@@ -1416,21 +1503,48 @@ begin
       ID := Values[r, 0];
       var
       p := Values[r, 1];
-      var
-      m := Values[r, 2];
-      var
-      b := Values[r, 4];
 
       var
         o: Tparte;
       if VarIsNull(ID) then
         o := Tparte.Create
       else
-        o := Tparte(Integer(Values[r, 3]));
+        o := Tparte(Integer(Values[r, 2]));
 
       o.Descrizione := p;
-      o.MachineFile := m;
-      o.Bordato := b;
+
+      // dettaglio fasi
+      var
+      dc := GetDetailDataController(r, 0);
+      for var j := 0 to dc.RecordCount - 1 do
+      begin
+        var
+        idf := dc.Values[j, 0]; // id fase
+
+        var
+          fobject: Tfase;
+        if VarIsNull(idf) then
+          fobject := Tfase.Create
+        else
+          fobject := Tfase(Integer(dc.Values[j, 4]));
+
+        fobject.Descrizione := dc.Values[j, 1];
+        fobject.PartProgram := dc.Values[j, 2];
+
+        var
+        c := (TcxCustomGridTableItem(dc.GetItem(3))
+          .Properties as TcxComboBoxProperties);
+        var
+        m := dc.Values[j, 3];
+
+        fobject.Macchina :=
+          TMacchina(c.Items.Objects[c.Items.IndexOf(m)]);
+
+        fobject.Parte := o;
+
+        o.FasiLavorazione.Add(fobject);
+
+      end;
 
       DataContainer.AureliusManager1.SaveOrUpdate(o);
       DataContainer.AureliusManager1.Flush(o)
@@ -1463,9 +1577,23 @@ begin
 
           Values[r, 0] := p.ID;
           Values[r, 1] := p.Descrizione;
-          Values[r, 2] := p.MachineFile;
-          Values[r, 3] := Integer(p);
-          Values[r, 4] := p.Bordato;
+          // Values[r, 2] := p.MachineFile;
+          Values[r, 2] := Integer(p);
+          // Values[r, 4] := p.Bordato;
+
+          var
+          dc := GetDetailDataController(r, 0);
+
+          for var f in p.FasiLavorazione do
+          begin
+            r := dc.AppendRecord;
+            dc.Values[r, 0] := f.ID;
+            dc.Values[r, 1] := f.Descrizione;
+            dc.Values[r, 2] := f.PartProgram;
+            dc.Values[r, 3] := f.Macchina.Descrizione;
+            dc.Values[r, 4] := Integer(f);
+
+          end;
 
         end;
       end;
