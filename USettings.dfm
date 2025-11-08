@@ -62,7 +62,7 @@ object dlgSettings: TdlgSettings
         Properties.Strings = (
           'Text')
       end>
-    StorageName = 'cxPropertiesStore1'
+    StorageName = 'settings.ini'
     Left = 312
     Top = 176
   end

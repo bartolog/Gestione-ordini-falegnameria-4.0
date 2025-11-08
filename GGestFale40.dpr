@@ -19,7 +19,9 @@ uses
   UData in 'UData.pas' {DataContainer: TDataModule},
   UGridFrame in 'UGridFrame.pas' {GridFrame: TFrame},
   USettings in 'USettings.pas' {dlgSettings},
-  UEntitiesModel in 'UEntitiesModel.pas';
+  UEntitiesModel in 'UEntitiesModel.pas',
+  UframeDbParams in '..\..\Gestione-produzione-troncatrici\UframeDbParams.pas' {frameDBParams: TFrame},
+  AboutDialog in 'AboutDialog.pas' {frmAbout};
 
 {$R *.res}
 

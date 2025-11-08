@@ -18,13 +18,28 @@ object DataContainer: TDataContainer
   end
   object UniConnection1: TUniConnection
     ProviderName = 'MySQL'
-    Port = 3306
-    Database = 'dbTestAurelius'
-    Username = 'bartolo'
+    Port = 3307
+    Database = 'dbtestaurelius'
+    Username = 'root'
     Server = 'localhost'
     LoginPrompt = False
-    Left = 624
-    Top = 328
-    EncryptedPassword = '9DFF9EFF8DFF8BFF90FF93FF90FF'
+    Left = 656
+    Top = 264
+    EncryptedPassword = '8DFF90FF90FF8BFF'
+  end
+  object cxPropertiesStore1: TcxPropertiesStore
+    Components = <
+      item
+        Component = UniConnection1
+        Properties.Strings = (
+          'Database'
+          'Password'
+          'Port'
+          'Server'
+          'Username')
+      end>
+    StorageName = 'dbSettings.ini'
+    Left = 392
+    Top = 224
   end
 end

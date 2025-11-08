@@ -117,6 +117,8 @@
         <Icon_MainIcon>TestClassMapping_Icon.ico</Icon_MainIcon>
         <UWP_DelphiLogo44>holz-her-logo-vector.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>holz-her-logo-vector.png</UWP_DelphiLogo150>
+        <VerInfo_MinorVer>2</VerInfo_MinorVer>
+        <VerInfo_Keys>CompanyName=Artigianato italiano srl;FileDescription=Gestione produzione falegnameria 4.0;FileVersion=1.2.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
@@ -156,6 +158,15 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="UEntitiesModel.pas"/>
+        <DCCReference Include="..\..\Gestione-produzione-troncatrici\UframeDbParams.pas">
+            <Form>frameDBParams</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="AboutDialog.pas">
+            <Form>frmAbout</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

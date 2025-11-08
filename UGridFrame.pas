@@ -161,7 +161,9 @@ begin
     for var I in a do
       with MasterView do
       begin
-        lItem := CreateItem;
+
+        lItem := CreateItem; // CreateColumn;
+
         lItem.name := I.name;
         lItem.Caption := I.Caption;
         lItem.Visible := I.Visibile;
@@ -189,7 +191,8 @@ begin
       with DetailView do
       begin
 
-        lItem := CreateItem;
+        lItem := CreateItem; // CreateColumn;
+
         lItem.name := I.name;
         lItem.Caption := I.Caption;
         TcxGridColumn(lItem).Width := 200;
@@ -217,7 +220,8 @@ begin
       with SubDetailView do
       begin
 
-        lItem := CreateItem;
+        lItem := CreateItem; // CreateColumn;
+
         lItem.name := I.name;
         lItem.Caption := I.Caption;
         TcxGridColumn(lItem).Width := 200;
@@ -250,9 +254,9 @@ procedure TGridFrame.MasterViewDataControllerBeforeDelete(ADataController
   : TcxCustomDataController; ARecordIndex: Integer);
 
 var
-  View :TcxGridTableView;
+  View: TcxGridTableView;
 begin
-  View :=TcxGridTableView( ADataController.GetOwner);
+  View := TcxGridTableView(ADataController.GetOwner);
   var
   ok := false;
   var

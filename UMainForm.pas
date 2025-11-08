@@ -16,7 +16,8 @@ uses
   dxScrollbarAnnotations, cxDBData, cxGridLevel, cxClasses, cxGridCustomView,
   cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxGrid, UData,
   Vcl.ExtCtrls, UGridFrame, System.ImageList, Vcl.ImgList,
-  cxImageList, cxSplitter, Generics.Collections, USettings;
+  cxImageList, cxSplitter, Generics.Collections, USettings,UframeDbParams,
+  AboutDialog;
 
 type
   TReportInfo = class
@@ -93,8 +94,9 @@ type
     Button1: TButton;
     memoLog: TMemo;
     cxSplitter1: TcxSplitter;
+    Button2: TButton;
+    Button3: TButton;
     procedure FormCreate(Sender: Tobject);
-    procedure btnCaricaClick(Sender: Tobject);
     procedure OrdersViewDataControllerBeforeDelete(ADataController
       : TcxCustomDataController; ARecordIndex: Integer);
     procedure OrdersViewDataControllerBeforePost(ADataController
@@ -103,6 +105,8 @@ type
       : TcxCustomDataController; ARecordIndex: Integer);
     procedure btnCreateFrameClick(Sender: Tobject);
     procedure btnSettingsClick(Sender: Tobject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
   private
     { Private declarations }
 
@@ -121,72 +125,12 @@ implementation
 
 uses
   Aurelius.Engine.DatabaseManager, Aurelius.Schema.MySQL,
-  cxProgressBar, cxCheckBox, IOUtils;
+  cxProgressBar, cxCheckBox, IOUtils ;
 
 var
   lo: Tlist<TOrdine>;
   lp: Tlist<TProdotto>;
   frmGrid: TGridFrame;
-
-procedure TfrmMain.btnCaricaClick(Sender: Tobject);
-// var
-// dw: TcxCustomDataController;
-begin
-
-
-  // if Assigned(lo) then lo.Free;
-
-  // lo := DataContainer.AureliusManager1.Find<TOrdine>.List;
-  //
-  // try
-  //
-  // OrdersView.DataController.RecordCount := 0;
-  //
-  // OrdersView.BeginUpdate();
-  // try
-  // for var o in lo do
-  // begin
-  // with OrdersView.DataController do
-  // begin
-  // var
-  // r := AppendRecord;
-  //
-  // Values[r, OrdersViewIdOrder.Index] := o.ID;
-  // Values[r, OrdersViewCliente.Index] := o.Cliente.Nome;
-  // Values[r, OrdersViewData.Index] := o.Data;
-  // Values[r, OrdersViewScadenza.Index] := o.Scadenza;
-  // Values[r, OrdersViewObject.Index] := Integer(o);
-  // dw := GetDetailDataController(r, 0);
-  // end;
-  //
-  // for var a in o.Articoli do
-  // begin
-  //
-  // with dw do
-  // begin
-  // var
-  // rd := AppendRecord;
-  //
-  // Values[rd, OrderDetailViewIdOrder.Index] := a.ID_Ordine.ID;
-  // Values[rd, OrderDetailViewProdotto.Index] :=
-  // a.ID_Prodotto.Descrizione;
-  // Values[rd, OrderDetailViewQta.Index] := a.Qta;
-  // Values[rd, OrderDetailViewIdArticolo.Index] := a.ID;
-  // Values[rd, OrderDetailViewObject.Index] := Integer(a)
-  //
-  // end;
-  // end;
-  //
-  // end;
-  //
-  // finally
-  // OrdersView.EndUpdate
-  // end;
-  //
-  // finally
-  // lo.Free
-  // end;
-end;
 
 procedure TfrmMain.btnCreateFrameClick(Sender: Tobject);
 begin
@@ -228,49 +172,56 @@ begin
   dlgSettings.ShowModal
 end;
 
+procedure TfrmMain.Button2Click(Sender: TObject);
+begin
+      var f := TForm.Create(nil);
+      try
+        f.BorderStyle := bsDialog;
+        var dbfrm := TframeDBParams.Create(f);
+        f.Height := dbfrm.Height;
+        f.width := dbfrm.width;
+
+
+
+        dbfrm.Align := alClient;
+        dbfrm.Parent := f;
+
+        with dbfrm do
+        begin
+          edtServer.Text := DataContainer.UniConnection1.Server;
+          edtDatabase.Text := DataContainer.UniConnection1.Database;
+          edtPort.Text := DataContainer.UniConnection1.Port.ToString;
+          edtPassword.Text := DataContainer.UniConnection1.Password;
+          edtUser.Text := DataContainer.UniConnection1.Username;
+
+        end;
+
+
+        dbfrm.TestConnection := DataContainer.TestConnection;
+        f.ShowModal;
+
+
+
+
+
+
+
+      finally
+        f.Free
+      end;
+end;
+
+procedure TfrmMain.Button3Click(Sender: TObject);
+begin
+     AboutDialog.ShowAboutDialog;
+end;
+
 procedure TfrmMain.FormCreate(Sender: Tobject);
-// var
-// dbmngr: TDatabaseManager;
+
 begin
 
   memoLog.Clear;
-  // dbmngr := TDatabaseManager.Create
-  // (DataContainer.AureliusConnection1.CreateConnection);
-  //
-  // try
-  // dbmngr.UpdateDatabase;
-  //
-  // finally
-  // dbmngr.Free
-  // end;
-
-  { var
-    cl := DataContainer.AureliusManager1.Find<TCliente>.List;
-    try
-    for var c in cl do
-    begin
-
-    (OrdersViewCliente.Properties as TcxComboBoxProperties)
-    .Items.AddObject(c.Nome, c)
-
-    end;
-    finally
-    cl.Free
-    end;
-
-    var
-    pr := DataContainer.AureliusManager1.Find<TProdotto>.List;
-    try
-    for var p in pr do
-    begin
-
-    (OrderDetailViewProdotto.Properties as TcxComboBoxProperties)
-    .Items.AddObject(p.Descrizione, p)
-
-    end;
-    finally
-    pr.Free
-    end; }
+ 
 
 end;
 
@@ -533,8 +484,6 @@ end;
 
 function TOrdersData.GetMasterColumns: TGridColumnsNames;
 begin
-  // SetLength(Result, 5);
-  // Result := ['Id',  'Cliente', 'Data', 'Scadenza','Object']
 
   result := Tlist<TMyGridItem>.Create;
 
@@ -549,7 +498,7 @@ begin
   p := procedure(aItem: TcxCustomGridTableItem)
     begin
       aItem.PropertiesClass := TcxComboBoxProperties
-      // aItem.Properties := TcxComboBoxProperties.Create(nil)
+
     end;
 
   I := TMyGridItem.Create('OrderCliente', 'Cliente', p,
@@ -693,6 +642,15 @@ begin
 
 end;
 
+function GetItemByCaption(aView: TcxGridTableView; aItemCaption: string)
+  : TcxCustomGridTableItem;
+begin
+  for var I := 0 to aView.ItemCount - 1 do
+    if aItemCaption = aView.Items[I].Caption then
+      result := aView.Items[I]
+
+end;
+
 procedure TOrdersData.SetDataMasterView(aMasterView: TcxGridTableView);
 var
   dw: TcxCustomDataController;
@@ -716,14 +674,19 @@ begin
           var
           r := AppendRecord;
 
-          Values[r, 0] := o.ID;
-          Values[r, 1] := o.Cliente.Nome;
-          Values[r, 2] := o.Data;
-          Values[r, 3] := o.Scadenza;
-          Values[r, 4] := Integer(o);
+          Values[r, aMasterView.FindItemByName('OrderID').Index] := o.ID;
+          Values[r, aMasterView.FindItemByName('OrderCliente').Index] :=
+            o.Cliente.Nome;
+          Values[r, aMasterView.FindItemByName('OrderData').Index] := o.Data;
+          Values[r, aMasterView.FindItemByName('OrderScadenza').Index] :=
+            o.Scadenza;
+          Values[r, aMasterView.FindItemByName('OrderObject').Index] :=
+            Integer(o);
           dw := GetDetailDataController(r, 0);
-        end;
 
+        end;
+        var
+        dv := (dw.GetOwner as TcxGridTableView);
         for var a in o.Articoli do
         begin
 
@@ -731,13 +694,22 @@ begin
           begin
             var
             rd := AppendRecord;
-            Values[rd, 0] := a.ID;
-            Values[rd, 1] := a.ID_Ordine.ID;
+            var
+            I := GetItemByCaption(dv, 'Id_Articolo');
+            Values[rd, I.Index] := a.ID;
 
-            Values[rd, 2] := a.ID_Prodotto.Descrizione;
-            Values[rd, 3] := a.Qta;
+            I := GetItemByCaption(dv, 'Id_Ordine');
+            Values[rd, I.Index] := a.ID_Ordine.ID;
 
-            Values[rd, 4] := Integer(a)
+
+             I := GetItemByCaption(dv, 'Prodotto');
+            Values[rd, I.Index] := a.ID_Prodotto.Descrizione;
+
+             I := GetItemByCaption(dv, 'Quantità');
+            Values[rd, I.Index] := a.Qta;
+
+             I := GetItemByCaption(dv, 'Object');
+            Values[rd, I.Index] := Integer(a)
 
           end;
         end;
@@ -1188,9 +1160,12 @@ end;
 procedure TProductionData.DeleteData(aListOfDeletedObjects: Tlist<Tobject>);
 begin
   for var o in aListOfDeletedObjects do
-    DataContainer.AureliusManager1.Remove(o);
+  begin
+    DataContainer.AureliusManager1.Remove(Tarticoloproduzione(o));
 
-  DataContainer.AureliusManager1.Flush
+  end;
+
+
 end;
 
 procedure TProductionData.ExtraButtonProc(aMasterView: TcxGridTableView);
@@ -1221,10 +1196,11 @@ p:
 
     end;
 
-  I := TMyGridItem.Create('ProductionDetailStato', 'Qta', p, nil);
+  I := TMyGridItem.Create('ProductionDetailStato', 'Stato', p, nil);
   result.Add(I);
 
   I := TMyGridItem.Create('ProductionDetailObject', 'Object', nil, nil);
+  I.Visibile := false;
   result.Add(I);
 
 end;
@@ -1242,7 +1218,7 @@ begin
   I := TMyGridItem.Create('ProductionViewProdotto', 'Prodotto', nil, nil);
   result.Add(I);
 
-   I := TMyGridItem.Create('ProductionViewQta', 'Quantità', nil, nil);
+  I := TMyGridItem.Create('ProductionViewQta', 'Quantità', nil, nil);
   result.Add(I);
 
   p := procedure(aItem: TcxCustomGridTableItem)
@@ -1272,6 +1248,7 @@ begin
 
   var
   I := TMyGridItem.Create('ProductionFasiViewId', 'ID', nil, nil);
+  I.Visibile := false;
   result.Add(I);
 
   I := TMyGridItem.Create('ProductionFasiViewFase', 'Fase', nil, nil);
@@ -1289,6 +1266,7 @@ begin
   result.Add(I);
 
   I := TMyGridItem.Create('ProductionFasiViewObject', 'Object', nil, nil);
+  I.Visibile := false;
   result.Add(I);
 
 end;
@@ -1467,6 +1445,13 @@ begin
           // dettaglio parti
           var
           DetailParti_DataController := GetDetailDataController(r, 0);
+          var
+          View := TcxGridDBTableView(DetailParti_DataController.GetOwner);
+          View.OptionsData.Deleting := false;
+
+
+
+          // DetailParti_DataController.OnBeforeDelete := nil;
 
           with DetailParti_DataController do
           // per ogni parte dell'articolo(prodotto) in produzione
@@ -1482,6 +1467,10 @@ begin
 
               var
               DetailFasi_DataController := GetDetailDataController(r, 0);
+
+              View := TcxGridDBTableView(DetailFasi_DataController.GetOwner);
+              View.OptionsData.Deleting := false;
+
               with DetailFasi_DataController do
               begin
 
@@ -1598,15 +1587,9 @@ begin
   I := TMyGridItem.Create('ParteViewParte', 'Parte', nil, nil);
   result.Add(I);
 
-  // I := TMyGridItem.Create('ParteViewPartProgram', 'File programma', nil, nil);
-  // result.Add(I);
-
   I := TMyGridItem.Create('ParteViewObject', 'Object', nil, nil);
   I.Visibile := false;
   result.Add(I);
-
-  // I := TMyGridItem.Create('ParteViewPartBordato', 'Bordato', p, nil);
-  // result.Add(I);
 
 end;
 
